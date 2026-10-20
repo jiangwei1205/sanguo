@@ -1,0 +1,2727 @@
+/* ==========================================================
+   PICKCARD PAGE 專屬樣式｜招賢台
+========================================================== */
+
+:root {
+  --pick-gold: #d6b06a;
+  --pick-gold-light: #f2dda9;
+  --pick-gold-dark: #8f5e28;
+
+  --pick-ink: #17100b;
+  --pick-paper: #eee5d3;
+
+  --pick-red: #a92d24;
+  --pick-red-dark: #781912;
+}
+
+
+/* ==========================================================
+   招賢台主畫面
+========================================================== */
+
+.pickcard-main {
+  position: relative;
+
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  background: #0b0806;
+}
+
+
+/* 背景圖片維持原比例 */
+.pickcard-bg {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  margin: 0;
+  padding: 0;
+
+  object-fit: contain;
+  object-position: center top;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+
+/* UI 疊在背景圖片上 */
+.pickcard-container {
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  pointer-events: none;
+}
+
+
+/* ==========================================================
+   招賢令
+========================================================== */
+
+.recruit-token-panel {
+  position: absolute;
+
+  left: 50%;
+  top: 71%;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  z-index: 3;
+
+  pointer-events: auto;
+}
+
+
+/* 令牌本體 */
+.recruit-token {
+  position: relative;
+
+  width: 40px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: rotate(5deg);
+  transform-origin: center center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #5b3518 0%,
+      #8d5723 30%,
+      #b57731 48%,
+      #c18a3a 58%,
+      #6a3c18 100%
+    );
+
+  border: 1px solid #d8ad66;
+
+  color: #f7e5b9;
+
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.30),
+    inset 0 0 10px rgba(255, 220, 150, 0.16);
+
+  overflow: hidden;
+
+  cursor: default;
+
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    filter 0.28s ease;
+}
+
+
+/* 令牌內框 */
+.recruit-token::before {
+  content: "";
+
+  position: absolute;
+  inset: 4px;
+
+  border:
+    1px solid rgba(255, 225, 170, 0.34);
+
+  pointer-events: none;
+}
+
+
+/* 令牌高光 */
+.recruit-token::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.12),
+      transparent 40%
+    );
+
+  pointer-events: none;
+}
+
+
+/* 「令」 */
+.recruit-token-word {
+  position: relative;
+
+  z-index: 1;
+
+  color: #f7e5b9;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 21px;
+  font-weight: 900;
+
+  line-height: 1;
+
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.42);
+}
+
+
+/* 招賢令數量 */
+.recruit-token-count {
+  display: flex;
+  align-items: center;
+
+  gap: 4px;
+
+  color: #fff4dc;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  letter-spacing: 0;
+
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.95),
+    0 2px 6px rgba(0, 0, 0, 0.85);
+}
+
+
+.recruit-token-times {
+  color: #c69a58;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  opacity: 0.9;
+}
+
+
+#tokenCount {
+  color: #fff4dc;
+
+  font-weight: 800;
+
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 1),
+    0 2px 7px rgba(0, 0, 0, 0.9);
+}
+
+
+@media (hover: hover) and (pointer: fine) {
+  .recruit-token:hover {
+    transform:
+      translateY(-3px)
+      scale(1.04)
+      rotate(2deg);
+
+    box-shadow:
+      0 12px 20px rgba(0, 0, 0, 0.36),
+      inset 0 0 14px rgba(255, 220, 150, 0.20);
+
+    filter: brightness(1.05);
+  }
+}
+
+
+/* ==========================================================
+   招募按鈕
+========================================================== */
+
+.pickcard-actions {
+  position: absolute;
+
+  left: 50%;
+  top: 79%;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 24px;
+
+  width: min(560px, 44%);
+
+  z-index: 3;
+
+  pointer-events: auto;
+}
+
+
+.pick-btn-secondary,
+.pick-btn-primary {
+  flex: 1;
+
+  min-width: 0;
+
+  padding: 15px 24px;
+
+  border-radius: 5px;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+
+  clip-path:
+    polygon(
+      8px 0,
+      calc(100% - 8px) 0,
+      100% 8px,
+      100% calc(100% - 8px),
+      calc(100% - 8px) 100%,
+      8px 100%,
+      0 calc(100% - 8px),
+      0 8px
+    );
+}
+
+
+/* 招募一次 */
+.pick-btn-secondary {
+  background:
+    linear-gradient(
+      180deg,
+      #f6f0e3,
+      #dfd0b6
+    ) !important;
+
+  color: #342417 !important;
+
+  border:
+    1px solid rgba(198, 156, 85, 0.92) !important;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 7px 18px rgba(0, 0, 0, 0.30);
+}
+
+
+.pick-btn-secondary:hover,
+.pick-btn-secondary:focus,
+.pick-btn-secondary:active {
+  color: #342417 !important;
+}
+
+
+.pick-btn-secondary:hover {
+  background:
+    linear-gradient(
+      180deg,
+      #fff9ec,
+      #e9dcc3
+    ) !important;
+
+  transform: translateY(-2px);
+
+  border-color:
+    rgba(225, 184, 107, 0.96) !important;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.38),
+    0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+
+/* 廣納十人 */
+.pick-btn-primary {
+  background:
+    linear-gradient(
+      180deg,
+      #ba3027,
+      #861c16
+    ) !important;
+
+  color: #fff0d2 !important;
+
+  border:
+    1px solid rgba(218, 163, 81, 0.76) !important;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 222, 156, 0.08),
+    0 7px 18px rgba(0, 0, 0, 0.32);
+}
+
+
+.pick-btn-primary:hover,
+.pick-btn-primary:focus,
+.pick-btn-primary:active {
+  color: #fff5df !important;
+}
+
+
+.pick-btn-primary:hover {
+  background:
+    linear-gradient(
+      180deg,
+      #cb3b2f,
+      #982019
+    ) !important;
+
+  transform: translateY(-2px);
+
+  border-color:
+    rgba(234, 184, 96, 0.90) !important;
+
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.36);
+}
+
+
+.pick-btn-secondary:active,
+.pick-btn-primary:active {
+  transform: translateY(0);
+}
+
+
+/* ==========================================================
+   重置按鈕
+========================================================== */
+
+.pickcard-reset-btn {
+  position: absolute;
+
+  left: 50%;
+  top: 86.5%;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 3;
+
+  padding: 7px 14px;
+
+  border:
+    1px solid rgba(191, 167, 122, 0.30);
+
+  border-radius: 4px;
+
+  background:
+    rgba(18, 12, 9, 0.42);
+
+  color:
+    rgba(232, 214, 183, 0.74);
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 12px;
+
+  letter-spacing: 1px;
+
+  cursor: pointer;
+
+  pointer-events: auto;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.pickcard-reset-btn:hover {
+  background:
+    rgba(34, 22, 14, 0.62);
+
+  color: #f1dbae;
+
+  border-color:
+    rgba(212, 175, 55, 0.55);
+}
+
+
+/* ==========================================================
+   抽卡結果 Overlay
+========================================================== */
+
+.gacha-modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 20px;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  background:
+    rgba(0, 0, 0, 0.85);
+
+  z-index: 2000;
+
+  animation:
+    fadeIn 0.4s ease;
+}
+
+
+/* 修改後 HTML 使用的結果層 */
+.gacha-result-layer {
+  background:
+    rgba(7, 5, 4, 0.58);
+
+  padding: 0;
+
+  overflow: hidden;
+}
+
+
+/* ==========================================================
+   單抽結果視窗
+========================================================== */
+
+.gacha-modal-content {
+  position: relative;
+
+  width: 100%;
+  max-width: 480px;
+
+  padding: 30px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1c1815 0%,
+      #0c0a08 100%
+    );
+
+  border:
+    2px solid #bfa77a;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.8);
+}
+
+
+.gacha-title {
+  margin-bottom: 15px;
+
+  color: #d4af37;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 24px;
+
+  letter-spacing: 6px;
+
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+
+.gacha-hero-card {
+  position: relative;
+
+  background:
+    transparent !important;
+
+  border:
+    none !important;
+
+  box-shadow:
+    none !important;
+}
+
+
+/* 單抽 */
+.single-card-wrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.single-card-wrapper .gacha-hero-card {
+  width: 240px;
+  height: 370px;
+
+  margin-bottom: 12px;
+}
+
+
+/* ==========================================================
+   3D 翻牌
+========================================================== */
+
+.card-3d-container {
+  width: 100%;
+  height: 100%;
+
+  perspective: 1200px;
+}
+
+
+.card-3d-inner {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  transition:
+    transform 0.8s
+    cubic-bezier(
+      0.175,
+      0.885,
+      0.32,
+      1.275
+    );
+
+  transform-style:
+    preserve-3d;
+}
+
+
+.card-3d-container.flipped .card-3d-inner {
+  transform:
+    rotateY(180deg);
+}
+
+
+.card-3d-front,
+.card-3d-back {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background:
+    transparent;
+
+  backface-visibility:
+    hidden;
+
+  -webkit-backface-visibility:
+    hidden;
+
+  box-shadow:
+    0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+
+/* 卡背 */
+.card-3d-front {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  transition:
+    box-shadow 0.3s ease;
+}
+
+
+.card-3d-front img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: fill;
+}
+
+
+/* 卡面 */
+.card-3d-back {
+  display: flex;
+
+  flex-direction: column;
+
+  transform:
+    rotateY(180deg);
+}
+
+
+.card-3d-back .gacha-img-container {
+  width: 100%;
+  height: 100%;
+
+  flex-grow: 1;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+
+.card-3d-back img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: fill;
+}
+
+
+/* ==========================================================
+   SSR 金色光暈
+========================================================== */
+
+.rarity-ssr.flipped .card-3d-back {
+  animation:
+    epicGoldGlow
+    2s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+
+@keyframes epicGoldGlow {
+  0% {
+    box-shadow:
+      0 0 10px 3px
+        rgba(255, 215, 0, 0.5),
+
+      0 0 20px
+        rgba(255, 140, 0, 0.3);
+  }
+
+  100% {
+    box-shadow:
+      0 0 20px 8px
+        rgba(255, 230, 0, 0.9),
+
+      0 0 40px 15px
+        rgba(255, 160, 0, 0.7);
+  }
+}
+
+
+/* ==========================================================
+   SSR 金屬流光
+========================================================== */
+
+.rarity-ssr .card-3d-back::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -150%;
+
+  width: 50%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0),
+      rgba(255, 240, 150, 0.6),
+      rgba(255, 255, 255, 0)
+    );
+
+  transform:
+    skewX(-25deg);
+
+  z-index: 5;
+
+  pointer-events: none;
+}
+
+
+.rarity-ssr.flipped .card-3d-back::before {
+  animation:
+    cardShine 3s infinite;
+
+  animation-delay:
+    1.2s;
+}
+
+
+@keyframes cardShine {
+  0% {
+    left: -150%;
+  }
+
+  30% {
+    left: 200%;
+  }
+
+  100% {
+    left: 200%;
+  }
+}
+
+
+/* ==========================================================
+   蓄力震動
+========================================================== */
+
+@keyframes violentShake {
+  0% {
+    transform:
+      translate(1px, 1px)
+      rotate(0deg);
+  }
+
+  20% {
+    transform:
+      translate(-3px, 0)
+      rotate(1deg);
+  }
+
+  40% {
+    transform:
+      translate(1px, -1px)
+      rotate(1deg);
+  }
+
+  60% {
+    transform:
+      translate(-3px, 1px)
+      rotate(0deg);
+  }
+
+  80% {
+    transform:
+      translate(-1px, -1px)
+      rotate(1deg);
+  }
+
+  100% {
+    transform:
+      translate(1px, -2px)
+      rotate(-1deg);
+  }
+}
+
+
+.shaking {
+  animation:
+    violentShake 0.3s infinite;
+}
+
+
+.rarity-ssr.shaking .card-3d-front {
+  box-shadow:
+    0 0 20px 6px
+      rgba(255, 215, 0, 0.7);
+}
+
+
+.rarity-sr.shaking .card-3d-front {
+  box-shadow:
+    0 0 15px 4px
+      rgba(180, 100, 255, 0.7);
+}
+
+
+.rarity-r.shaking .card-3d-front {
+  box-shadow:
+    0 0 12px 3px
+      rgba(100, 180, 255, 0.7);
+}
+
+
+/* ==========================================================
+   翻牌爆閃
+========================================================== */
+
+.card-3d-inner::after {
+  content: "";
+
+  position: absolute;
+
+  top: -50%;
+  left: -50%;
+
+  width: 200%;
+  height: 200%;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  z-index: 10;
+
+  transform:
+    rotateY(180deg);
+}
+
+
+.rarity-ssr .card-3d-inner::after {
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 215, 0, 0.8) 20%,
+      transparent 60%
+    );
+}
+
+
+.rarity-ssr.flipped .card-3d-inner::after {
+  animation:
+    explosionFlash
+    1.2s
+    ease-out
+    forwards;
+}
+
+
+.rarity-sr .card-3d-inner::after {
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(180, 100, 255, 0.8) 20%,
+      transparent 60%
+    );
+}
+
+
+.rarity-sr.flipped .card-3d-inner::after {
+  animation:
+    explosionFlash
+    0.8s
+    ease-out
+    forwards;
+}
+
+
+.rarity-r .card-3d-inner::after {
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(100, 180, 255, 0.8) 20%,
+      transparent 60%
+    );
+}
+
+
+.rarity-r.flipped .card-3d-inner::after {
+  animation:
+    explosionFlash
+    0.6s
+    ease-out
+    forwards;
+}
+
+
+@keyframes explosionFlash {
+  0% {
+    opacity: 0;
+
+    transform:
+      rotateY(180deg)
+      scale(0.5);
+
+    filter:
+      brightness(2);
+  }
+
+  25% {
+    opacity: 1;
+
+    transform:
+      rotateY(180deg)
+      scale(1.2);
+
+    filter:
+      brightness(1.5);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      rotateY(180deg)
+      scale(1.8);
+
+    filter:
+      brightness(1);
+  }
+}
+
+
+/* ==========================================================
+   單抽台詞
+========================================================== */
+
+.gacha-quote {
+  margin-top: 15px;
+  margin-bottom: 5px;
+
+  color: #c9a566;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 14px;
+
+  letter-spacing: 1px;
+
+  text-align: center;
+}
+
+
+.gacha-quote-hidden {
+  opacity: 0;
+
+  transform:
+    translateY(10px);
+}
+
+
+.gacha-quote-fadein {
+  opacity: 1;
+
+  transform:
+    translateY(0);
+
+  transition:
+    all 0.8s ease;
+}
+
+
+/* ==========================================================
+   彈窗出現動畫
+========================================================== */
+
+.gacha-anim-box {
+  animation:
+    modalFadeIn 0.3s ease,
+    glowPulse 2.5s infinite alternate;
+}
+
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+
+    transform:
+      scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      scale(1);
+  }
+}
+
+
+@keyframes glowPulse {
+  0% {
+    box-shadow:
+      0 15px 40px
+        rgba(0, 0, 0, 0.8),
+
+      0 0 15px
+        rgba(212, 175, 55, 0.1);
+  }
+
+  100% {
+    box-shadow:
+      0 15px 40px
+        rgba(0, 0, 0, 0.8),
+
+      0 0 45px
+        rgba(212, 175, 55, 0.5);
+  }
+}
+
+
+/* ==========================================================
+   十抽滿版舞台
+========================================================== */
+
+.gacha-result-stage.wide-modal {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100vw !important;
+  max-width: none !important;
+
+  height: 100vh;
+  max-height: none;
+
+  margin: 0;
+
+  padding:
+    84px 24px 18px !important;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    transparent !important;
+
+  border:
+    none !important;
+
+  border-radius:
+    0 !important;
+
+  box-shadow:
+    none !important;
+
+  overflow:
+    hidden !important;
+
+  box-sizing:
+    border-box;
+
+  animation:
+    modalFadeIn 0.3s ease;
+}
+
+
+/* 十抽取消原本彈窗的發光外框 */
+.gacha-result-stage.wide-modal.gacha-anim-box {
+  animation:
+    modalFadeIn 0.3s ease;
+
+  box-shadow:
+    none !important;
+}
+
+
+/* ==========================================================
+   十抽標題
+========================================================== */
+
+.gacha-result-stage.wide-modal .gacha-title {
+  flex:
+    0 0 auto;
+
+  margin:
+    0 0 16px;
+
+  color:
+    #e4bd4e;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    clamp(28px, 2.2vw, 40px);
+
+  font-weight:
+    900;
+
+  line-height:
+    1;
+
+  letter-spacing:
+    18px;
+
+  text-indent:
+    18px;
+
+  text-align:
+    center;
+
+  text-shadow:
+    0 2px 8px
+      rgba(0, 0, 0, 0.95),
+
+    0 0 18px
+      rgba(212, 175, 55, 0.32),
+
+    0 0 34px
+      rgba(212, 175, 55, 0.16);
+}
+
+
+/* ==========================================================
+   十抽卡牌區｜5 × 2
+========================================================== */
+
+.gacha-result-stage.wide-modal .gacha-cards-grid {
+  width:
+    min(98vw, 1680px);
+
+  flex:
+    0 1 auto;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
+
+  justify-items:
+    center;
+
+  align-items:
+    center;
+
+  column-gap:
+    clamp(16px, 1.5vw, 30px);
+
+  row-gap:
+    clamp(18px, 2vh, 26px);
+
+  padding:
+    0 8px;
+
+  margin:
+    0;
+
+  overflow:
+    visible !important;
+}
+
+
+/* ==========================================================
+   十抽卡片尺寸
+========================================================== */
+
+.gacha-result-stage.wide-modal
+.gacha-cards-grid
+.gacha-hero-card {
+  width:
+    clamp(180px, 12.7vw, 228px);
+
+  max-width:
+    228px;
+
+  height:
+    auto;
+
+  aspect-ratio:
+    2 / 3;
+}
+
+
+/* 十抽 3D 結構 */
+.gacha-result-stage.wide-modal
+.card-3d-container,
+.gacha-result-stage.wide-modal
+.card-3d-inner,
+.gacha-result-stage.wide-modal
+.card-3d-front,
+.gacha-result-stage.wide-modal
+.card-3d-back {
+  width:
+    100%;
+
+  height:
+    100%;
+}
+
+
+/* 十抽圖片 */
+.gacha-result-stage.wide-modal
+.card-3d-front img,
+.gacha-result-stage.wide-modal
+.card-3d-back img {
+  width:
+    100%;
+
+  height:
+    100%;
+
+  object-fit:
+    fill;
+
+  display:
+    block;
+}
+
+
+/* ==========================================================
+   十抽底部按鈕
+========================================================== */
+
+.gacha-result-stage.wide-modal .gacha-btn-group {
+  width:
+    min(580px, 82vw);
+
+  max-width:
+    580px;
+
+  flex:
+    0 0 auto;
+
+  margin-top:
+    18px !important;
+
+  margin-bottom:
+    0;
+
+  display:
+    flex !important;
+
+  flex-direction:
+    row !important;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    22px;
+}
+
+
+.gacha-result-stage.wide-modal
+.gacha-btn-group
+.btn {
+  flex:
+    1;
+
+  min-height:
+    58px;
+
+  padding:
+    12px 24px;
+
+  font-size:
+    17px;
+}
+
+
+/* ==========================================================
+   十抽：比較矮的電腦螢幕
+========================================================== */
+
+@media (max-height: 820px) {
+
+  .gacha-result-stage.wide-modal {
+    padding:
+      66px 18px 12px !important;
+  }
+
+
+  .gacha-result-stage.wide-modal
+  .gacha-title {
+    margin-bottom:
+      12px;
+
+    font-size:
+      25px;
+
+    letter-spacing:
+      14px;
+
+    text-indent:
+      14px;
+  }
+
+
+  .gacha-result-stage.wide-modal
+  .gacha-cards-grid {
+    width:
+      min(98vw, 1560px);
+
+    column-gap:
+      14px;
+
+    row-gap:
+      10px;
+  }
+
+
+  .gacha-result-stage.wide-modal
+  .gacha-cards-grid
+  .gacha-hero-card {
+    width:
+      clamp(145px, 10.5vw, 185px);
+
+    max-width:
+      185px;
+  }
+
+
+  .gacha-result-stage.wide-modal
+  .gacha-btn-group {
+    margin-top:
+      12px !important;
+  }
+
+}
+
+
+/* ==========================================================
+   平板
+========================================================== */
+
+@media (max-width: 950px) {
+
+  .gacha-result-stage.wide-modal {
+    padding:
+      76px 14px 18px !important;
+  }
+
+
+  .gacha-result-stage.wide-modal
+  .gacha-title {
+    letter-spacing:
+      10px;
+
+    text-indent:
+      10px;
+  }
+
+
+  .gacha-result-stage.wide-modal
+  .gacha-cards-grid {
+    width:
+      97vw;
+
+    column-gap:
+      8px;
+
+    row-gap:
+      12px;
+  }
+
+
+  .gacha-result-stage.wide-modal
+  .gacha-cards-grid
+  .gacha-hero-card {
+    width:
+      min(16vw, 135px);
+
+    max-width:
+      135px;
+  }
+
+}
+
+
+/* ==========================================================
+   手機
+========================================================== */
+
+@media (max-width: 768px) {
+
+  .recruit-token {
+    width:
+      34px;
+
+    height:
+      50px;
+  }
+
+
+  .recruit-token-word {
+    font-size:
+      18px;
+  }
+
+
+  .recruit-token-panel {
+    top:
+      68%;
+  }
+
+
+  .recruit-token-count {
+    font-size:
+      14px;
+  }
+
+
+  .recruit-token-times {
+    font-size:
+      11px;
+  }
+
+
+  .pickcard-actions {
+    top:
+      81%;
+
+    width:
+      min(
+        300px,
+        calc(100% - 30px)
+      );
+
+    flex-direction:
+      column;
+
+    gap:
+      9px;
+  }
+
+
+  .pickcard-reset-btn {
+    top:
+      94%;
+  }
+
+
+  .single-card-wrapper
+  .gacha-hero-card {
+    width:
+      190px;
+
+    height:
+      295px;
+  }
+
+}
+
+
+/* 十抽手機改為兩欄 */
+@media (max-width: 600px) {
+
+  .gacha-result-layer {
+    overflow-y:
+      auto;
+  }
+
+
+  .gacha-result-stage.wide-modal {
+    position:
+      relative;
+
+    inset:
+      auto;
+
+    width:
+      100% !important;
+
+    min-height:
+      100vh;
+
+    height:
+      auto;
+
+    padding:
+      78px 14px 24px !important;
+
+    justify-content:
+      flex-start;
+
+    overflow:
+      visible !important;
+  }
+
+
+  .gacha-result-stage.wide-modal
+  .gacha-title {
+    margin-bottom:
+      20px;
+
+    font-size:
+      22px;
+
+    letter-spacing:
+      6px;
+
+    text-indent:
+      6px;
+  }
+
+
+  .gacha-result-stage.wide-modal
+  .gacha-cards-grid {
+    width:
+      100%;
+
+    grid-template-columns:
+      repeat(2, 1fr);
+
+    column-gap:
+      14px;
+
+    row-gap:
+      16px;
+
+    padding:
+      0;
+  }
+
+
+  .gacha-result-stage.wide-modal
+  .gacha-cards-grid
+  .gacha-hero-card {
+    width:
+      min(39vw, 150px);
+
+    max-width:
+      150px;
+  }
+
+
+  .gacha-result-stage.wide-modal
+  .gacha-btn-group {
+    width:
+      min(100%, 420px);
+
+    margin-top:
+      22px !important;
+
+    gap:
+      10px;
+  }
+
+
+  .gacha-result-stage.wide-modal
+  .gacha-btn-group
+  .btn {
+    min-height:
+      48px;
+
+    padding:
+      9px 12px;
+
+    font-size:
+      14px;
+  }
+
+
+  .site-npc {
+    right:
+      8px;
+
+    bottom:
+      5px;
+
+    width:
+      72px;
+
+    height:
+      142px;
+  }
+
+
+  .npc-character,
+  .npc-sprite {
+    width:
+      72px;
+
+    height:
+      142px;
+  }
+
+
+  .npc-dialogue {
+    right:
+      80px;
+
+    bottom:
+      48px;
+
+    width:
+      210px;
+
+    font-size:
+      12px;
+  }
+
+}
+
+
+/* ==========================================================
+   NPC
+========================================================== */
+
+.npc-character {
+  position: relative;
+
+  width: 96px;
+  height: 190px;
+
+  padding: 0;
+
+  border: none;
+
+  background:
+    transparent;
+
+  cursor: pointer;
+
+  pointer-events:
+    auto;
+
+  overflow:
+    visible;
+}
+
+
+.npc-sprite {
+  display:
+    block;
+
+  width:
+    96px;
+
+  height:
+    190px;
+
+  background-image:
+    url("../images/npc-cao-walk.png");
+
+  background-repeat:
+    no-repeat;
+
+  background-size:
+    600% 100%;
+
+  background-position:
+    0% 0;
+
+  background-color:
+    transparent;
+
+  image-rendering:
+    pixelated;
+
+  filter:
+    none;
+
+  animation:
+    npcWalkSprite
+    0.78s
+    steps(1, end)
+    infinite;
+
+  outline:
+    none;
+
+  backface-visibility:
+    hidden;
+
+  -webkit-backface-visibility:
+    hidden;
+
+  transform-origin:
+    center bottom;
+
+  will-change:
+    background-position,
+    transform;
+}
+
+
+@keyframes npcWalkSprite {
+
+  0%,
+  16.65% {
+    background-position:
+      0% 0;
+  }
+
+  16.66%,
+  33.32% {
+    background-position:
+      20% 0;
+  }
+
+  33.33%,
+  49.99% {
+    background-position:
+      40% 0;
+  }
+
+  50%,
+  66.65% {
+    background-position:
+      60% 0;
+  }
+
+  66.66%,
+  83.32% {
+    background-position:
+      80% 0;
+  }
+
+  83.33%,
+  100% {
+    background-position:
+      100% 0;
+  }
+
+}
+
+
+.site-npc.walk-left
+.npc-sprite {
+  transform:
+    translateZ(0)
+    scaleX(-1);
+}
+
+
+.site-npc.walk-right
+.npc-sprite {
+  transform:
+    translateZ(0)
+    scaleX(1);
+}
+
+
+/* ==========================================================
+   NPC 點擊後拔劍
+========================================================== */
+
+.site-npc.talking
+.npc-sprite {
+  position:
+    absolute;
+
+  left:
+    50%;
+
+  bottom:
+    -12px;
+
+  width:
+    260px;
+
+  height:
+    190px;
+
+  margin:
+    0;
+
+  animation:
+    none !important;
+
+  background-image:
+    url("../images/npc-cao-stop.png") !important;
+
+  background-repeat:
+    no-repeat;
+
+  background-size:
+    auto 180px;
+
+  background-position:
+    center bottom;
+
+  background-color:
+    transparent;
+
+  filter:
+    none;
+
+  transform-origin:
+    center bottom;
+
+  pointer-events:
+    none;
+}
+
+
+/* 往右走 → 拔劍朝右 */
+.site-npc.talking.walk-right
+.npc-sprite {
+  transform:
+    translateX(-50%)
+    scaleX(1) !important;
+}
+
+
+/* 往左走 → 拔劍朝左 */
+.site-npc.talking.walk-left
+.npc-sprite {
+  transform:
+    translateX(-50%)
+    scaleX(-1) !important;
+}
+
+
+/* ==========================================================
+   驚嘆號
+========================================================== */
+
+.npc-alert {
+  position:
+    absolute;
+
+  left:
+    50%;
+
+  top:
+    2px;
+
+  transform:
+    translateX(-50%);
+
+  width:
+    25px;
+
+  height:
+    25px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  z-index:
+    5;
+
+  border:
+    1px solid #d8a64e;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(35, 23, 14, 0.96);
+
+  color:
+    #ffd875;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    15px;
+
+  font-weight:
+    900;
+
+  box-shadow:
+    0 0 10px
+    rgba(218, 166, 72, 0.34);
+
+  animation:
+    npcAlertFloat
+    1.2s
+    ease-in-out
+    infinite;
+
+  pointer-events:
+    none;
+}
+
+
+@keyframes npcAlertFloat {
+
+  0%,
+  100% {
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateX(-50%)
+      translateY(-4px);
+  }
+
+}
+
+
+/* ==========================================================
+   NPC 對話框
+========================================================== */
+
+.npc-dialogue {
+  position:
+    absolute;
+
+  right:
+    105px;
+
+  bottom:
+    65px;
+
+  width:
+    300px;
+
+  padding:
+    17px 20px 20px;
+
+  color:
+    #e9d8b7;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(42, 30, 22, 0.98),
+      rgba(16, 12, 9, 0.98)
+    );
+
+  border:
+    1px solid
+    rgba(202, 151, 72, 0.85);
+
+  border-radius:
+    7px;
+
+  box-shadow:
+    0 14px 32px
+      rgba(0, 0, 0, 0.52),
+
+    inset 0 0 20px
+      rgba(212, 175, 55, 0.035);
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    14px;
+
+  line-height:
+    1.8;
+
+  opacity:
+    0;
+
+  visibility:
+    hidden;
+
+  transform:
+    translateY(8px)
+    scale(0.97);
+
+  transition:
+    opacity 0.22s ease,
+    visibility 0.22s ease,
+    transform 0.22s ease;
+
+  pointer-events:
+    none;
+}
+
+
+.npc-dialogue.show {
+  opacity:
+    1;
+
+  visibility:
+    visible;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  pointer-events:
+    auto;
+}
+
+
+.npc-dialogue::after {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  right:
+    -8px;
+
+  bottom:
+    20px;
+
+  width:
+    15px;
+
+  height:
+    15px;
+
+  background:
+    #17100c;
+
+  border-top:
+    1px solid #c79547;
+
+  border-right:
+    1px solid #c79547;
+
+  transform:
+    rotate(45deg);
+}
+
+
+.npc-dialogue-name {
+  margin-bottom:
+    6px;
+
+  color:
+    #e4b75e;
+
+  font-size:
+    14px;
+
+  font-weight:
+    900;
+
+  letter-spacing:
+    3px;
+}
+
+
+.npc-dialogue-next {
+  position:
+    absolute;
+
+  right:
+    11px;
+
+  bottom:
+    6px;
+
+  color:
+    rgba(228, 184, 97, 0.72);
+
+  font-size:
+    10px;
+
+  animation:
+    npcNextBlink
+    1s
+    infinite;
+}
+
+
+@keyframes npcNextBlink {
+
+  0%,
+  100% {
+    opacity:
+      0.3;
+  }
+
+  50% {
+    opacity:
+      1;
+  }
+
+}
+
+
+/* ==========================================================
+   單抽結果按鈕：左右排列
+========================================================== */
+
+.gacha-modal-content:not(.wide-modal) .gacha-btn-group {
+  width: min(520px, 92%);
+
+  max-width: 520px;
+
+  margin-top: 22px !important;
+
+  display: flex !important;
+
+  flex-direction: row !important;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 18px;
+
+  flex-wrap: nowrap;
+}
+
+
+/* 單抽兩顆按鈕 */
+.gacha-modal-content:not(.wide-modal)
+.gacha-btn-group
+.btn {
+  flex: 1;
+
+  min-width: 0;
+
+  min-height: 58px;
+
+  padding: 12px 20px;
+
+  font-size: 16px;
+}
+
+
+/* 手機也維持左右 */
+@media (max-width: 600px) {
+
+  .gacha-modal-content:not(.wide-modal)
+  .gacha-btn-group {
+    width: 94%;
+
+    flex-direction: row !important;
+
+    gap: 10px;
+  }
+
+
+  .gacha-modal-content:not(.wide-modal)
+  .gacha-btn-group
+  .btn {
+    min-height: 54px;
+
+    padding: 10px 12px;
+
+    font-size: 14px;
+  }
+
+}
+
+
+/* ==========================================================
+   招賢台自訂提示 / 確認視窗
+   取代瀏覽器原生 alert() / confirm()
+========================================================== */
+
+.pick-alert-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background:
+    rgba(5, 4, 3, 0.68);
+
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.22s ease,
+    visibility 0.22s ease;
+}
+
+
+.pick-alert-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.pick-alert-box {
+  position: relative;
+
+  width: min(92vw, 480px);
+
+  padding:
+    30px 32px 26px;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(48, 32, 21, 0.985),
+      rgba(17, 11, 8, 0.995)
+    );
+
+  border:
+    1px solid rgba(201, 151, 72, 0.92);
+
+  border-radius: 8px;
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.58),
+    inset 0 0 25px rgba(212, 175, 55, 0.045);
+
+  transform:
+    translateY(12px)
+    scale(0.96);
+
+  transition:
+    transform 0.22s ease;
+}
+
+
+.pick-alert-overlay.show
+.pick-alert-box {
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+
+.pick-alert-box::before {
+  content: "";
+
+  position: absolute;
+  inset: 7px;
+
+  border:
+    1px solid rgba(216, 166, 78, 0.20);
+
+  border-radius: 4px;
+
+  pointer-events: none;
+}
+
+
+.pick-alert-ornament {
+  margin-bottom: 7px;
+
+  color: #c99b4d;
+
+  font-size: 16px;
+}
+
+
+.pick-alert-title {
+  margin: 0 0 14px;
+
+  color: #e4b75e;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 22px;
+  font-weight: 900;
+
+  letter-spacing: 6px;
+}
+
+
+.pick-alert-message {
+  margin:
+    0 auto 24px;
+
+  color: #e8dac0;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 15px;
+  line-height: 1.9;
+
+  letter-spacing: 1px;
+}
+
+
+.pick-alert-actions {
+  position: relative;
+
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+}
+
+
+.pick-alert-btn {
+  min-width: 130px;
+  min-height: 44px;
+
+  padding:
+    10px 20px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 5px;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.pick-alert-btn:hover {
+  transform:
+    translateY(-2px);
+}
+
+
+/* 確定 */
+.pick-alert-btn-confirm {
+  border:
+    1px solid #c79547;
+
+  background:
+    linear-gradient(
+      180deg,
+      #8f5427,
+      #5e3017
+    );
+
+  color: #fff0cf;
+
+  box-shadow:
+    0 7px 18px rgba(0, 0, 0, 0.30),
+    inset 0 0 8px rgba(255, 220, 155, 0.06);
+}
+
+
+.pick-alert-btn-confirm:hover {
+  filter:
+    brightness(1.10);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.34),
+    0 0 12px rgba(212, 175, 55, 0.18);
+}
+
+
+/* 取消 */
+.pick-alert-btn-cancel {
+  display: none;
+
+  border:
+    1px solid rgba(185, 158, 111, 0.48);
+
+  background:
+    linear-gradient(
+      180deg,
+      #e9dfcd,
+      #cfc0a5
+    );
+
+  color: #3b2919;
+
+  box-shadow:
+    0 7px 18px rgba(0, 0, 0, 0.20);
+}
+
+
+.pick-alert-btn-cancel:hover {
+  filter:
+    brightness(1.05);
+}
+
+
+@media (max-width: 600px) {
+
+  .pick-alert-box {
+    width:
+      min(92vw, 400px);
+
+    padding:
+      26px 20px 22px;
+  }
+
+
+  .pick-alert-title {
+    font-size:
+      19px;
+
+    letter-spacing:
+      4px;
+  }
+
+
+  .pick-alert-message {
+    font-size:
+      14px;
+  }
+
+
+  .pick-alert-actions {
+    gap:
+      9px;
+  }
+
+
+  .pick-alert-btn {
+    min-width:
+      110px;
+
+    min-height:
+      42px;
+
+    padding:
+      9px 14px;
+
+    font-size:
+      13px;
+  }
+
+}
+
+/* ==========================================================
+   十連抽｜蓄力後持續卡緣光
+   震動結束後保留亮邊，直到每張卡自己的 3D 翻牌完整結束。
+   不覆蓋 SSR 原有 epicGoldGlow / cardShine / explosionFlash。
+========================================================== */
+
+.card-3d-container.gacha-edge-hold .card-3d-front,
+.card-3d-container.gacha-edge-hold .card-3d-back {
+  transition:
+    box-shadow 0.22s ease,
+    filter 0.22s ease;
+}
+
+/* SSR：金色 */
+.card-3d-container.rarity-ssr.gacha-edge-hold .card-3d-front,
+.card-3d-container.rarity-ssr.gacha-edge-hold .card-3d-back {
+  box-shadow:
+    0 0 12px 3px rgba(255, 226, 92, 0.78),
+    0 0 24px 7px rgba(255, 173, 47, 0.42),
+    0 0 42px 10px rgba(255, 137, 28, 0.18);
+}
+
+/* SR：紫銀 */
+.card-3d-container.rarity-sr.gacha-edge-hold .card-3d-front,
+.card-3d-container.rarity-sr.gacha-edge-hold .card-3d-back {
+  box-shadow:
+    0 0 10px 3px rgba(219, 183, 255, 0.76),
+    0 0 22px 6px rgba(166, 101, 255, 0.40),
+    0 0 36px 9px rgba(130, 82, 224, 0.16);
+}
+
+/* R：冰藍 */
+.card-3d-container.rarity-r.gacha-edge-hold .card-3d-front,
+.card-3d-container.rarity-r.gacha-edge-hold .card-3d-back {
+  box-shadow:
+    0 0 9px 2px rgba(161, 218, 255, 0.74),
+    0 0 19px 5px rgba(91, 170, 255, 0.36),
+    0 0 31px 8px rgba(70, 132, 224, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-3d-container.gacha-edge-hold .card-3d-front,
+  .card-3d-container.gacha-edge-hold .card-3d-back {
+    transition: none;
+  }
+}
+
+/* ==========================================================
+   招賢台主畫面｜操作區視覺精修（無消耗文字）
+   - 保留令牌＋招募按鈕背後的極淡暗色聚焦光暈
+   - 保留廣納十人 hover 金邊與內光
+   - 不加入「消耗 ×1 / ×10」文字
+   不更動背景圖、主標題、NPC、抽卡流程與機率
+========================================================== */
+
+.pickcard-container::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 77.2%;
+  width: min(760px, 60vw);
+  height: clamp(150px, 17vw, 220px);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(16, 10, 7, 0.48) 0%,
+      rgba(16, 10, 7, 0.28) 42%,
+      rgba(16, 10, 7, 0.09) 68%,
+      rgba(16, 10, 7, 0) 82%
+    );
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.pick-btn-primary:hover,
+.pick-btn-primary:focus-visible {
+  border-color: rgba(244, 194, 99, 0.98) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 226, 169, 0.15),
+    inset 0 0 18px rgba(255, 191, 85, 0.08),
+    0 10px 24px rgba(0, 0, 0, 0.38),
+    0 0 16px rgba(224, 165, 69, 0.14) !important;
+}
+
+@media (max-width: 768px) {
+  .pickcard-container::before {
+    top: 80%;
+    width: min(390px, 94vw);
+    height: 245px;
+    background:
+      radial-gradient(
+        ellipse at center,
+        rgba(16, 10, 7, 0.52) 0%,
+        rgba(16, 10, 7, 0.31) 45%,
+        rgba(16, 10, 7, 0.08) 72%,
+        rgba(16, 10, 7, 0) 86%
+      );
+  }
+}
+
+/* ==========================================================
+   招賢台｜封版前功能收尾
+   - 招賢令扣除短回饋
+   - 抽卡結果開啟時鎖定背景
+   - 手機十連留足卡緣光空間，避免光效貼邊被吃掉
+========================================================== */
+
+body.gacha-result-open {
+  overflow: hidden !important;
+}
+
+.recruit-token-count.token-spend-feedback {
+  animation: tokenSpendFeedback 0.42s ease-out both;
+  transform-origin: center center;
+}
+
+@keyframes tokenSpendFeedback {
+  0% {
+    transform: scale(1);
+    filter: none;
+  }
+
+  28% {
+    transform: scale(0.90);
+    color: #d87b63;
+    filter: brightness(0.92);
+  }
+
+  58% {
+    transform: scale(1.08);
+    color: #f0c978;
+    filter: brightness(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+    color: inherit;
+    filter: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .gacha-result-layer {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .gacha-result-stage.wide-modal {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .gacha-result-stage.wide-modal .gacha-cards-grid {
+    width: min(100%, 410px);
+    padding: 8px 22px 10px;
+    box-sizing: border-box;
+    overflow: visible !important;
+  }
+
+  .gacha-result-stage.wide-modal .gacha-cards-grid .gacha-hero-card {
+    width: min(36vw, 148px);
+  }
+
+  .gacha-result-stage.wide-modal .gacha-btn-group {
+    width: min(100%, 390px);
+    box-sizing: border-box;
+    padding: 0 4px;
+    flex-wrap: nowrap !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .gacha-result-stage.wide-modal .gacha-cards-grid {
+    padding-left: 18px;
+    padding-right: 18px;
+    column-gap: 10px;
+    row-gap: 14px;
+  }
+
+  .gacha-result-stage.wide-modal .gacha-cards-grid .gacha-hero-card {
+    width: min(35vw, 136px);
+  }
+
+  .gacha-result-stage.wide-modal .gacha-btn-group .btn {
+    min-height: 46px;
+    padding: 9px 8px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recruit-token-count.token-spend-feedback {
+    animation: none !important;
+  }
+}
+

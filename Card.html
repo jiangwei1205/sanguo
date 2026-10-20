@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人物圖鑑｜參國・史演</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700;900&display=swap" rel="stylesheet">
+  <!-- 共用樣式：Navbar / Footer / Buttons -->
+  <link rel="stylesheet" href="css/HomePage.css">
+  <!-- 引入人物圖鑑專屬 CSS -->
+  <link rel="stylesheet" href="css/Card.css">
+  <link rel="icon" type="image/png" sizes="100x100" href="images/logo1.png">
+</head>
+<body>
+  <!-- =========================
+       Navbar
+  ========================== -->
+  <header class="navbar">
+    <div class="nav-container">
+      <!-- Logo -->
+      <a href="HomePage.html" class="logo">
+        <img src="images/1212.png" alt="參國・史演 Logo" class="logo-img">
+      </a>
+      <!-- Navigation -->
+      <nav class="nav-menu" id="primaryNav">
+        <a href="HomePage.html">首頁</a>
+        <a href="HomePage.html#history">史實與演義</a>
+        <a href="HomePage.html#stories">故事差異</a>
+        <a href="QuizEntry.html">群雄問答</a>
+        <a href="Card.html" class="active">人物圖鑑</a>
+        <a href="Pickcard.html">招賢台</a>
+      </nav>
+      <button
+        class="mobile-menu-btn"
+        type="button"
+        aria-label="開啟選單"
+        aria-expanded="false"
+        aria-controls="primaryNav"
+      >
+        ☰
+      </button>
+    </div>
+  </header>
+  <!-- =========================
+       人物圖鑑主內容區
+  ========================== -->
+  <main class="codex-container">
+    <!-- 第一層：陣營分類與已解鎖數量 -->
+    <div class="codex-faction-bar">
+      <div class="faction-menu">
+        <button class="faction-tab active" data-faction="all">全部</button>
+        <button class="faction-tab" data-faction="wei">魏</button>
+        <button class="faction-tab" data-faction="shu">蜀</button>
+        <button class="faction-tab" data-faction="wu">吳</button>
+      </div>
+      <div class="codex-progress" id="codexProgress">
+        <div class="codex-progress-top">
+          <span class="codex-progress-text" id="codexProgressText">已解鎖 0 / 0</span>
+        </div>
+        <div class="codex-progress-track" aria-hidden="true">
+          <span class="codex-progress-fill" id="codexProgressFill"></span>
+        </div>
+      </div>
+    </div>
+    <!-- 第二層：控制面板 (稀有度與搜尋列) -->
+    <div class="codex-panel">
+      <div class="codex-sub-bar">
+        <div class="rarity-filters">
+          <button class="rarity-btn active" data-rarity="all">全部</button>
+          <button class="rarity-btn" data-rarity="r">R</button>
+          <button class="rarity-btn" data-rarity="sr">SR</button>
+          <button class="rarity-btn" data-rarity="ssr">SSR</button>
+        </div>
+        <div class="search-box">
+          <span class="search-icon"></span>
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="搜尋武將..."
+          >
+        </div>
+      </div>
+    </div>
+    <!-- 卡片網格 -->
+    <div class="cards-grid" id="cardsGrid"></div>
+    <div class="codex-empty-state" id="codexEmptyState" hidden>
+      <div class="codex-empty-icon">◇</div>
+      <h3>沒有符合條件的武將</h3>
+      <p>請切換陣營、稀有度，或調整搜尋關鍵字後再試一次。</p>
+    </div>
+
+    <div class="codex-end-mark" aria-hidden="true">
+      <span></span>
+      <b>◇ 群英列傳 ◇</b>
+      <span></span>
+    </div>
+  </main>
+  <!-- =========================
+       角色介紹彈窗
+  ========================== -->
+  <div class="hero-modal-overlay" id="heroModal">
+    <div class="hero-modal-content">
+      <button class="modal-close-btn" id="modalClose" aria-label="關閉角色介紹">
+        ×
+      </button>
+      <div class="modal-body-layout">
+        <!-- 左側：卡牌展示 -->
+        <div class="modal-visual-column">
+          <div class="modal-hero-img">
+            <img id="modalImg" src="" alt="">
+          </div>
+          <div class="modal-card-footer">
+            <span class="modal-card-footer-mark">◇</span>
+            <span>武將列傳</span>
+            <span class="modal-card-footer-mark">◇</span>
+          </div>
+          <!-- 人物介紹 Q 版 Sprite（曹操、劉備、張飛、孫權、關羽、司馬懿、呂布） -->
+          <div class="modal-sprite-zone" id="modalSpriteZone" hidden>
+            <div class="hero-speech" id="heroSpeech" role="status" aria-live="polite"></div>
+            <button type="button" class="hero-sprite" id="heroSprite"
+              aria-label="點擊武將，觀看專屬動作與台詞" title="點擊小武將"></button>
+          </div>
+        </div>
+        <!-- 右側：人物資料 -->
+        <div class="modal-info-area">
+          <div class="modal-title-block">
+            <h2 id="modalName">角色名稱</h2>
+            <div class="modal-role-title" id="modalRoleTitle">
+              三國人物｜群雄列傳
+            </div>
+          </div>
+          <div class="modal-tags">
+            <span class="modal-tag faction-tag" id="modalFaction">
+              陣營
+            </span>
+            <span class="modal-tag rarity-tag" id="modalRarity">
+              稀有度
+            </span>
+            <span class="modal-tag role-tag" id="modalRoleType">
+              定位：武將
+            </span>
+          </div>
+          <div class="modal-story-card history-card">
+            <div class="modal-section-title">
+              <span class="modal-section-icon">史</span>
+              <h4>史實記載</h4>
+            </div>
+            <p id="modalHistory">
+              這裡是史實記載的描述...
+            </p>
+          </div>
+          <div class="modal-story-card novel-card">
+            <div class="modal-section-title">
+              <span class="modal-section-icon">演</span>
+              <h4>小說演義</h4>
+            </div>
+            <p id="modalNovel">
+              這裡是在演義小說中的描述...
+            </p>
+          </div>
+          <!-- 人物羈絆 -->
+          <div class="modal-relations-section" id="modalRelationsSection">
+            <div class="modal-relations-heading">
+              <div>
+                <span class="modal-relations-symbol">◇</span>
+                <strong>人物羈絆</strong>
+                <span class="modal-relations-symbol">◇</span>
+              </div>
+              <small>與此人物關係密切的角色</small>
+            </div>
+            <div class="modal-relations-list" id="modalRelationsList"></div>
+          </div>
+          <!-- 特殊羈絆：完成「貂蟬 × 呂布」NPC 彩蛋後才顯示 -->
+          <div
+            class="modal-special-bond"
+            id="modalBondSection"
+            style="display: none;"
+          >
+            <div class="modal-special-bond-title">
+              <span>特殊羈絆</span>
+              <small>閉月連環・飛將之緣</small>
+            </div>
+            <p id="modalBondText">
+              你已發現貂蟬與呂布之間的特殊羈絆。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- =========================
+       圖鑑自訂提示視窗
+       取代瀏覽器原生 alert
+  ========================== -->
+  <div
+    class="codex-alert-overlay"
+    id="codexAlert"
+    aria-hidden="true"
+  >
+    <div
+      class="codex-alert-box"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="codexAlertTitle"
+      aria-describedby="codexAlertMessage"
+    >
+      <div class="codex-alert-corner codex-alert-corner-tl"></div>
+      <div class="codex-alert-corner codex-alert-corner-tr"></div>
+      <div class="codex-alert-corner codex-alert-corner-bl"></div>
+      <div class="codex-alert-corner codex-alert-corner-br"></div>
+      <div class="codex-alert-ornament">◇</div>
+      <h3
+        class="codex-alert-title"
+        id="codexAlertTitle"
+      >
+        提 示
+      </h3>
+      <p
+        class="codex-alert-message"
+        id="codexAlertMessage"
+      >
+        提示內容
+      </p>
+      <button
+        type="button"
+        class="codex-alert-btn"
+        id="codexAlertBtn"
+      >
+        確 定
+      </button>
+    </div>
+  </div>
+  <!-- =========================
+       Footer
+  ========================== -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-logo">
+        參國
+      </div>
+      <p>
+        一部史書，一部小說，一段被傳說改寫的歷史。
+      </p>
+      <span>
+        © 2026 參國・史演
+      </span>
+    </div>
+  </footer>
+  <!-- 共用 JS -->
+  <script src="js/main.js"></script>
+  <!-- =========================
+       人物圖鑑資料與互動
+  ========================== -->
+  <script>
+    document.addEventListener(
+      'DOMContentLoaded',
+      function () {
+        // ==========================================
+        // 預設武將資料庫
+        // 人物文案校對版：史實與演義分流，避免將小說情節誤寫為正史。
+        // ==========================================
+        const defaultHeroes = [
+          {
+            name: "曹操",
+            faction: "wei",
+            rarity: "ssr",
+            unlocked: false,
+            image: "images/曹操.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字孟德，沛國譙人。東漢末年重要政治家、軍事家與文學家，也是曹魏政權的奠基者。建安十三年（208年）南征荊州，與孫權、劉備聯軍戰於赤壁，曹軍失利後北還。",
+            novel:
+              "《三國演義》將曹操塑造成雄才大略而多疑的亂世梟雄。赤壁篇中以連環船、火攻與華容道等情節加強其敗局戲劇性，最後又因關羽念舊而脫身。"
+          },
+          {
+            name: "劉備",
+            faction: "shu",
+            rarity: "ssr",
+            unlocked: false,
+            image: "images/劉備.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字玄德，涿郡涿縣人，《三國志》記為漢景帝子中山靖王劉勝之後。早年輾轉依附諸侯，後與孫權聯軍抗曹，逐步取得荊、益之地與漢中，章武元年（221年）稱帝，建立蜀漢。",
+            novel:
+              "《三國演義》以仁德之君為核心塑造劉備，桃園結義、三顧茅廬等名場面強化其重情守義、禮賢下士的形象；赤壁前後則與諸葛亮、孫權合作抗曹，成為三分天下的重要一方。"
+          },
+          {
+            name: "張飛",
+            faction: "shu",
+            rarity: "ssr",
+            unlocked: false,
+            image: "images/張飛.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字益德，涿郡人，早年即與關羽追隨劉備。當陽長阪時率二十騎據水斷橋，曹軍無敢逼近；入蜀後又在江州生擒嚴顏，是劉備集團的重要將領。",
+            novel:
+              "《三國演義》多寫作「張翼德」，進一步放大其豪勇與直率性格。長坂橋一聲喝退曹軍、義釋嚴顏等情節，使他成為勇猛而又粗中有細的代表人物。"
+          },
+          {
+            name: "孫權",
+            faction: "wu",
+            rarity: "ssr",
+            unlocked: false,
+            image: "images/孫權.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字仲謀，孫策死後承接江東基業。建安十三年（208年）採納周瑜、魯肅等主戰意見，與劉備聯軍抗曹；黃龍元年（229年）稱帝，建立孫吳政權。",
+            novel:
+              "《三國演義》將孫權描寫成年少而有決斷的江東之主，赤壁前夕在主戰與主降之間作出抗曹決定，並以江東君主的身分串聯周瑜、魯肅等人的赤壁故事。"
+          },
+          {
+            name: "周瑜",
+            faction: "wu",
+            rarity: "sr",
+            unlocked: false,
+            image: "images/周瑜.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字公瑾，廬江舒人，《三國志》稱其「長壯有姿貌」。他與孫策交好，後成為孫權的重要將領；赤壁之戰時與程普等率軍拒曹，採納黃蓋火攻之策，大破曹軍。",
+            novel:
+              "《三國演義》大幅增加周瑜與諸葛亮鬥智的篇幅，並塑造其氣量較狹、屢被諸葛亮占得先機的形象；「既生瑜，何生亮」也成為最具代表性的文學標籤之一。"
+          },
+          {
+            name: "趙雲",
+            faction: "shu",
+            rarity: "sr",
+            unlocked: false,
+            image: "images/趙雲.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字子龍，常山真定人。當陽長阪之戰時，趙雲抱著年幼的劉禪並保護甘夫人脫險；其後長期追隨劉備、諸葛亮征戰，建興七年（229年）去世。",
+            novel:
+              "《三國演義》把長坂救主寫得更為傳奇，趙雲在曹軍中反覆衝殺、救出阿斗，塑造出近乎常勝的勇將形象；後世常以「七進七出」概括此段，但這不是正史原文。"
+          },
+          {
+            name: "甄姬",
+            faction: "wei",
+            rarity: "r",
+            unlocked: false,
+            image: "images/甄姬.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "史稱文昭甄皇后，中山無極人，上蔡令甄逸之女，本為袁熙之妻。曹操攻下鄴城後，曹丕納甄氏，後生魏明帝曹叡；黃初二年（221年）被曹丕賜死，曹叡即位後追尊為文昭皇后。",
+            novel:
+              "《三國演義》描寫曹丕攻入鄴城後見甄氏貌美而納為妻。後世又常把她與曹植《洛神賦》的洛神想像相連，但「甄氏就是洛神原型」並不是《三國演義》明確寫定的內容。"
+          },
+          {
+            name: "蔡文姬",
+            faction: "wei",
+            rarity: "r",
+            unlocked: false,
+            image: "images/蔡文姬.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "蔡琰，字文姬，東漢名士蔡邕之女，博學有才辯，又通音律。漢末戰亂中被胡騎擄入南匈奴，在胡中十二年並生二子；曹操念與蔡邕舊交，以金璧將她贖回，後嫁董祀。",
+            novel:
+              "《三國演義》並未把蔡文姬作為重要角色鋪陳；她廣為人知的「文姬歸漢」主要見於正史與後世文學、戲曲。傳世《胡笳十八拍》常歸名於蔡琰，但其作者問題歷來仍有討論。"
+          },
+          {
+            name: "孫尚香",
+            faction: "wu",
+            rarity: "r",
+            unlocked: false,
+            image: "images/孫上香.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "史書多稱「孫夫人」，並未記載「孫尚香」這個本名。她是孫權之妹，史載其才捷剛猛、有諸兄之風，身邊侍婢常持刀侍立；她與劉備的婚姻具有明顯的政治聯盟性質，後返回東吳。",
+            novel:
+              "《三國演義》以孫夫人與劉備成婚為重要情節，原本用於牽制劉備的婚事最終弄假成真；她又協助劉備突破追兵返回荊州，使人物形象比正史更具俠氣與戲劇性。"
+          },
+          {
+            name: "諸葛亮",
+            faction: "shu",
+            rarity: "sr",
+            unlocked: false,
+            image: "images/諸葛亮.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字孔明，號臥龍，蜀漢丞相。劉備去世後輔佐劉禪，多次北伐曹魏；《三國志》亦記其善於巧思，曾損益連弩，木牛流馬皆出其意。建興十二年（234年）病逝五丈原。",
+            novel:
+              "《三國演義》將諸葛亮進一步神機妙算化，舌戰群儒、草船借箭、借東風、空城計等名場面大多屬小說加工或移植，赤壁篇尤其強化了他在聯軍勝利中的核心作用。"
+          },
+          {
+            name: "黃蓋",
+            faction: "wu",
+            rarity: "sr",
+            unlocked: false,
+            image: "images/黃蓋.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字公覆，東吳宿將，歷事孫堅、孫策、孫權。赤壁之戰時，黃蓋認為曹軍船艦首尾相接，適合以火攻破敵，並以書信詐降接近曹軍船隊，最終縱火重創曹軍；正史沒有周瑜杖打黃蓋的情節。",
+            novel:
+              "《三國演義》把赤壁詐降發展成著名的「苦肉計」：黃蓋與周瑜故意演出衝突並受杖責，再向曹操詐降，使曹操深信不疑，最終配合火攻大破曹軍。"
+          },
+          {
+            name: "關羽",
+            faction: "shu",
+            rarity: "ssr",
+            unlocked: false,
+            image: "images/關羽.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字雲長，早年與張飛追隨劉備。官渡期間曾斬袁紹大將顏良；後鎮守荊州，襄樊之戰水淹七軍、降于禁、斬龐德，一度威震華夏，最終遭孫權襲取荊州並於臨沮被殺。",
+            novel:
+              "《三國演義》極度強化關羽的忠義與武勇，溫酒斬華雄、過五關斬六將、華容道義釋曹操等名場面皆成為其經典形象的重要來源，其中多處並非正史記載。"
+          },
+          {
+            name: "司馬懿",
+            faction: "wei",
+            rarity: "ssr",
+            unlocked: false,
+            image: "images/司馬懿.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字仲達，河內溫縣人，曹魏重要政治家與軍事家。曾多次抵禦諸葛亮北伐，晚年於正始十年（249年）發動高平陵之變擊倒曹爽勢力，掌握魏國大權；嘉平三年（251年）去世，西晉建立後被追尊為宣皇帝。",
+            novel:
+              "《三國演義》將司馬懿塑造成能與諸葛亮長期鬥智的主要對手，空城計、「死諸葛嚇走活仲達」等情節強化了兩人宿敵感；小說也保留他晚年高平陵政變、掌控曹魏朝政的主線。"
+          },
+          {
+            name: "關銀屏",
+            faction: "shu",
+            rarity: "r",
+            unlocked: false,
+            image: "images/關銀屏.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "「關銀屏」並非正史中有明確姓名與事蹟的人物。《三國志》只記孫權曾替兒子向關羽求娶其女而遭拒，未記女兒姓名；「關銀屏」及其武將形象主要形成於後世地方傳說、民間文學與現代作品。",
+            novel:
+              "《三國演義》正本文本也沒有把「關銀屏」塑造成正式角色。她作為關羽之女、能征善戰甚至隨軍南征的形象，主要來自後世傳說、戲曲與遊戲等再創作。"
+          },
+          {
+            name: "龐統",
+            faction: "shu",
+            rarity: "sr",
+            unlocked: false,
+            image: "images/龐統.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字士元，襄陽人，時人稱「鳳雛」。曾任南郡功曹，後投效劉備，與諸葛亮同任軍師中郎將並主張取益州；建安十九年（214年）隨軍攻雒縣時中流矢身亡。正史沒有他在赤壁向曹操獻「連環計」的記載。",
+            novel:
+              "《三國演義》中龐統與諸葛亮並稱「臥龍、鳳雛」，赤壁時親自向曹操獻連環計，使曹軍戰船相連，為火攻創造條件；後隨劉備入蜀，在落鳳坡遭伏擊中箭身亡。"
+          },
+          {
+            name: "大喬小喬",
+            faction: "wu",
+            rarity: "r",
+            unlocked: false,
+            image: "images/大喬小喬.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "《三國志》記載皖城攻克後得到橋公二女，皆有國色，孫策納大橋、周瑜納小橋。史書沒有為二人立傳，也沒有記下她們的個人姓名；今日常寫作「大喬、小喬」，主要沿用後世通行稱呼。",
+            novel:
+              "《三國演義》把「二喬」融入赤壁前的激將情節：諸葛亮借曹操《銅雀臺賦》相關說法刺激周瑜，使「銅雀春深鎖二喬」成為赤壁故事的著名文學意象，並非曹操南征的史實動機。"
+          },
+          {
+            name: "郭嘉",
+            faction: "wei",
+            rarity: "sr",
+            unlocked: false,
+            image: "images/郭嘉.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字奉孝，潁川陽翟人，曹操的重要謀士，任司空軍祭酒。曾參與討呂布、官渡前後與平定袁氏勢力等重大決策，深受曹操信任；建安十二年（207年）病逝，年僅三十八。",
+            novel:
+              "《三國演義》延續並放大郭嘉「鬼才」與料敵先機的形象，常以他英年早逝襯托曹操惜才；郭嘉在赤壁之戰前已去世，因此小說中的赤壁主線並沒有由他直接參與謀劃。"
+          },
+          {
+            name: "孫策",
+            faction: "wu",
+            rarity: "sr",
+            unlocked: false,
+            image: "images/孫策.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字伯符，孫堅長子，勇決善戰，短時間內平定江東多地，為孫權日後建立孫吳奠定基礎。建安五年（200年）遭吳郡太守許貢舊部門客襲擊受重傷，不久去世。",
+            novel:
+              "《三國演義》保留孫策「小霸王」的勇烈形象，並加入道士于吉等神怪情節，將孫策殺于吉、精神不安與遇刺後病重相連，使其早逝帶有更強的因果與傳奇色彩。"
+          },
+          {
+            name: "夏侯惇",
+            faction: "wei",
+            rarity: "sr",
+            unlocked: false,
+            image: "images/夏侯惇.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字元讓，曹操麾下宗親重將。征討呂布時被流矢射傷左眼，軍中一度稱他「盲夏侯」；他也曾治理地方、興修水利與勸農，並非只以猛將事蹟見長。",
+            novel:
+              "《三國演義》把左眼受傷改寫成極具戲劇性的「拔矢啖睛」：夏侯惇中曹性一箭後拔箭連眼珠帶出，並吞下眼珠再戰，成為小說塑造其剛烈勇猛的經典場面。"
+          },
+          // ==========================================
+          // 隱藏角色：呂布
+          // ==========================================
+          {
+            name: "呂布",
+            faction: "special",
+            rarity: "ssr",
+            unlocked: false,
+            hidden: true,
+            exchangeOnly: true,
+            image: "images/呂布.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "字奉先，五原九原人。《三國志》記其善騎射、膂力過人，號為「飛將」。他先後依附丁原、董卓等人，後與王允合謀殺董卓，又割據徐州，最終在下邳敗於曹操並被處死。",
+            novel:
+              "《三國演義》把呂布塑造成武力頂尖而反覆無常的猛將，虎牢關「三英戰呂布」尤其奠定其無雙武勇形象；赤兔馬、方天畫戟與貂蟬情節也共同強化了他的傳奇色彩。"
+          },
+          // ==========================================
+          // 隱藏角色：貂蟬
+          // ==========================================
+          {
+            name: "貂蟬",
+            faction: "special",
+            rarity: "r",
+            unlocked: false,
+            hidden: true,
+            exchangeKey: true,
+            image: "images/貂蟬.png",
+            lockedImage: "images/未解鎖.png",
+            history:
+              "正史沒有「貂蟬」這個人物姓名。《三國志》只記呂布曾與董卓的一名侍婢私通，因擔心事情敗露而心中不安，之後又受王允拉攏參與誅殺董卓；史書沒有說這名侍婢是王允義女，也沒有把她命名為貂蟬。",
+            novel:
+              "《三國演義》將貂蟬塑造成王允義女與「閉月」美人，安排她周旋於董卓、呂布之間執行連環計，利用二人情慾與猜忌挑起決裂，最終促成呂布誅殺董卓。"
+          },
+          // ==========================================
+          // 隱藏彩蛋：釣魚版曹操
+          // 未解鎖時顯示 specialcard.png
+          // 玩家暗中連點 10 次後解鎖
+          // ==========================================
+          {
+            name: "釣魚版曹操",
+            faction: "wei",
+            rarity: "ssr",
+            unlocked: false,
+            hidden: true,
+            specialEgg: true,
+            image: "images/釣魚版曹操.png",
+            lockedImage: "images/specialcard.png",
+            history:
+              "遊戲原創彩蛋角色，並非正史中的獨立人物或歷史事件。角色設定沿用曹操形象，再加入「臨海垂釣」的趣味情境，作為圖鑑中的隱藏收藏內容。",
+            novel:
+              "此版本也不是《三國演義》原有人物設定，而是本遊戲對曹操的趣味再創作：亂世梟雄暫離軍政，持竿垂釣，並以神秘金卡彩蛋形式出現在圖鑑中。"
+          }
+        ];
+        // ------------------------------------------
+        // 角色資料同步
+        // ------------------------------------------
+        const savedHeroesRaw =
+          localStorage.getItem(
+            'heroesData'
+          );
+        const savedHeroes =
+          JSON.parse(
+            savedHeroesRaw || '[]'
+          ) || [];
+        // 如果整份圖鑑資料被重置，
+        // 特殊彩蛋的點擊進度也一起重新開始。
+        if (
+          !savedHeroesRaw ||
+          savedHeroes.length === 0
+        ) {
+          localStorage.removeItem(
+            'specialFishingCaoUnlocked'
+          );
+          localStorage.removeItem(
+            'specialFishingCaoClickCount'
+          );
+        }
+        const savedHeroMap =
+          new Map(
+            savedHeroes.map(
+              hero => [
+                hero.name,
+                hero
+              ]
+            )
+          );
+        let heroesData =
+          defaultHeroes.map(
+            defaultHero => {
+              // 釣魚版曹操使用獨立 localStorage 狀態。
+              // 這樣就算招賢台仍然只有原本 21 位角色，
+              // 也不會把這張第 22 張彩蛋卡的解鎖狀態洗掉。
+              if (defaultHero.specialEgg) {
+                return {
+                  ...defaultHero,
+                  unlocked:
+                    localStorage.getItem(
+                      'specialFishingCaoUnlocked'
+                    ) === 'true'
+                };
+              }
+              const savedHero =
+                savedHeroMap.get(
+                  defaultHero.name
+                );
+              if (savedHero) {
+                return {
+                  ...defaultHero,
+                  unlocked:
+                    savedHero.unlocked
+                };
+              }
+              return {
+                ...defaultHero
+              };
+            }
+          );
+        localStorage.setItem(
+          'heroesData',
+          JSON.stringify(
+            heroesData
+          )
+        );
+        // ==========================================
+        // DOM
+        // ==========================================
+        const grid =
+          document.getElementById(
+            'cardsGrid'
+          );
+        const progressText =
+          document.getElementById(
+            'codexProgressText'
+          );
+        const progressFill =
+          document.getElementById(
+            'codexProgressFill'
+          );
+        const factionTabs =
+          document.querySelectorAll(
+            '.faction-tab'
+          );
+        const rarityBtns =
+          document.querySelectorAll(
+            '.rarity-btn'
+          );
+        const searchInput =
+          document.getElementById(
+            'searchInput'
+          );
+        const emptyState =
+          document.getElementById(
+            'codexEmptyState'
+          );
+        // Modal
+        const modal =
+          document.getElementById(
+            'heroModal'
+          );
+        const modalContent =
+          modal.querySelector(
+            '.hero-modal-content'
+          );
+        const modalClose =
+          document.getElementById(
+            'modalClose'
+          );
+        const modalImg =
+          document.getElementById(
+            'modalImg'
+          );
+        const modalName =
+          document.getElementById(
+            'modalName'
+          );
+        const modalFaction =
+          document.getElementById(
+            'modalFaction'
+          );
+        const modalRarity =
+          document.getElementById(
+            'modalRarity'
+          );
+        const modalHistory =
+          document.getElementById(
+            'modalHistory'
+          );
+        const modalNovel =
+          document.getElementById(
+            'modalNovel'
+          );
+        const modalRoleTitle =
+          document.getElementById(
+            'modalRoleTitle'
+          );
+        const modalRoleType =
+          document.getElementById(
+            'modalRoleType'
+          );
+        const modalRelationsSection =
+          document.getElementById(
+            'modalRelationsSection'
+          );
+        const modalRelationsList =
+          document.getElementById(
+            'modalRelationsList'
+          );
+        const modalBondSection =
+          document.getElementById(
+            'modalBondSection'
+          );
+        const modalBondText =
+          document.getElementById(
+            'modalBondText'
+          );
+        // 人物介紹左下角 Q 版 Sprite（曹操／劉備／張飛／孫權／關羽／司馬懿／呂布）
+        const modalSpriteZone = document.getElementById('modalSpriteZone');
+        const heroSprite = document.getElementById('heroSprite');
+        const heroSpeech = document.getElementById('heroSpeech');
+        // ==========================================
+        // 圖鑑自訂提示視窗
+        // ==========================================
+        const codexAlert =
+          document.getElementById(
+            'codexAlert'
+          );
+        const codexAlertTitle =
+          document.getElementById(
+            'codexAlertTitle'
+          );
+        const codexAlertMessage =
+          document.getElementById(
+            'codexAlertMessage'
+          );
+        const codexAlertBtn =
+          document.getElementById(
+            'codexAlertBtn'
+          );
+        function showCodexAlert(
+          message,
+          title = '提 示'
+        ) {
+          codexAlertTitle.textContent =
+            title;
+          codexAlertMessage.textContent =
+            message;
+          codexAlert.classList.add(
+            'show'
+          );
+          codexAlert.setAttribute(
+            'aria-hidden',
+            'false'
+          );
+          document.body.classList.add(
+            'codex-alert-open'
+          );
+          requestAnimationFrame(
+            () => {
+              codexAlertBtn.focus();
+            }
+          );
+        }
+        function closeCodexAlert() {
+          codexAlert.classList.remove(
+            'show'
+          );
+          codexAlert.setAttribute(
+            'aria-hidden',
+            'true'
+          );
+          document.body.classList.remove(
+            'codex-alert-open'
+          );
+        }
+        codexAlertBtn.addEventListener(
+          'click',
+          closeCodexAlert
+        );
+        codexAlert.addEventListener(
+          'click',
+          (event) => {
+            if (
+              event.target === codexAlert
+            ) {
+              closeCodexAlert();
+            }
+          }
+        );
+        document.addEventListener(
+          'keydown',
+          (event) => {
+            if (
+              event.key === 'Escape' &&
+              codexAlert.classList.contains(
+                'show'
+              )
+            ) {
+              closeCodexAlert();
+            }
+          }
+        );
+        // ==========================================
+        // 篩選狀態
+        // ==========================================
+        let currentFaction = 'all';
+        let currentRarity = 'all';
+        let currentSearch = '';
+        const heroProfileMap = {
+          "曹操": {
+            title: "曹魏奠基者｜亂世梟雄",
+            role: "君主",
+            relations: ["郭嘉", "夏侯惇", "司馬懿"]
+          },
+          "劉備": {
+            title: "蜀漢昭烈帝｜仁德之主",
+            role: "君主",
+            relations: ["關羽", "張飛", "諸葛亮"]
+          },
+          "張飛": {
+            title: "燕人猛將｜萬人之敵",
+            role: "猛將",
+            relations: ["劉備", "關羽", "趙雲"]
+          },
+          "孫權": {
+            title: "東吳大帝｜江東之主",
+            role: "君主",
+            relations: ["周瑜", "孫策", "孫尚香"]
+          },
+          "周瑜": {
+            title: "江東都督｜雄姿英發",
+            role: "都督",
+            relations: ["孫權", "黃蓋", "孫策"]
+          },
+          "趙雲": {
+            title: "常山趙子龍｜忠勇無雙",
+            role: "猛將",
+            relations: ["劉備", "諸葛亮", "張飛"]
+          },
+          "甄姬": {
+            title: "魏宮名姝｜洛水佳人",
+            role: "名姝",
+            relations: ["曹操"]
+          },
+          "蔡文姬": {
+            title: "才女名士｜胡笳悲歌",
+            role: "名士",
+            relations: ["曹操"]
+          },
+          "孫尚香": {
+            title: "弓腰姬｜江東虎女",
+            role: "名姝",
+            relations: ["孫權", "劉備"]
+          },
+          "諸葛亮": {
+            title: "蜀漢丞相｜臥龍先生",
+            role: "軍師",
+            relations: ["劉備", "趙雲", "關羽"]
+          },
+          "黃蓋": {
+            title: "江東宿將｜赤壁先鋒",
+            role: "猛將",
+            relations: ["周瑜", "孫權"]
+          },
+          "關羽": {
+            title: "美髯公｜義薄雲天",
+            role: "猛將",
+            relations: ["劉備", "張飛", "關銀屏"]
+          },
+          "司馬懿": {
+            title: "冢虎｜深謀遠略",
+            role: "軍師",
+            relations: ["曹操"]
+          },
+          "關銀屏": {
+            title: "關氏虎女｜將門之後",
+            role: "猛將",
+            relations: ["關羽", "劉備"]
+          },
+          "龐統": {
+            title: "鳳雛｜奇策之士",
+            role: "軍師",
+            relations: ["劉備", "諸葛亮"]
+          },
+          "大喬小喬": {
+            title: "江東雙姝｜國色流光",
+            role: "名姝",
+            relations: ["孫策", "周瑜"]
+          },
+          "郭嘉": {
+            title: "鬼才｜決勝千里",
+            role: "軍師",
+            relations: ["曹操", "夏侯惇"]
+          },
+          "孫策": {
+            title: "小霸王｜江東奠基",
+            role: "君主",
+            relations: ["孫權", "周瑜", "大喬小喬"]
+          },
+          "夏侯惇": {
+            title: "曹魏宿將｜剛烈勇武",
+            role: "猛將",
+            relations: ["曹操", "郭嘉"]
+          },
+          "呂布": {
+            title: "飛將｜人中呂布",
+            role: "猛將",
+            relations: ["貂蟬"]
+          },
+          "貂蟬": {
+            title: "閉月｜連環之計",
+            role: "名姝",
+            relations: ["呂布"]
+          },
+          "釣魚版曹操": {
+            title: "滄海垂綸｜孟德得魚",
+            role: "彩蛋",
+            relations: ["曹操"]
+          }
+        };
+        function renderHeroRelations(hero) {
+          const profile =
+            heroProfileMap[hero.name] || {
+              title: "三國人物｜群雄列傳",
+              role: "武將",
+              relations: []
+            };
+          modalRoleTitle.textContent =
+            profile.title;
+          modalRoleType.textContent =
+            `定位：${profile.role}`;
+          modalRoleType.dataset.role =
+            profile.role;
+          modalRelationsList.innerHTML = "";
+          /*
+             貂蟬的「呂布」關係，在右下角 NPC 彩蛋完成前完全隱藏。
+             玩家只抽到貂蟬時，不會從圖鑑得到任何解謎提示。
+          */
+          const visibleRelationNames =
+            profile.relations.filter(
+              relationName => {
+                const targetHero =
+                  heroesData.find(
+                    item =>
+                      item.name === relationName
+                  );
+                if (!targetHero) {
+                  return false;
+                }
+                if (
+                  hero.name === "貂蟬" &&
+                  relationName === "呂布" &&
+                  !targetHero.unlocked
+                ) {
+                  return false;
+                }
+                return true;
+              }
+            );
+          if (!visibleRelationNames.length) {
+            modalRelationsSection.style.display =
+              "none";
+            return;
+          }
+          modalRelationsSection.style.display =
+            "block";
+          visibleRelationNames.forEach(
+            relationName => {
+              const targetHero =
+                heroesData.find(
+                  item =>
+                    item.name === relationName
+                );
+              if (!targetHero) return;
+              const hideIdentity =
+                targetHero.hidden &&
+                !targetHero.unlocked;
+              const relationItem =
+                document.createElement(
+                  "button"
+                );
+              relationItem.type =
+                "button";
+              relationItem.className =
+                "modal-relation-card";
+              relationItem.dataset.hero =
+                hideIdentity
+                  ? "hidden"
+                  : targetHero.name;
+              if (!targetHero.unlocked) {
+                relationItem.classList.add(
+                  "locked"
+                );
+                relationItem.disabled =
+                  true;
+              }
+              const imageSrc =
+                targetHero.unlocked
+                  ? targetHero.image
+                  : targetHero.lockedImage;
+              const displayName =
+                hideIdentity
+                  ? "？？？"
+                  : targetHero.name;
+              relationItem.innerHTML = `
+                <span class="relation-avatar">
+                  <img
+                    src="${imageSrc}"
+                    alt="${hideIdentity ? "未解鎖角色" : displayName}"
+                  >
+                </span>
+                <span class="relation-name">
+                  ${displayName}
+                </span>
+              `;
+              if (targetHero.unlocked) {
+                relationItem.addEventListener(
+                  "click",
+                  () => {
+                    openModal(targetHero);
+                  }
+                );
+              }
+              modalRelationsList.appendChild(
+                relationItem
+              );
+            }
+          );
+        }
+        // ==========================================
+        // 特殊彩蛋：釣魚版曹操
+        // ==========================================
+        const SPECIAL_CAO_TAP_KEY =
+          'specialFishingCaoClickCount';
+        const SPECIAL_CAO_UNLOCK_KEY =
+          'specialFishingCaoUnlocked';
+        const SPECIAL_CAO_TAP_MAX =
+          10;
+        let specialEggBusy =
+          false;
+        function getSpecialCaoTapCount() {
+          return Math.max(
+            0,
+            Math.min(
+              SPECIAL_CAO_TAP_MAX,
+              parseInt(
+                localStorage.getItem(
+                  SPECIAL_CAO_TAP_KEY
+                ) || '0',
+                10
+              ) || 0
+            )
+          );
+        }
+        function setSpecialCaoTapCount(count) {
+          localStorage.setItem(
+            SPECIAL_CAO_TAP_KEY,
+            String(count)
+          );
+        }
+        function updateSpecialCrackStage(
+          card,
+          tapCount
+        ) {
+          card.classList.remove(
+            'egg-stage-1',
+            'egg-stage-2',
+            'egg-stage-3'
+          );
+          if (tapCount >= 8) {
+            card.classList.add(
+              'egg-stage-3'
+            );
+          } else if (tapCount >= 5) {
+            card.classList.add(
+              'egg-stage-2'
+            );
+          } else if (tapCount >= 2) {
+            card.classList.add(
+              'egg-stage-1'
+            );
+          }
+        }
+        function createSpecialBurst(card) {
+          const burst =
+            card.querySelector(
+              '.special-egg-burst'
+            );
+          if (!burst) return;
+          burst.innerHTML = '';
+          /*
+             海水爆裂粒子
+             - 水滴向四周噴散
+             - 部分粒子變成泡泡
+             - 上方水花距離更高，像浪花炸開
+          */
+          const particleCount =
+            56;
+          for (
+            let i = 0;
+            i < particleCount;
+            i++
+          ) {
+            const particle =
+              document.createElement(
+                'span'
+              );
+            particle.className =
+              'special-egg-particle';
+            if (i % 5 === 0) {
+              particle.classList.add(
+                'special-egg-bubble'
+              );
+            }
+            /*
+              水花改成「由下往上扇形炸開」，
+              不再做 360 度煙火狀。
+            */
+            const spread =
+              i /
+              (particleCount - 1);
+            const dx =
+              (spread - 0.5) *
+              (
+                220 +
+                (i % 6) * 10
+              );
+            const dy =
+              -(
+                74 +
+                (i % 9) * 15
+              ) +
+              Math.abs(dx) * 0.16;
+            const size =
+              5 +
+              (i % 5) * 2;
+            particle.style.setProperty(
+              '--dx',
+              `${dx}px`
+            );
+            particle.style.setProperty(
+              '--dy',
+              `${dy}px`
+            );
+            particle.style.setProperty(
+              '--size',
+              `${size}px`
+            );
+            particle.style.setProperty(
+              '--delay',
+              `${(i % 8) * 0.018}s`
+            );
+            particle.style.setProperty(
+              '--spin',
+              `${120 + (i % 6) * 35}deg`
+            );
+            burst.appendChild(
+              particle
+            );
+          }
+        }
+        function unlockFishingCao(
+          hero,
+          card
+        ) {
+          if (specialEggBusy) {
+            return;
+          }
+          specialEggBusy =
+            true;
+          card.classList.add(
+            'egg-unlocking'
+          );
+          createSpecialBurst(card);
+          // 金卡先震裂，海水從卡面湧出，再讓釣魚版曹操從浪花中浮現。
+          setTimeout(
+            () => {
+              hero.unlocked =
+                true;
+              localStorage.setItem(
+                SPECIAL_CAO_UNLOCK_KEY,
+                'true'
+              );
+              localStorage.removeItem(
+                SPECIAL_CAO_TAP_KEY
+              );
+              localStorage.setItem(
+                'heroesData',
+                JSON.stringify(
+                  heroesData
+                )
+              );
+              const image =
+                card.querySelector(
+                  '.hero-image-placeholder img'
+                );
+              const name =
+                card.querySelector(
+                  '.hero-name'
+                );
+              if (image) {
+                image.src =
+                  hero.image;
+                image.alt =
+                  hero.name;
+              }
+              if (name) {
+                name.textContent =
+                  hero.name;
+              }
+              card.classList.remove(
+                'locked',
+                'special-egg-locked',
+                'egg-stage-1',
+                'egg-stage-2',
+                'egg-stage-3'
+              );
+              card.classList.add(
+                'special-egg-revealed'
+              );
+              const unlockedCount =
+                heroesData.filter(
+                  item => item.unlocked
+                ).length;
+              progressText.textContent =
+                `已解鎖 ${unlockedCount} / ${heroesData.length}`;
+            },
+            650
+          );
+          // 等完整爆裂動畫播完，再重新繪製，
+          // 讓這張卡回到正常可點開 Modal 的狀態。
+          setTimeout(
+            () => {
+              specialEggBusy =
+                false;
+              renderCards();
+            },
+            1750
+          );
+        }
+        function handleSpecialEggClick(
+          hero,
+          card
+        ) {
+          if (
+            hero.unlocked ||
+            specialEggBusy
+          ) {
+            return;
+          }
+          let tapCount =
+            getSpecialCaoTapCount() + 1;
+          tapCount =
+            Math.min(
+              tapCount,
+              SPECIAL_CAO_TAP_MAX
+            );
+          setSpecialCaoTapCount(
+            tapCount
+          );
+          // 不顯示 0 / 10，也不跳任何提示。
+          // 玩家只會感覺到卡片逐次出現細微異樣。
+          card.classList.remove(
+            'special-egg-hit'
+          );
+          void card.offsetWidth;
+          card.classList.add(
+            'special-egg-hit'
+          );
+          updateSpecialCrackStage(
+            card,
+            tapCount
+          );
+          if (
+            tapCount >=
+            SPECIAL_CAO_TAP_MAX
+          ) {
+            unlockFishingCao(
+              hero,
+              card
+            );
+          }
+        }
+        // ==========================================
+        // 產生人物卡片
+        // ==========================================
+        function renderCards() {
+          grid.innerHTML = '';
+          let visibleCount = 0;
+          const visibleHeroes =
+            currentRarity === 'all'
+              ? [...heroesData].sort((a, b) => {
+                  // 釣魚版曹操固定放在全部圖鑑的最後一張。
+                  if (a.specialEgg) return 1;
+                  if (b.specialEgg) return -1;
+                  const rarityOrder = { ssr: 0, sr: 1, r: 2 };
+                  return (rarityOrder[a.rarity] ?? 3) -
+                    (rarityOrder[b.rarity] ?? 3);
+                })
+              : heroesData;
+          const unlockedCount =
+            heroesData.filter(
+              hero => hero.unlocked
+            ).length;
+          visibleHeroes.forEach(
+            hero => {
+              const matchesFaction =
+                (
+                  currentFaction === 'all' ||
+                  hero.faction === currentFaction
+                );
+              const matchesRarity =
+                (
+                  currentRarity === 'all' ||
+                  hero.rarity === currentRarity
+                );
+              const searchTarget =
+                hero.unlocked
+                  ? hero.name
+                  : "？？？";
+              const matchesSearch =
+                (
+                  currentSearch === '' ||
+                  searchTarget.includes(
+                    currentSearch
+                  )
+                );
+              if (
+                !matchesFaction ||
+                !matchesRarity ||
+                !matchesSearch
+              ) {
+                return;
+              }
+              visibleCount += 1;
+              const card =
+                document.createElement(
+                  'div'
+                );
+              card.className =
+                `hero-card ${
+                  hero.unlocked
+                    ? ''
+                    : 'locked'
+                }`;
+              card.dataset.rarity =
+                hero.rarity;
+              if (hero.specialEgg) {
+                card.classList.add(
+                  'special-egg-card'
+                );
+              }
+              let innerContent = '';
+              if (hero.unlocked) {
+                innerContent = `
+                  <div class="hero-image-placeholder">
+                    <img
+                      src="${hero.image}"
+                      alt="${hero.name}"
+                      onerror="
+                        this.style.display='none';
+                        this.nextElementSibling.style.display='flex';
+                      "
+                    >
+                    <div
+                      style="
+                        display:none;
+                        width:100%;
+                        height:100%;
+                        align-items:center;
+                        justify-content:center;
+                        color:#a8957c;
+                        font-size:12px;
+                      "
+                    >
+                      圖片載入失敗
+                    </div>
+                  </div>
+                  <div class="hero-name">
+                    ${hero.name}
+                  </div>
+                `;
+                card.addEventListener(
+                  'click',
+                  () => {
+                    openModal(hero);
+                  }
+                );
+              } else if (hero.specialEgg) {
+                card.classList.add(
+                  'special-egg-locked'
+                );
+                updateSpecialCrackStage(
+                  card,
+                  getSpecialCaoTapCount()
+                );
+                innerContent = `
+                  <div class="hero-image-placeholder special-egg-image">
+                    <img
+                      src="${hero.lockedImage}"
+                      alt="未解鎖特殊卡"
+                      draggable="false"
+                      onerror="
+                        this.style.display='none';
+                        this.nextElementSibling.style.display='flex';
+                      "
+                    >
+                    <div
+                      style="
+                        display:none;
+                        width:100%;
+                        height:100%;
+                        align-items:center;
+                        justify-content:center;
+                        color:#e9bd5d;
+                        font-size:28px;
+                      "
+                    >
+                      ？
+                    </div>
+                    <span
+                      class="special-egg-cracks"
+                      aria-hidden="true"
+                    ></span>
+                    <span
+                      class="special-egg-flash"
+                      aria-hidden="true"
+                    ></span>
+                    <span
+                      class="special-egg-wave-splash"
+                      aria-hidden="true"
+                    >
+                      <img
+                        src="images/wave-splash.png"
+                        alt=""
+                        draggable="false"
+                      >
+                    </span>
+                  </div>
+                  <div class="hero-name">
+                    ？？？
+                  </div>
+                `;
+                card.addEventListener(
+                  'click',
+                  () => {
+                    handleSpecialEggClick(
+                      hero,
+                      card
+                    );
+                  }
+                );
+              } else {
+                innerContent = `
+                  <div class="hero-image-placeholder">
+                    <img
+                      src="${hero.lockedImage}"
+                      alt="未解鎖"
+                      onerror="
+                        this.style.display='none';
+                        this.nextElementSibling.style.display='flex';
+                      "
+                    >
+                    <div
+                      style="
+                        display:none;
+                        width:100%;
+                        height:100%;
+                        align-items:center;
+                        justify-content:center;
+                        color:#5c4d3d;
+                        font-size:24px;
+                      "
+                    >
+                      ？
+                    </div>
+                  </div>
+                  <div class="hero-name">
+                    ？？？
+                  </div>
+                `;
+                card.addEventListener(
+                  'click',
+                  () => {
+                    showCodexAlert(
+                      "此武將尚未解鎖，請前往招賢台進行招募。",
+                      "尚 未 解 鎖"
+                    );
+                  }
+                );
+              }
+              card.innerHTML =
+                innerContent;
+              grid.appendChild(
+                card
+              );
+            }
+          );
+          const totalCount =
+            heroesData.length;
+          const progressPercent =
+            totalCount > 0
+              ? (
+                  unlockedCount /
+                  totalCount
+                ) * 100
+              : 0;
+          progressText.textContent =
+            `已解鎖 ${unlockedCount} / ${totalCount}`;
+          progressFill.style.width =
+            `${progressPercent}%`;
+          emptyState.hidden =
+            visibleCount !== 0;
+          grid.classList.toggle(
+            'is-empty',
+            visibleCount === 0
+          );
+        }
+        // ==========================================
+        // 武將 Q 版 Sprite：三格待機 + 四格點擊動作
+        // 待機：原地 → 上半身微沉 → 原地 → 上半身微抬 ...
+        // 點擊：1 → 2 → 3 → 4 → 1，之後恢復待機
+        // ==========================================
+        const heroSpriteConfig = {
+          '曹操': {
+            idleSheet: 'images/曹操待機.png',
+            idleFrames: 3,
+            sheet: 'images/曹操動作.png',
+            frames: 4,
+            line: '天下英雄，唯使君與操耳！'
+          },
+          '劉備': {
+            idleSheet: 'images/劉備待機.png',
+            idleFrames: 3,
+            sheet: 'images/劉備動作.png',
+            frames: 4,
+            line: '備願與諸君共扶漢室！'
+          },
+          '張飛': {
+            idleSheet: 'images/張飛待機.png',
+            idleFrames: 3,
+            sheet: 'images/張飛動作.png',
+            frames: 4,
+            line: '燕人張翼德在此！誰敢一戰！'
+          },
+          '孫權': {
+            idleSheet: 'images/孫權待機.png',
+            idleFrames: 3,
+            sheet: 'images/孫權動作.png',
+            frames: 4,
+            line: '江東基業，孤自當守！'
+          },
+          '周瑜': {
+            idleSheet: 'images/周瑜待機.png',
+            idleFrames: 3,
+            sheet: 'images/周瑜動作.png',
+            frames: 4,
+            line: '東風已至，且看江東烈焰！'
+          },
+          '趙雲': {
+            idleSheet: 'images/趙雲待機.png',
+            idleFrames: 3,
+            sheet: 'images/趙雲動作.png',
+            frames: 4,
+            line: '常山趙子龍在此！誰敢一戰！'
+          },
+          '諸葛亮': {
+            idleSheet: 'images/諸葛亮待機.png',
+            idleFrames: 3,
+            sheet: 'images/諸葛亮動作.png',
+            frames: 4,
+            line: '運籌帷幄之中，決勝千里之外！'
+          },
+          '黃蓋': {
+            idleSheet: 'images/黃蓋待機.png',
+            idleFrames: 3,
+            sheet: 'images/黃蓋動作.png',
+            frames: 4,
+            line: '苦肉一計，烈火焚盡曹營！'
+          },
+          '龐統': {
+            idleSheet: 'images/龐統待機.png',
+            idleFrames: 3,
+            sheet: 'images/龐統動作.png',
+            frames: 4,
+            line: '鳳雛展翼，奇謀定天下！'
+          },
+          '郭嘉': {
+            idleSheet: 'images/郭嘉待機.png',
+            idleFrames: 3,
+            sheet: 'images/郭嘉動作.png',
+            frames: 4,
+            line: '鬼謀奇策，算定天下！'
+          },
+          '孫策': {
+            idleSheet: 'images/孫策待機.png',
+            idleFrames: 3,
+            sheet: 'images/孫策動作.png',
+            frames: 4,
+            line: '江東小霸王，破陣開疆！'
+          },
+          '夏侯惇': {
+            idleSheet: 'images/夏侯惇待機.png',
+            idleFrames: 3,
+            sheet: 'images/夏侯惇動作.png',
+            frames: 4,
+            line: '橫刀立馬，誰敢擋我！'
+          },
+          '甄姬': {
+            idleSheet: 'images/甄姬待機.png',
+            idleFrames: 3,
+            sheet: 'images/甄姬動作.png',
+            frames: 4,
+            line: '洛水流光，花映芳華。'
+          },
+          '蔡文姬': {
+            idleSheet: 'images/蔡文姬待機.png',
+            idleFrames: 3,
+            sheet: 'images/蔡文姬動作.png',
+            frames: 4,
+            line: '胡笳一曲，故園入夢。'
+          },
+          '孫尚香': {
+            idleSheet: 'images/孫尚香待機.png',
+            idleFrames: 3,
+            sheet: 'images/孫尚香動作.png',
+            frames: 4,
+            line: '弓腰姬在此，看箭！'
+          },
+          '大喬小喬': {
+            idleSheet: 'images/大喬小喬待機.png',
+            idleFrames: 3,
+            sheet: 'images/大喬小喬動作.png',
+            frames: 4,
+            line: '姊妹同心，花開並蒂！'
+          },
+          '關銀屏': {
+            idleSheet: 'images/關銀屏待機.png',
+            idleFrames: 3,
+            sheet: 'images/關銀屏動作.png',
+            frames: 4,
+            line: '虎女乘風，青鋒破陣！'
+          },
+          '關羽': {
+            idleSheet: 'images/關羽待機.png',
+            idleFrames: 3,
+            sheet: 'images/關羽動作.png',
+            frames: 4,
+            line: '義薄雲天，武聖千秋！'
+          },
+          '司馬懿': {
+            idleSheet: 'images/司馬懿待機.png',
+            idleFrames: 3,
+            sheet: 'images/司馬懿動作.png',
+            frames: 4,
+            line: '韜光養晦，方能決勝千里！'
+          },
+          '貂蟬': {
+            idleSheet: 'images/貂蟬待機.png',
+            idleFrames: 3,
+            sheet: 'images/貂蟬動作.png',
+            frames: 4,
+            line: '月下傾城，舞動天下。'
+          },
+          '釣魚版曹操': {
+            idleSheet: 'images/釣魚版曹操待機.png',
+            idleFrames: 3,
+            sheet: 'images/釣魚版曹操動作.png',
+            frames: 4,
+            line: '哈哈哈！此魚，終究落入孤手！'
+          },
+          '呂布': {
+            idleSheet: 'images/呂布待機.png',
+            idleFrames: 3,
+            sheet: 'images/呂布動作.png',
+            frames: 4,
+            line: '天下群雄，誰敢擋我呂奉先！'
+          }
+        };
+        let activeSpriteConfig = null;
+        let spriteIdleTimer = null;
+        let spriteFrameTimer = null;
+        let spriteSpeechTimer = null;
+        let spritePlaying = false;
+
+        function setSpriteFrame(frame, frames) {
+          // 3 格的位置是 0 / 50 / 100%；4 格是 0 / 33.33 / 66.67 / 100%。
+          heroSprite.style.backgroundPosition =
+            `${(frame / (frames - 1)) * 100}% 0%`;
+        }
+
+        function startHeroIdle(config) {
+          clearInterval(spriteIdleTimer);
+          spriteIdleTimer = null;
+          if (!config || !config.idleSheet) return;
+
+          heroSprite.classList.remove('is-playing');
+          heroSprite.style.backgroundImage = `url("${config.idleSheet}")`;
+          heroSprite.style.backgroundSize = `${config.idleFrames * 100}% 100%`;
+          setSpriteFrame(0, config.idleFrames);
+
+          // 尊重裝置的減少動態偏好，仍顯示第一格站立姿勢。
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+          const sequence = [0, 1, 0, 2];
+          let step = 0;
+          spriteIdleTimer = setInterval(() => {
+            step = (step + 1) % sequence.length;
+            setSpriteFrame(sequence[step], config.idleFrames);
+          }, 400);
+        }
+
+        function stopHeroSprite() {
+          clearInterval(spriteIdleTimer);
+          clearInterval(spriteFrameTimer);
+          clearTimeout(spriteSpeechTimer);
+          spriteIdleTimer = null;
+          spriteFrameTimer = null;
+          spriteSpeechTimer = null;
+          spritePlaying = false;
+          heroSprite.classList.remove('is-playing');
+          heroSprite.style.backgroundPosition = '0% 0%';
+          heroSpeech.classList.remove('show');
+          heroSpeech.textContent = '';
+        }
+
+        function setupHeroSprite(hero) {
+          stopHeroSprite();
+          activeSpriteConfig = heroSpriteConfig[hero.name] || null;
+          modalSpriteZone.hidden = !activeSpriteConfig;
+          if (!activeSpriteConfig) {
+            heroSprite.style.backgroundImage = 'none';
+            return;
+          }
+          heroSprite.setAttribute('aria-label', `點擊${hero.name}，觀看專屬動作與台詞`);
+          heroSprite.title = `點擊小${hero.name}`;
+          startHeroIdle(activeSpriteConfig);
+        }
+
+        // 點擊時暫停待機，完成 4 格動作後再恢復三格待機。
+        heroSprite.addEventListener('click', () => {
+          if (!activeSpriteConfig || spritePlaying) return;
+          const config = activeSpriteConfig;
+          clearInterval(spriteIdleTimer);
+          clearTimeout(spriteSpeechTimer);
+          spriteIdleTimer = null;
+          spriteSpeechTimer = null;
+          heroSpeech.classList.remove('show');
+          spritePlaying = true;
+          heroSprite.classList.add('is-playing');
+          heroSprite.style.backgroundImage = `url("${config.sheet}")`;
+          heroSprite.style.backgroundSize = `${config.frames * 100}% 100%`;
+          setSpriteFrame(0, config.frames);
+
+          let frame = 0;
+          spriteFrameTimer = setInterval(() => {
+            frame += 1;
+            if (frame >= config.frames) {
+              clearInterval(spriteFrameTimer);
+              spriteFrameTimer = null;
+              spritePlaying = false;
+              startHeroIdle(config);
+              spriteSpeechTimer = setTimeout(() => {
+                heroSpeech.classList.remove('show');
+                spriteSpeechTimer = null;
+              }, 2300);
+              return;
+            }
+            setSpriteFrame(frame, config.frames);
+            if (frame === 2) {
+              heroSpeech.textContent = config.line;
+              heroSpeech.classList.add('show');
+            }
+          }, 220);
+        });
+
+        // ==========================================
+        // 開啟角色介紹
+        // ==========================================
+        function openModal(hero) {
+          modalImg.src = hero.image;
+          modalImg.alt = `${hero.name} 卡牌`;
+          modalName.textContent = hero.name;
+
+          renderHeroRelations(hero);
+
+          const factionMap = {
+            wei: "陣營：魏",
+            shu: "陣營：蜀",
+            wu: "陣營：吳",
+            special: "陣營：群"
+          };
+
+          const factionKey =
+            hero.faction || "special";
+          const rarityKey =
+            (hero.rarity || "r").toLowerCase();
+
+          modalFaction.textContent =
+            factionMap[factionKey] || "陣營";
+          modalFaction.dataset.faction =
+            factionKey;
+
+          modalRarity.textContent =
+            `稀有度：${rarityKey.toUpperCase()}`;
+          modalRarity.dataset.rarity =
+            rarityKey;
+
+          modalHistory.textContent =
+            hero.history ||
+            "暫無史實記載資料。";
+          modalNovel.textContent =
+            hero.novel ||
+            "暫無小說演義資料。";
+
+          const lubu =
+            heroesData.find(
+              h => h.name === "呂布"
+            );
+
+          /*
+             只有完成右下角「呂布 × 貂蟬」NPC 彩蛋、
+             呂布真的變成 unlocked 之後，貂蟬頁才顯示特殊羈絆。
+          */
+          if (
+            hero.name === "貂蟬" &&
+            hero.unlocked &&
+            lubu &&
+            lubu.unlocked
+          ) {
+            modalBondSection.style.display =
+              "block";
+            modalBondText.textContent =
+              "你已發現貂蟬與呂布之間的特殊羈絆。飛將與閉月，終於在亂世中重逢。";
+          } else {
+            modalBondSection.style.display =
+              "none";
+          }
+
+          setupHeroSprite(hero);
+
+          if (modalContent) {
+            modalContent.scrollTop = 0;
+          }
+
+          modal.classList.add("active");
+          document.body.classList.add(
+            "hero-modal-open"
+          );
+        }
+
+        // ==========================================
+        // 關閉 Modal
+        // ==========================================
+        function closeHeroModal() {
+          modal.classList.remove(
+            "active"
+          );
+          document.body.classList.remove(
+            "hero-modal-open"
+          );
+          stopHeroSprite();
+        }
+
+        modalClose.addEventListener(
+          "click",
+          closeHeroModal
+        );
+
+        modal.addEventListener(
+          "click",
+          (event) => {
+            if (event.target === modal) {
+              closeHeroModal();
+            }
+          }
+        );
+
+        document.addEventListener(
+          "keydown",
+          (event) => {
+            if (
+              event.key === "Escape" &&
+              modal.classList.contains(
+                "active"
+              ) &&
+              !codexAlert.classList.contains(
+                "show"
+              )
+            ) {
+              closeHeroModal();
+            }
+          }
+        );
+        // ==========================================
+        // 陣營篩選
+        // ==========================================
+        factionTabs.forEach(
+          tab => {
+            tab.addEventListener(
+              'click',
+              function () {
+                factionTabs.forEach(
+                  t =>
+                    t.classList.remove(
+                      'active'
+                    )
+                );
+                this.classList.add(
+                  'active'
+                );
+                currentFaction =
+                  this.getAttribute(
+                    'data-faction'
+                  );
+                renderCards();
+              }
+            );
+          }
+        );
+        // ==========================================
+        // 稀有度篩選
+        // ==========================================
+        rarityBtns.forEach(
+          btn => {
+            btn.addEventListener(
+              'click',
+              function () {
+                rarityBtns.forEach(
+                  b =>
+                    b.classList.remove(
+                      'active'
+                    )
+                );
+                this.classList.add(
+                  'active'
+                );
+                currentRarity =
+                  this.getAttribute(
+                    'data-rarity'
+                  );
+                renderCards();
+              }
+            );
+          }
+        );
+        // ==========================================
+        // 搜尋
+        // ==========================================
+        searchInput.addEventListener(
+          'input',
+          function () {
+            currentSearch =
+              this.value.trim();
+            renderCards();
+          }
+        );
+        // ==========================================
+        // 呂布 NPC 彩蛋完成後，同頁同步人物圖鑑
+        // ==========================================
+        const npcCharacterForCodex =
+          document.getElementById(
+            'npcCharacter'
+          );
+        function syncHeroesFromStorage() {
+          try {
+            const latestHeroes =
+              JSON.parse(
+                localStorage.getItem(
+                  'heroesData'
+                ) || '[]'
+              );
+            if (!Array.isArray(latestHeroes)) {
+              return;
+            }
+            const latestHeroMap =
+              new Map(
+                latestHeroes.map(
+                  hero => [
+                    hero.name,
+                    hero
+                  ]
+                )
+              );
+            heroesData =
+              heroesData.map(
+                hero => {
+                  const latestHero =
+                    latestHeroMap.get(
+                      hero.name
+                    );
+                  if (!latestHero) {
+                    return hero;
+                  }
+                  return {
+                    ...hero,
+                    unlocked:
+                      latestHero.unlocked === true
+                  };
+                }
+              );
+            renderCards();
+          } catch (error) {
+            console.warn(
+              '人物圖鑑同步失敗：',
+              error
+            );
+          }
+        }
+        if (npcCharacterForCodex) {
+          npcCharacterForCodex.addEventListener(
+            'click',
+            () => {
+              /*
+                 main.js 會在玩家符合條件時把呂布寫入 localStorage。
+                 等親吻動畫差不多播放完，再讓這一頁的呂布卡翻成已解鎖。
+              */
+              setTimeout(
+                syncHeroesFromStorage,
+                4700
+              );
+            }
+          );
+        }
+        // ==========================================
+        // 第一次載入
+        // ==========================================
+        renderCards();
+      }
+    );
+  </script>
+</body>
+</html>

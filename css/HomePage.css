@@ -1,0 +1,2559 @@
+/* ======================================
+   Global
+====================================== */
+
+:root {
+  /* 主色 */
+  --black: #11100e;
+  --black-soft: #1b1916;
+
+  --paper: #e8dcc2;
+  --paper-light: #f2e9d6;
+
+  --red: #7b211b;
+  --red-light: #a2352c;
+
+  --gold: #b6945d;
+  --gold-light: #d3ba88;
+
+  --text-dark: #29241d;
+  --text-light: #efe5cf;
+
+  --gray: #918879;
+
+  /* 尺寸 */
+  --container: 1200px;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+section {
+  scroll-margin-top: 90px;
+}
+
+
+body {
+  font-family:
+    "Noto Sans TC",
+    sans-serif;
+
+  background:
+    #161411;
+
+  color:
+    var(--text-dark);
+
+  line-height: 1.8;
+}
+
+
+a {
+  text-decoration: none;
+}
+
+
+button {
+  font-family: inherit;
+}
+
+
+.section-container {
+  width: min(
+    90%,
+    var(--container)
+  );
+
+  margin:
+    0 auto;
+}
+
+
+
+/* ======================================
+   Navbar
+====================================== */
+
+.navbar {
+  width: 100%;
+  height: 74px;
+
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  z-index: 1000;
+
+  background:
+    rgba(15, 14, 12, 0.92);
+
+  backdrop-filter:
+    blur(12px);
+
+  border-bottom:
+    1px solid rgba(
+      182,
+      148,
+      93,
+      .25
+    );
+}
+
+
+.nav-container {
+  width:
+    min(
+      94%,
+      1380px
+    );
+
+  height: 100%;
+
+  margin:
+    auto;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+}
+
+
+.nav-menu a {
+  position: relative;
+
+  color: #b9ad9d;
+
+  transition:
+    color .3s ease;
+}
+
+
+.nav-menu a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: -12px;
+
+  width: 0;
+  height: 2px;
+
+  transform:
+    translateX(-50%);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #c49d5c,
+      transparent
+    );
+
+  transition:
+    width .3s ease;
+}
+
+
+.nav-menu a.active {
+  color: #f2e6d2;
+}
+
+
+.nav-menu a.active::after {
+  width: 100%;
+}
+
+
+/* Logo */
+
+.logo {
+  width: 180px;
+  height: 65px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-start;
+
+  overflow: visible;
+}
+
+
+.logo img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  filter:
+    brightness(1.15)
+    contrast(1.15)
+    drop-shadow(
+      0 0 5px
+      rgba(196, 157, 92, 0.35)
+    )
+    drop-shadow(
+      0 2px 5px
+      rgba(0, 0, 0, 0.7)
+    );
+
+  transition:
+    0.3s;
+}
+
+
+.logo img:hover {
+  filter:
+    brightness(1.8)
+    contrast(1.2)
+    drop-shadow(
+      0 0 8px
+      rgba(196, 157, 92, 0.55)
+    );
+}
+
+
+
+/* Navigation */
+
+.nav-menu {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    34px;
+}
+
+
+.nav-menu a {
+  color:
+    #c9bfac;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    15px;
+
+  position:
+    relative;
+
+  transition:
+    .3s;
+}
+
+
+.nav-menu a::after {
+  content: "";
+
+  width: 0;
+  height: 1px;
+
+  background:
+    var(--gold);
+
+  position:
+    absolute;
+
+  left: 50%;
+  bottom: -8px;
+
+  transform:
+    translateX(-50%);
+
+  transition:
+    .3s;
+}
+
+
+.nav-menu a:hover,
+.nav-menu a.active {
+  color:
+    white;
+}
+
+
+.nav-menu a:hover::after,
+.nav-menu a.active::after {
+  width:
+    100%;
+}
+
+
+.mobile-menu-btn {
+  display:
+    none;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    white;
+
+  font-size:
+    28px;
+}
+
+
+
+/* ======================================
+   HERO
+====================================== */
+
+.hero {
+  height: 100vh;
+  min-height: 760px;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  overflow: hidden;
+
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(10, 8, 6, 0.93) 0%,
+      rgba(10, 8, 6, 0.78) 26%,
+      rgba(10, 8, 6, 0.30) 50%,
+      rgba(10, 8, 6, 0.05) 78%
+    ),
+    url("../images/home-hero.png");
+
+  background-size:
+    cover;
+
+  background-position:
+    center 42%;
+
+  background-repeat:
+    no-repeat;
+
+  color:
+    #f4ead7;
+}
+
+
+.hero-overlay {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent 65%,
+      #161411 100%
+    );
+}
+
+
+
+/* Hero Content */
+
+.hero-content {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  width:
+    min(88%, 1500px);
+
+  margin:
+    0 auto;
+
+  padding-top:
+    30px;
+}
+
+
+.hero-content > * {
+  max-width:
+    560px;
+}
+
+
+.hero::before {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(8, 6, 5, 0.92) 0%,
+      rgba(8, 6, 5, 0.72) 28%,
+      rgba(8, 6, 5, 0.25) 50%,
+      transparent 72%
+    );
+
+  z-index:
+    1;
+}
+
+
+.hero-content,
+.hero-side-text,
+.scroll-hint {
+  position:
+    relative;
+
+  z-index:
+    2;
+}
+
+
+.hero-label {
+  color:
+    var(--gold-light);
+
+  letter-spacing:
+    5px;
+
+  font-size:
+    12px;
+
+  margin-bottom:
+    10px;
+}
+
+
+.hero-title-image {
+  width:
+    300px;
+
+  margin:
+    10px 0 24px;
+}
+
+
+.hero-title-image img {
+  width:
+    100%;
+
+  height:
+    auto;
+
+  display:
+    block;
+
+  object-fit:
+    contain;
+
+  filter:
+    drop-shadow(
+      0 4px 10px
+      rgba(0, 0, 0, 0.45)
+    );
+}
+
+
+.hero h2 {
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    clamp(
+      26px,
+      2.4vw,
+      38px
+    );
+
+  font-weight:
+    500;
+
+  line-height:
+    1.65;
+
+  letter-spacing:
+    1.5px;
+
+  color:
+    #e7dcc8;
+
+  margin-bottom:
+    20px;
+}
+
+
+.hero-description {
+  max-width:
+    580px;
+
+  font-size:
+    18px;
+
+  line-height:
+    1.9;
+
+  color:
+    #c9bda7;
+}
+
+
+
+/* Buttons */
+
+.hero-buttons {
+  display:
+    flex;
+
+  gap:
+    18px;
+
+  margin-top:
+    34px;
+}
+
+
+.btn {
+  position:
+    relative;
+
+  min-width:
+    180px;
+
+  padding:
+    15px 34px;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    14px;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    16px;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    2px;
+
+  color:
+    #f3e5c8;
+
+  text-decoration:
+    none;
+
+  border:
+    1px solid #9d7a45;
+
+  clip-path:
+    polygon(
+      10px 0,
+      100% 0,
+      100% calc(100% - 10px),
+      calc(100% - 10px) 100%,
+      0 100%,
+      0 10px
+    );
+
+  transition:
+    0.3s ease;
+
+  overflow:
+    hidden;
+}
+
+
+.btn-primary {
+  background:
+    linear-gradient(
+      180deg,
+      #9b2c24,
+      #6f1915
+    );
+
+  box-shadow:
+    inset 0 0 18px
+      rgba(255, 190, 110, 0.08),
+
+    0 6px 18px
+      rgba(0, 0, 0, 0.35);
+}
+
+
+.btn:hover {
+  transform:
+    translateY(-3px);
+
+  color:
+    #fff4d6;
+
+  border-color:
+    #d0a862;
+
+  box-shadow:
+    0 0 0 1px
+      rgba(208, 168, 98, 0.3),
+
+    0 0 18px
+      rgba(208, 168, 98, 0.22),
+
+    0 8px 20px
+      rgba(0, 0, 0, 0.4);
+}
+
+
+.btn::before {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  top:
+    0;
+
+  left:
+    -120%;
+
+  width:
+    80%;
+
+  height:
+    100%;
+
+  background:
+    linear-gradient(
+      120deg,
+      transparent,
+      rgba(255, 235, 190, 0.22),
+      transparent
+    );
+
+  transition:
+    0.55s;
+}
+
+
+.btn:hover {
+  transform:
+    translateY(-3px);
+}
+
+
+.btn-primary:hover {
+  background:
+    var(--red-light);
+}
+
+
+.btn-secondary {
+  border:
+    1px solid
+    rgba(
+      255,
+      255,
+      255,
+      .35
+    );
+
+  color:
+    #ddd1bb;
+}
+
+
+.btn-secondary:hover {
+  border-color:
+    var(--gold);
+
+  color:
+    white;
+}
+
+
+
+/* Hero right text */
+
+.hero-side-text {
+  position:
+    absolute;
+
+  right:
+    4.5%;
+
+  top:
+    50%;
+
+  transform:
+    translateY(-50%);
+
+  z-index:
+    3;
+
+  display:
+    flex;
+
+  flex-direction:
+    row;
+
+  align-items:
+    center;
+
+  gap:
+    16px;
+
+  color:
+    #f1e4ca;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    18px;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    6px;
+
+  writing-mode:
+    vertical-rl;
+}
+
+
+.hero-side-text span:not(.dot) {
+  text-shadow:
+    0 2px 4px
+      rgba(0, 0, 0, 0.9),
+
+    0 0 10px
+      rgba(0, 0, 0, 0.65);
+}
+
+
+.hero-side-text .dot {
+  width:
+    6px;
+
+  height:
+    6px;
+
+  background:
+    #9f2d24;
+
+  border-radius:
+    50%;
+
+  box-shadow:
+    0 0 8px
+      rgba(159, 45, 36, 0.75);
+}
+
+
+.hero-side-text::before {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  inset:
+    -22px -16px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(10, 8, 7, 0.28),
+      rgba(10, 8, 7, 0.55)
+    );
+
+  border-left:
+    1px solid
+    rgba(182, 148, 93, 0.25);
+
+  z-index:
+    -1;
+}
+
+
+
+/* Scroll */
+
+.scroll-hint {
+  position:
+    absolute;
+
+  z-index:
+    3;
+
+  bottom:
+    35px;
+
+  left:
+    50%;
+
+  transform:
+    translateX(-50%);
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  color:
+    #958a78;
+
+  font-size:
+    10px;
+
+  letter-spacing:
+    4px;
+}
+
+
+.scroll-line {
+  height:
+    55px;
+
+  width:
+    1px;
+
+  margin-top:
+    10px;
+
+  background:
+    linear-gradient(
+      var(--gold),
+      transparent
+    );
+}
+
+
+
+/* ======================================
+   Footer
+====================================== */
+
+footer {
+  padding:
+    50px 0;
+
+  border-top:
+    1px solid
+    rgba(
+      182,
+      148,
+      93,
+      .2
+    );
+
+  background:
+    #0e0d0b;
+
+  color:
+    #80786d;
+}
+
+
+.footer-container {
+  width:
+    min(
+      90%,
+      var(--container)
+    );
+
+  margin:
+    auto;
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    center;
+}
+
+
+.footer-logo {
+  color:
+    var(--gold);
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    26px;
+
+  font-weight:
+    900;
+}
+
+
+
+/* ======================================
+   Responsive
+====================================== */
+
+@media (max-width: 1000px) {
+
+  .nav-menu {
+    display:
+      none;
+  }
+
+
+  .mobile-menu-btn {
+    display:
+      block;
+  }
+
+
+  .hero-side-text {
+    display:
+      none;
+  }
+
+
+  .scroll-handle {
+    display:
+      none;
+  }
+
+
+  .history-intro {
+    grid-template-columns:
+      1fr;
+
+    height:
+      auto;
+
+    padding:
+      30px 20px;
+
+    gap:
+      30px;
+  }
+
+
+  .story-card,
+  .story-card.reverse {
+    grid-template-columns:
+      1fr;
+
+    direction:
+      ltr;
+  }
+
+
+  .footer-container {
+    flex-direction:
+      column;
+
+    gap:
+      15px;
+  }
+
+}
+
+
+
+@media (max-width: 600px) {
+
+  .hero {
+    min-height:
+      700px;
+  }
+
+
+  .hero-buttons {
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+  }
+
+
+  .history-section,
+  .stories-section {
+    padding:
+      90px 0;
+  }
+
+
+  .story-content {
+    padding:
+      35px 25px;
+  }
+
+
+  .section-number {
+    font-size:
+      45px;
+  }
+
+
+  .section-heading {
+    gap:
+      15px;
+  }
+
+}
+
+
+
+/* ==========================================================
+   NPC 尺寸
+========================================================== */
+
+.site-npc {
+  position: fixed;
+
+  right: 24px;
+
+  /* 讓角色靠近畫面底部 */
+  bottom: -30px;
+
+  z-index: 900;
+
+  width: 96px;
+  height: 190px;
+
+  pointer-events: none;
+
+  transform: translateX(0);
+}
+
+
+/* ==========================================================
+   NPC 點擊範圍
+========================================================== */
+
+.npc-character {
+  position: relative;
+
+  width: 96px;
+  height: 190px;
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+
+  pointer-events: auto;
+
+  /* 拔劍圖可以超出原本 96px 範圍 */
+  overflow: visible;
+}
+
+
+/* ==========================================================
+   曹操 6 格走路 Sprite
+========================================================== */
+
+.npc-sprite {
+  display: block;
+
+  width: 96px;
+  height: 190px;
+
+  background-image:
+    url("../images/npc-cao-walk.png");
+
+  background-repeat: no-repeat;
+
+  background-size:
+    600% 100%;
+
+  background-position:
+    0% 0;
+
+  background-color: transparent;
+
+  image-rendering: pixelated;
+
+  filter: none;
+
+  animation:
+    npcWalkSprite
+    0.78s
+    steps(1, end)
+    infinite;
+
+  outline: none;
+
+  backface-visibility: hidden;
+
+  -webkit-backface-visibility: hidden;
+
+  transform-origin:
+    center bottom;
+
+  will-change:
+    background-position,
+    transform;
+}
+
+
+/* ==========================================================
+   曹操 6 格逐格走路
+========================================================== */
+
+@keyframes npcWalkSprite {
+
+  0%,
+  16.65% {
+    background-position:
+      0% 0;
+  }
+
+  16.66%,
+  33.32% {
+    background-position:
+      20% 0;
+  }
+
+  33.33%,
+  49.99% {
+    background-position:
+      40% 0;
+  }
+
+  50%,
+  66.65% {
+    background-position:
+      60% 0;
+  }
+
+  66.66%,
+  83.32% {
+    background-position:
+      80% 0;
+  }
+
+  83.33%,
+  100% {
+    background-position:
+      100% 0;
+  }
+}
+
+
+/* ==========================================================
+   隨機 NPC｜曹操
+   保留原本 6 格設定
+========================================================== */
+
+.site-npc.npc-caocao .npc-sprite {
+  background-size:
+    600% 100%;
+
+  animation:
+    npcWalkSprite
+    0.78s
+    steps(1, end)
+    infinite;
+}
+
+
+/* ==========================================================
+   隨機 NPC｜呂布
+
+   4 格循環：
+   1 → 2 → 3 → 2
+========================================================== */
+
+.site-npc.npc-lubu .npc-sprite {
+  background-image:
+    url("../images/npc-lubu-walk.png");
+
+  background-repeat:
+    no-repeat;
+
+  /* 四格橫向 Sprite */
+  background-size:
+    400% 100%;
+
+  background-position:
+    0% 0;
+
+  background-color:
+    transparent;
+
+  image-rendering:
+    pixelated;
+
+  filter: none;
+
+  animation:
+    npcLubuWalkSprite
+    0.60s
+    steps(1, end)
+    infinite;
+
+  outline: none;
+
+  backface-visibility: hidden;
+
+  -webkit-backface-visibility: hidden;
+
+  /*
+    呂布縮放時，
+    腳底固定在同一條地面線
+  */
+  transform-origin:
+    center bottom;
+
+  will-change:
+    background-position,
+    transform;
+}
+
+
+/* ==========================================================
+   呂布 4 格逐格走路
+
+   第1格：步伐 A
+   第2格：交會
+   第3格：步伐 B
+   第4格：交會
+
+   循環：
+   1 → 2 → 3 → 2
+========================================================== */
+
+@keyframes npcLubuWalkSprite {
+
+  /* 第 1 格 */
+  0%,
+  24.99% {
+    background-position:
+      0% 0;
+  }
+
+  /* 第 2 格 */
+  25%,
+  49.99% {
+    background-position:
+      33.333% 0;
+  }
+
+  /* 第 3 格 */
+  50%,
+  74.99% {
+    background-position:
+      66.667% 0;
+  }
+
+  /* 第 4 格 */
+  75%,
+  100% {
+    background-position:
+      100% 0;
+  }
+}
+
+
+/* ==========================================================
+   一般 NPC 行走方向
+   曹操使用這裡
+========================================================== */
+
+/* 往左 */
+
+.site-npc.walk-left .npc-sprite {
+  transform:
+    translateZ(0)
+    scaleX(-1);
+}
+
+
+/* 往右 */
+
+.site-npc.walk-right .npc-sprite {
+  transform:
+    translateZ(0)
+    scaleX(1);
+}
+
+
+/* ==========================================================
+   呂布專屬尺寸
+
+   更寬、更矮
+
+   寬度：1.08
+   高度：0.84
+========================================================== */
+
+
+/* 呂布往左 */
+.site-npc.npc-lubu.walk-left
+.npc-sprite {
+  transform:
+    translateZ(0)
+    scaleX(-1.18)
+    scaleY(0.91);
+
+  transform-origin:
+    center bottom;
+}
+
+
+/* 呂布往右 */
+.site-npc.npc-lubu.walk-right
+.npc-sprite {
+  transform:
+    translateZ(0)
+    scaleX(1.18)
+    scaleY(0.91);
+
+  transform-origin:
+    center bottom;
+}
+
+
+/* ==========================================================
+   曹操：
+   點擊後停止走路 + 換成拔劍姿勢
+
+   限定 npc-caocao，
+   避免呂布吃到曹操拔劍圖
+========================================================== */
+
+.site-npc.npc-caocao.talking
+.npc-sprite {
+  position: absolute;
+
+  left: 50%;
+
+  /* 其他頁面的正常位置 */
+  bottom: -12px;
+
+  width: 260px;
+  height: 190px;
+
+  margin: 0;
+
+  animation:
+    none !important;
+
+  background-image:
+    url("../images/npc-cao-stop.png")
+    !important;
+
+  background-repeat:
+    no-repeat;
+
+  background-size:
+    auto 180px;
+
+  background-position:
+    center bottom;
+
+  background-color:
+    transparent;
+
+  filter: none;
+
+  transform-origin:
+    center bottom;
+
+  pointer-events:
+    none;
+
+  backface-visibility:
+    hidden;
+
+  -webkit-backface-visibility:
+    hidden;
+}
+
+
+/* ==========================================================
+   只有首頁：
+   曹操拔劍狀態單獨往上一點
+========================================================== */
+
+.home-page
+.site-npc.npc-caocao.talking
+.npc-sprite {
+  bottom: 0px;
+}
+
+
+/* ==========================================================
+   曹操拔劍方向
+========================================================== */
+
+/* 原本往右走 → 拔劍也朝右 */
+
+.site-npc.npc-caocao.talking.walk-right
+.npc-sprite {
+  transform:
+    translateX(-50%)
+    scaleX(1)
+    !important;
+}
+
+
+/* 原本往左走 → 拔劍也朝左 */
+
+.site-npc.npc-caocao.talking.walk-left
+.npc-sprite {
+  transform:
+    translateX(-50%)
+    scaleX(-1)
+    !important;
+}
+
+
+/* ==========================================================
+   呂布目前只有走路
+
+   保險：
+   即使 JS 未來誤加 talking，
+   也不要套到曹操拔劍圖片
+========================================================== */
+
+.site-npc.npc-lubu.talking
+.npc-sprite {
+  position: static;
+
+  left: auto;
+  bottom: auto;
+
+  width: 96px;
+  height: 190px;
+
+  margin: 0;
+
+  background-image:
+    url("../images/npc-lubu-walk.png")
+    !important;
+
+  background-repeat:
+    no-repeat;
+
+  /* 4 格 */
+  background-size:
+    400% 100%;
+
+  background-position:
+    0% 0;
+
+  animation:
+    npcLubuWalkSprite
+    0.60s
+    steps(1, end)
+    infinite
+    !important;
+
+  pointer-events:
+    auto;
+
+  transform-origin:
+    center bottom;
+}
+
+
+/* 呂布往左 */
+.site-npc.npc-lubu.walk-left
+.npc-sprite {
+  transform:
+    translateZ(0)
+    scaleX(-1.18)
+    scaleY(0.91);
+
+  transform-origin:
+    center bottom;
+}
+
+
+/* 呂布往右 */
+.site-npc.npc-lubu.walk-right
+.npc-sprite {
+  transform:
+    translateZ(0)
+    scaleX(1.18)
+    scaleY(0.91);
+
+  transform-origin:
+    center bottom;
+}
+
+
+/* 呂布 talking 朝右 */
+.site-npc.npc-lubu.talking.walk-right
+.npc-sprite {
+  transform:
+    translateZ(0)
+    scaleX(1.18)
+    scaleY(0.91)
+    !important;
+}
+
+
+/* 呂布 talking 朝左 */
+.site-npc.npc-lubu.talking.walk-left
+.npc-sprite {
+  transform:
+    translateZ(0)
+    scaleX(-1.18)
+    scaleY(0.91)
+    !important;
+}
+
+
+/* ==========================================================
+   頭上的驚嘆號
+========================================================== */
+
+.npc-alert {
+  position: absolute;
+
+  left: 50%;
+  top: 2px;
+
+  transform:
+    translateX(-50%);
+
+  width: 25px;
+  height: 25px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  z-index: 5;
+
+  border:
+    1px solid
+    #d8a64e;
+
+  border-radius:
+    50%;
+
+  background:
+    rgba(
+      35,
+      23,
+      14,
+      0.96
+    );
+
+  color:
+    #ffd875;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    15px;
+
+  font-weight:
+    900;
+
+  box-shadow:
+    0 0 10px
+    rgba(
+      218,
+      166,
+      72,
+      0.34
+    );
+
+  animation:
+    npcAlertFloat
+    1.2s
+    ease-in-out
+    infinite;
+
+  pointer-events:
+    none;
+}
+
+
+@keyframes npcAlertFloat {
+
+  0%,
+  100% {
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateX(-50%)
+      translateY(-4px);
+  }
+}
+
+
+/* ==========================================================
+   對話框
+========================================================== */
+
+.npc-dialogue {
+  position: absolute;
+
+  right: 105px;
+  bottom: 65px;
+
+  width: 300px;
+
+  padding:
+    17px 20px 20px;
+
+  color:
+    #e9d8b7;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(42, 30, 22, 0.98),
+      rgba(16, 12, 9, 0.98)
+    );
+
+  border:
+    1px solid
+    rgba(
+      202,
+      151,
+      72,
+      0.85
+    );
+
+  border-radius:
+    7px;
+
+  box-shadow:
+    0 14px 32px
+      rgba(
+        0,
+        0,
+        0,
+        0.52
+      ),
+
+    inset 0 0 20px
+      rgba(
+        212,
+        175,
+        55,
+        0.035
+      );
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    14px;
+
+  line-height:
+    1.8;
+
+  opacity:
+    0;
+
+  visibility:
+    hidden;
+
+  transform:
+    translateY(8px)
+    scale(0.97);
+
+  transition:
+    opacity 0.22s ease,
+    visibility 0.22s ease,
+    transform 0.22s ease;
+
+  pointer-events:
+    none;
+}
+
+
+/* 顯示對話框 */
+
+.npc-dialogue.show {
+  opacity:
+    1;
+
+  visibility:
+    visible;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  pointer-events:
+    auto;
+}
+
+
+/* ==========================================================
+   對話框小尖角
+========================================================== */
+
+.npc-dialogue::after {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  right:
+    -8px;
+
+  bottom:
+    15px;
+
+  width:
+    15px;
+
+  height:
+    15px;
+
+  background:
+    #17100c;
+
+  border-top:
+    1px solid
+    #c79547;
+
+  border-right:
+    1px solid
+    #c79547;
+
+  transform:
+    rotate(45deg);
+}
+
+
+/* ==========================================================
+   對話角色名字
+========================================================== */
+
+.npc-dialogue-name {
+  margin-bottom:
+    6px;
+
+  color:
+    #e4b75e;
+
+  font-size:
+    14px;
+
+  font-weight:
+    900;
+
+  letter-spacing:
+    3px;
+}
+
+
+/* ==========================================================
+   對話下一句箭頭
+========================================================== */
+
+.npc-dialogue-next {
+  position:
+    absolute;
+
+  right:
+    11px;
+
+  bottom:
+    6px;
+
+  color:
+    rgba(
+      228,
+      184,
+      97,
+      0.72
+    );
+
+  font-size:
+    10px;
+
+  animation:
+    npcNextBlink
+    1s
+    infinite;
+}
+
+
+@keyframes npcNextBlink {
+
+  0%,
+  100% {
+    opacity:
+      0.3;
+  }
+
+  50% {
+    opacity:
+      1;
+  }
+}
+
+
+/* ==========================================================
+   手機版
+========================================================== */
+
+@media (max-width: 600px) {
+
+  .site-npc {
+    right:
+      8px;
+
+    bottom:
+      5px;
+
+    width:
+      72px;
+
+    height:
+      142px;
+  }
+
+
+  .npc-character {
+    width:
+      72px;
+
+    height:
+      142px;
+  }
+
+
+  .npc-sprite {
+    width:
+      72px;
+
+    height:
+      142px;
+  }
+
+
+  /* ========================================================
+     曹操手機拔劍狀態
+  ======================================================== */
+
+  .site-npc.npc-caocao.talking
+  .npc-sprite {
+    position:
+      absolute;
+
+    left:
+      50%;
+
+    bottom:
+      -6px;
+
+    width:
+      190px;
+
+    height:
+      142px;
+
+    margin:
+      0;
+
+    background-size:
+      auto 135px;
+
+    background-position:
+      center bottom;
+
+    transform-origin:
+      center bottom;
+  }
+
+
+  /* 首頁曹操手機拔劍稍微往上 */
+
+  .home-page
+  .site-npc.npc-caocao.talking
+  .npc-sprite {
+    bottom:
+      0px;
+  }
+
+
+  /* ========================================================
+     曹操手機版方向
+  ======================================================== */
+
+  .site-npc.npc-caocao.talking.walk-right
+  .npc-sprite {
+    transform:
+      translateX(-50%)
+      scaleX(1)
+      !important;
+  }
+
+
+  .site-npc.npc-caocao.talking.walk-left
+  .npc-sprite {
+    transform:
+      translateX(-50%)
+      scaleX(-1)
+      !important;
+  }
+
+
+  /* ========================================================
+     呂布手機版
+     4 格：1 → 2 → 3 → 2
+  ======================================================== */
+
+  .site-npc.npc-lubu
+  .npc-sprite {
+    width:
+      72px;
+
+    height:
+      142px;
+
+    background-size:
+      400% 100%;
+
+    animation:
+      npcLubuWalkSprite
+      0.60s
+      steps(1, end)
+      infinite;
+
+    transform-origin:
+      center bottom;
+  }
+
+
+  /* 呂布手機往左 */
+
+  .site-npc.npc-lubu.walk-left
+  .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(-1.08)
+      scaleY(0.84);
+
+    transform-origin:
+      center bottom;
+  }
+
+
+  /* 呂布手機往右 */
+
+  .site-npc.npc-lubu.walk-right
+  .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(1.08)
+      scaleY(0.84);
+
+    transform-origin:
+      center bottom;
+  }
+
+
+  /* ========================================================
+     對話框手機版
+  ======================================================== */
+
+  .npc-dialogue {
+    right:
+      80px;
+
+    bottom:
+      48px;
+
+    width:
+      210px;
+
+    font-size:
+      12px;
+  }
+
+}
+/* ==========================================================
+   呂布 × 貂蟬 特殊彩蛋
+
+   點呂布
+   → 呂布停止
+   → 貂蟬從右側跑入
+   → 親吻
+   → 對話
+   → 貂蟬跑出去
+   → 呂布恢復走路
+========================================================== */
+
+
+/* ==========================================================
+   彩蛋播放時
+   呂布停止 Sprite 動畫
+========================================================== */
+
+.site-npc.npc-lubu.eventing
+.npc-sprite {
+  animation:
+    none !important;
+
+  background-position:
+    0% 0;
+}
+
+
+/* ==========================================================
+   呂布停止時
+   保持目前已經調好的尺寸
+
+   寬：1.18
+   高：0.91
+========================================================== */
+
+
+/* 呂布朝右 */
+.site-npc.npc-lubu.eventing.walk-right
+.npc-sprite {
+  transform:
+    translateZ(0)
+    scaleX(1.18)
+    scaleY(0.91)
+    !important;
+}
+
+
+/* 呂布朝左 */
+.site-npc.npc-lubu.eventing.walk-left
+.npc-sprite {
+  transform:
+    translateZ(0)
+    scaleX(-1.18)
+    scaleY(0.91)
+    !important;
+}
+
+
+
+/* ==========================================================
+   貂蟬 Runner 外層
+
+   JS 會使用：
+   dcRunner.style.left
+
+   所以這裡使用 fixed。
+========================================================== */
+
+.dc-runner {
+  position: fixed;
+
+  left: calc(100vw + 100px);
+
+  /* 原本 -4px，現在整隻往下壓 */
+  bottom: -22px;
+
+  z-index: 920;
+
+  width: 82px;
+  height: 128px;
+
+  opacity: 0;
+  visibility: hidden;
+
+  pointer-events: none;
+
+  transition: opacity 0.08s linear;
+
+  overflow: visible;
+}
+
+
+
+/* JS 加上 show 後顯示 */
+
+.dc-runner.show {
+  opacity:
+    1;
+
+  visibility:
+    visible;
+}
+
+
+
+/* ==========================================================
+   貂蟬 4 幀跑步 Sprite
+
+   圖：
+   images/npc-diaochan-run.png
+
+   1 → 2 → 3 → 2
+========================================================== */
+
+.dc-sprite {
+  display:
+    block;
+
+  width:
+    82px;
+
+  height:
+    128px;
+
+  background-image:
+    url("../images/npc-diaochan-run.png");
+
+  background-repeat:
+    no-repeat;
+
+  /*
+    四格橫向 Sprite
+  */
+  background-size:
+    400% 100%;
+
+  background-position:
+    0% 0;
+
+  background-color:
+    transparent;
+
+  image-rendering:
+    pixelated;
+
+  filter:
+    none;
+
+  animation:
+    diaochanRunSprite
+    0.50s
+    steps(1, end)
+    infinite;
+
+  transform-origin:
+    center bottom;
+
+  backface-visibility:
+    hidden;
+
+  -webkit-backface-visibility:
+    hidden;
+
+  will-change:
+    background-position,
+    transform;
+}
+
+
+
+/* ==========================================================
+   貂蟬 4 格逐格動畫
+
+   第1格：左腳前、右手前
+   第2格：交會
+   第3格：右腳前、左手前
+   第4格：交會
+
+   1 → 2 → 3 → 2
+========================================================== */
+
+@keyframes diaochanRunSprite {
+
+  /* 第 1 格 */
+  0%,
+  24.99% {
+    background-position:
+      0% 0;
+  }
+
+
+  /* 第 2 格 */
+  25%,
+  49.99% {
+    background-position:
+      33.333% 0;
+  }
+
+
+  /* 第 3 格 */
+  50%,
+  74.99% {
+    background-position:
+      66.667% 0;
+  }
+
+
+  /* 第 4 格 */
+  75%,
+  100% {
+    background-position:
+      100% 0;
+  }
+
+}
+
+
+
+/* ==========================================================
+   貂蟬跑步方向
+========================================================== */
+
+
+/*
+   從右邊跑進來
+   → 朝左
+*/
+.dc-runner.running-left
+.dc-sprite {
+  transform:
+    scaleX(-1);
+}
+
+
+/*
+   親完往右邊離開
+   → 朝右
+*/
+.dc-runner.running-right
+.dc-sprite {
+  transform:
+    scaleX(1);
+}
+
+
+
+/* ==========================================================
+   呂布 × 貂蟬 親吻場景
+
+   JS 會計算：
+   kissScene.style.left
+
+   所以這裡不要固定 right。
+========================================================== */
+
+.kiss-scene {
+  position:
+    fixed;
+
+  left:
+    0;
+
+  right:
+    auto;
+
+  /*
+    親吻圖貼近底部
+  */
+  bottom:
+    -3px;
+
+  z-index:
+    930;
+
+  /*
+    親吻圖維持現在尺寸
+  */
+  width:
+    150px;
+
+  height:
+    120px;
+
+  opacity:
+    0;
+
+  visibility:
+    hidden;
+
+  pointer-events:
+    none;
+
+  /*
+    不使用 display:none
+    因為 JS 會讀 offsetWidth
+  */
+  transition:
+    opacity 0.12s ease;
+}
+
+
+
+/* 顯示親吻畫面 */
+
+.kiss-scene.show {
+  opacity:
+    1;
+
+  visibility:
+    visible;
+}
+
+
+
+/* ==========================================================
+   呂布 × 貂蟬 親吻靜態圖
+
+   images/npc-lubu-diaochan-kiss.png
+========================================================== */
+
+.kiss-sprite {
+  display:
+    block;
+
+  width:
+    150px;
+
+  height:
+    120px;
+
+  background-image:
+    url("../images/npc-lubu-diaochan-kiss.png");
+
+  background-repeat:
+    no-repeat;
+
+  background-size:
+    contain;
+
+  background-position:
+    center bottom;
+
+  background-color:
+    transparent;
+
+  image-rendering:
+    pixelated;
+
+  filter:
+    none;
+
+  transform-origin:
+    center bottom;
+}
+
+
+
+/* ==========================================================
+   呂布彩蛋時對話框
+
+   繼續使用原本 NPC 對話框
+========================================================== */
+
+.site-npc.npc-lubu.eventing
+.npc-dialogue {
+  right:
+    118px;
+
+  bottom:
+    82px;
+}
+
+
+
+/* ==========================================================
+   手機版
+========================================================== */
+
+@media (max-width: 600px) {
+
+
+  /* ========================================================
+     貂蟬 Runner
+  ======================================================== */
+
+  .dc-runner {
+    left: calc(100vw + 80px);
+
+    bottom: -12px;
+
+    width: 66px;
+    height: 103px;
+  }
+
+
+
+  .dc-sprite {
+    width:
+      66px;
+
+    height:
+      103px;
+
+    background-size:
+      400% 100%;
+
+    animation:
+      diaochanRunSprite
+      0.50s
+      steps(1, end)
+      infinite;
+  }
+
+
+
+  /* ========================================================
+     親吻圖
+  ======================================================== */
+
+  .kiss-scene {
+    bottom:
+      0;
+
+    width:
+      120px;
+
+    height:
+      96px;
+  }
+
+
+  .kiss-sprite {
+    width:
+      120px;
+
+    height:
+      96px;
+
+    background-size:
+      contain;
+
+    background-position:
+      center bottom;
+  }
+
+
+
+  /* ========================================================
+     呂布彩蛋對話框
+  ======================================================== */
+
+  .site-npc.npc-lubu.eventing
+  .npc-dialogue {
+    right:
+      82px;
+
+    bottom:
+      68px;
+  }
+
+}
+
+/* ==========================================================
+   全站手機導覽｜最終串接修正
+   main.js 會切換 .mobile-open；這裡補上真正的展開樣式。
+========================================================== */
+@media (max-width: 1000px) {
+  .nav-container {
+    position: relative;
+  }
+
+  .mobile-menu-btn {
+    position: relative;
+    z-index: 10002;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .nav-menu.mobile-open {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+
+    width: min(320px, calc(100vw - 32px));
+    padding: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+
+    background:
+      linear-gradient(145deg, rgba(34, 25, 19, 0.985), rgba(11, 9, 8, 0.995));
+
+    border: 1px solid rgba(196, 157, 92, 0.54);
+    border-radius: 7px;
+
+    box-shadow:
+      0 18px 42px rgba(0, 0, 0, 0.54),
+      inset 0 0 22px rgba(212, 175, 55, 0.035);
+
+    z-index: 10001;
+  }
+
+  .nav-menu.mobile-open a {
+    width: 100%;
+    padding: 13px 16px;
+    text-align: left;
+    border-bottom: 1px solid rgba(196, 157, 92, 0.10);
+  }
+
+  .nav-menu.mobile-open a:last-child {
+    border-bottom: 0;
+  }
+
+  .nav-menu.mobile-open a::after {
+    left: 16px;
+    bottom: 7px;
+    transform: none;
+  }
+}
+

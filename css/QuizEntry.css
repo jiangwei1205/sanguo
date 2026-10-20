@@ -1,0 +1,1093 @@
+/* ======================================
+   QUIZ ENTRY PAGE
+====================================== */
+
+.quiz-entry-page {
+  position: relative;
+
+  min-height: calc(100vh - 74px);
+
+  padding: 60px 0 50px;
+
+  overflow: hidden;
+
+  background:
+    url("../images/quizentry.png");
+
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  color: #efe5cf;
+}
+
+
+/* ======================================
+   BACKGROUND ATMOSPHERE
+====================================== */
+
+.quiz-entry-page::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  /*
+    左半部建立明顯黑底，中央自然融掉。
+    radial 讓群雄問答文字背後更穩定，
+    linear 讓左側到卷軸之間有連續的黑色漸層，
+    右側卷軸區則保持明亮。
+  */
+  background:
+    radial-gradient(
+      ellipse 52% 78%
+      at 39% 50%,
+
+      rgba(0, 0, 0, 0.40) 0%,
+      rgba(0, 0, 0, 0.30) 34%,
+      rgba(0, 0, 0, 0.14) 60%,
+      rgba(0, 0, 0, 0.04) 76%,
+      transparent 90%
+    ),
+
+    linear-gradient(
+      90deg,
+
+      rgba(0, 0, 0, 0.78) 0%,
+      rgba(0, 0, 0, 0.76) 18%,
+      rgba(0, 0, 0, 0.70) 32%,
+      rgba(0, 0, 0, 0.60) 44%,
+      rgba(0, 0, 0, 0.43) 54%,
+      rgba(0, 0, 0, 0.24) 63%,
+      rgba(0, 0, 0, 0.10) 70%,
+      rgba(0, 0, 0, 0.03) 75%,
+      transparent 80%
+    );
+}
+
+
+/* 底部稍微壓暗 */
+.quiz-entry-page::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(7, 6, 5, 0.02) 0%,
+      transparent 56%,
+      rgba(7, 6, 5, 0.12) 80%,
+      rgba(7, 6, 5, 0.32) 100%
+    );
+}
+
+
+/* ======================================
+   MAIN LAYOUT
+====================================== */
+
+.quiz-entry-container {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(94%, 1480px);
+
+  min-height: 680px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    59% 41%;
+
+  gap: 20px;
+
+  align-items: center;
+}
+
+
+/* ======================================
+   LEFT CONTENT
+====================================== */
+
+.quiz-entry-left {
+  position: relative;
+
+  width: 100%;
+
+  max-width: 700px;
+
+  min-height: 620px;
+
+  justify-self: end;
+
+  margin-right: 25px;
+
+  padding:
+    0 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  text-align: center;
+}
+
+
+/* ======================================
+   英文小標
+====================================== */
+
+.quiz-entry-label {
+  margin-bottom: 21px;
+
+  color: #c9a566;
+
+  font-family:
+    "Cinzel",
+    serif;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  letter-spacing: 8px;
+
+  text-align: center;
+
+  text-shadow:
+    0 2px 8px
+    rgba(0, 0, 0, 0.82);
+}
+
+
+/* ======================================
+   群雄問答標題圖片
+====================================== */
+
+.quiz-title-image {
+  width: min(100%, 550px);
+
+  margin:
+    0 auto 22px;
+}
+
+
+.quiz-title-image img {
+  display: block;
+
+  width: 100%;
+
+  height: auto;
+
+  object-fit: contain;
+
+  filter:
+    brightness(0.94)
+    contrast(1.02)
+    drop-shadow(
+      0 8px 18px
+      rgba(0, 0, 0, 0.65)
+    );
+}
+
+
+/* ======================================
+   副標
+====================================== */
+
+.quiz-entry-subtitle {
+  width: 100%;
+
+  margin-bottom: 28px;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 27px;
+
+  font-weight: 600;
+
+  line-height: 1.5;
+
+  letter-spacing: 3px;
+
+  color: #d0aa63;
+
+  text-align: center;
+
+  text-shadow:
+    0 3px 12px
+    rgba(0, 0, 0, 0.92),
+    0 0 18px
+    rgba(0, 0, 0, 0.32);
+}
+
+
+/* ======================================
+   說明
+====================================== */
+
+.quiz-entry-description {
+  max-width: 530px;
+
+  margin:
+    0 auto;
+
+  color: #d0c4b0;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 16px;
+
+  line-height: 2;
+
+  letter-spacing: 1px;
+
+  text-align: center;
+
+  text-shadow:
+    0 2px 9px
+    rgba(0, 0, 0, 0.85);
+}
+
+
+/* ======================================
+   引言
+====================================== */
+
+.quiz-entry-quote {
+  width: 100%;
+
+  max-width: 530px;
+
+  margin:
+    38px auto 0;
+
+  padding-top: 23px;
+
+  border-top:
+    1px solid
+    rgba(182, 148, 93, 0.25);
+
+  color: #c9a66a;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 18px;
+
+  line-height: 1.8;
+
+  letter-spacing: 3px;
+
+  text-align: center;
+
+  text-shadow:
+    0 2px 9px
+    rgba(0, 0, 0, 0.82);
+}
+
+
+/* ======================================
+   RIGHT
+====================================== */
+
+.quiz-entry-right {
+  width: 100%;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  position: relative;
+
+  z-index: 3;
+
+  /*
+    只往左一點點
+  */
+  transform:
+    translateX(-20px);
+}
+
+
+/* ======================================
+   招賢令卡片
+====================================== */
+
+.quiz-reward-card {
+  position: relative;
+
+  width: min(100%, 475px);
+
+  min-height: 585px;
+
+  padding:
+    62px 50px 46px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+
+  color: #38291d;
+
+  /*
+    乾淨卷軸背景
+  */
+  background-image:
+    url("../images/quizback.png");
+
+  /*
+    整張卷軸完整顯示
+  */
+  background-size:
+    100% 100%;
+
+  background-position:
+    center;
+
+  background-repeat:
+    no-repeat;
+
+  border:
+    none;
+
+  box-shadow:
+    0 30px 65px
+    rgba(0, 0, 0, 0.42);
+
+  clip-path:
+    none;
+
+  overflow:
+    visible;
+}
+
+
+/* 卷軸圖本身已經有邊框 */
+.quiz-reward-card::before {
+  display: none;
+}
+
+
+/* 卷軸圖本身已經有裝飾線 */
+.quiz-reward-card::after {
+  display: none;
+}
+
+
+/* ======================================
+   REWARD TEXT
+====================================== */
+
+.reward-label {
+  position: relative;
+
+  z-index: 2;
+
+  margin-bottom: 28px;
+
+  color: #8b2a20;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 6px;
+
+  text-shadow:
+    0 1px 1px
+    rgba(255, 255, 255, 0.25);
+}
+
+
+/* 招賢令 */
+.reward-title {
+  position: relative;
+
+  z-index: 2;
+
+  margin-bottom: 20px;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 50px;
+
+  font-weight: 900;
+
+  line-height: 1.2;
+
+  letter-spacing: 4px;
+
+  color: #302117;
+}
+
+
+/* 說明 */
+.reward-description {
+  position: relative;
+
+  z-index: 2;
+
+  max-width: 330px;
+
+  margin:
+    0 auto 36px;
+
+  color: #6f5a42;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 14px;
+
+  line-height: 1.9;
+
+  letter-spacing: 0.5px;
+}
+
+
+/* ======================================
+   招賢令 TOKEN
+====================================== */
+
+.reward-token {
+  width: 96px;
+
+  height: 144px;
+
+  margin:
+    0 auto 40px;
+
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  transform:
+    rotate(7deg);
+
+  background:
+    linear-gradient(
+      145deg,
+      #5b3518 0%,
+      #8d5723 30%,
+      #b57731 48%,
+      #c18a3a 58%,
+      #6a3c18 100%
+    );
+
+  border:
+    2px solid
+    #d8ad66;
+
+  color:
+    #f7e5b9;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 46px;
+
+  font-weight: 900;
+
+  box-shadow:
+    0 16px 28px
+    rgba(0, 0, 0, 0.30),
+
+    inset 0 0 18px
+    rgba(255, 220, 150, 0.16);
+
+  transform-origin:
+    center center;
+
+  cursor:
+    pointer;
+
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    filter 0.28s ease;
+}
+
+
+/* 令牌內框 */
+.reward-token::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 8px;
+
+  border:
+    1px solid
+    rgba(255, 225, 170, 0.34);
+}
+
+
+/* 令牌高光 */
+.reward-token::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.12),
+      transparent 40%
+    );
+
+  pointer-events: none;
+}
+
+
+
+
+/* ======================================
+   招賢令 TOKEN HOVER
+   與結算畫面的令牌互動統一
+====================================== */
+
+@media (hover: hover) and (pointer: fine) {
+
+  .reward-token:hover {
+    transform:
+      translateY(-8px)
+      scale(1.10)
+      rotate(0deg);
+
+    box-shadow:
+      0 24px 38px
+      rgba(0, 0, 0, 0.40),
+
+      inset 0 0 24px
+      rgba(255, 220, 150, 0.24);
+
+    filter:
+      brightness(1.08);
+  }
+
+}
+
+
+/* ======================================
+   START BUTTON
+   使用 HomePage 的 btn / btn-primary
+====================================== */
+
+.quiz-start-btn {
+  width: 100%;
+
+  max-width: 320px;
+
+  margin-top: 0;
+
+  text-decoration: none;
+}
+
+
+/*
+  只保留 QuizEntry 特有的箭頭動畫
+  顏色 / 邊框 / hover 交給 HomePage.css
+*/
+.quiz-start-btn span {
+  transition:
+    transform 0.3s ease;
+}
+
+
+.quiz-start-btn:hover span {
+  transform:
+    translateX(5px);
+}
+
+
+/* ======================================
+   SCREEN READER ONLY
+====================================== */
+
+.sr-only {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  padding: 0;
+
+  margin: -1px;
+
+  overflow: hidden;
+
+  clip:
+    rect(0, 0, 0, 0);
+
+  white-space: nowrap;
+
+  border: 0;
+}
+
+
+/* ======================================
+   RESPONSIVE - 1200
+====================================== */
+
+@media (max-width: 1200px) {
+
+  .quiz-entry-container {
+    width:
+      min(
+        94%,
+        1180px
+      );
+
+    grid-template-columns:
+      54% 46%;
+
+    gap: 25px;
+  }
+
+
+  .quiz-entry-left {
+    max-width: 620px;
+
+    margin-right: 0;
+
+    justify-self:
+      center;
+  }
+
+
+  .quiz-title-image {
+    width:
+      min(
+        100%,
+        510px
+      );
+  }
+
+
+  .quiz-entry-subtitle {
+    font-size: 25px;
+  }
+
+
+  .quiz-entry-description {
+    font-size: 15px;
+  }
+
+
+  /*
+    小一點的螢幕就少移一些
+  */
+  .quiz-entry-right {
+    transform:
+      translateX(-10px);
+  }
+
+
+  .quiz-reward-card {
+    width:
+      min(
+        100%,
+        445px
+      );
+
+    min-height: 550px;
+
+    padding:
+      56px 42px 42px;
+  }
+
+
+  .reward-title {
+    font-size: 48px;
+
+    margin-bottom: 20px;
+  }
+
+
+  .reward-token {
+    width: 90px;
+
+    height: 136px;
+
+    font-size: 42px;
+  }
+
+}
+
+
+/* ======================================
+   TABLET
+====================================== */
+
+@media (max-width: 1000px) {
+
+  .quiz-entry-page {
+    padding:
+      100px 0 80px;
+
+    background-position:
+      40% center;
+  }
+
+
+  .quiz-entry-page::before {
+    background:
+      radial-gradient(
+        ellipse 82% 58%
+        at 50% 27%,
+
+        rgba(0, 0, 0, 0.74) 0%,
+        rgba(0, 0, 0, 0.54) 42%,
+        rgba(0, 0, 0, 0.20) 72%,
+        transparent 100%
+      ),
+
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.28) 0%,
+        rgba(0, 0, 0, 0.10) 48%,
+        transparent 72%
+      );
+  }
+
+
+  .quiz-entry-container {
+    width:
+      min(
+        92%,
+        720px
+      );
+
+    grid-template-columns:
+      1fr;
+
+    gap: 55px;
+  }
+
+
+  .quiz-entry-left {
+    min-height: auto;
+
+    max-width: 680px;
+
+    margin:
+      0 auto;
+
+    padding:
+      20px;
+
+    justify-self:
+      center;
+  }
+
+
+  .quiz-title-image {
+    width:
+      min(
+        100%,
+        500px
+      );
+  }
+
+
+  .quiz-entry-subtitle {
+    font-size: 24px;
+  }
+
+
+  .quiz-entry-description {
+    font-size: 16px;
+  }
+
+
+  .quiz-entry-quote {
+    font-size: 17px;
+  }
+
+
+  /*
+    手機 / 平板改成上下排列
+    不需要再往左移
+  */
+  .quiz-entry-right {
+    width: 100%;
+
+    transform:
+      none;
+  }
+
+
+  .quiz-reward-card {
+    width:
+      min(
+        92%,
+        475px
+      );
+
+    min-height: 560px;
+
+    margin:
+      0 auto;
+
+    padding:
+      58px 44px 44px;
+  }
+
+
+  .reward-title {
+    font-size: 46px;
+  }
+
+
+  .quiz-start-btn {
+    max-width: 320px;
+  }
+
+}
+.next-section {
+  min-height:
+    620px;
+
+  position:
+    relative;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  overflow:
+    hidden;
+
+  text-align:
+    center;
+
+  background:
+
+    radial-gradient(
+      circle at center,
+      rgba(127, 87, 45, 0.10),
+      transparent 40%
+    ),
+
+    linear-gradient(
+      rgba(10,9,8,.82),
+      rgba(10,9,8,.92)
+    ),
+
+    url("../images/hero-bg.jpg");
+
+  background-size:
+    cover;
+
+  background-position:
+    center;
+
+  color:
+    white;
+}
+
+
+.next-section > div {
+  max-width:
+    720px;
+
+  position:
+    relative;
+
+  z-index:
+    2;
+}
+
+
+.next-section > div > p:first-child {
+  color:
+    var(--gold);
+
+  font-size:
+    11px;
+
+  letter-spacing:
+    6px;
+}
+
+
+.next-section h2 {
+  margin:
+    18px 0 22px;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    clamp(
+      45px,
+      7vw,
+      75px
+    );
+
+  line-height:
+    1.35;
+
+  letter-spacing:
+    2px;
+
+  text-shadow:
+    0 4px 15px
+    rgba(0,0,0,.45);
+}
+
+
+.next-description {
+  margin-bottom:
+    34px;
+
+  color:
+    #aaa08e;
+
+  line-height:
+    1.9;
+}
+
+/* ======================================
+   SMALL MOBILE
+====================================== */
+
+@media (max-width: 600px) {
+
+  .quiz-entry-page {
+    padding:
+      90px 0 60px;
+  }
+
+
+  .quiz-entry-container {
+    width: 94%;
+  }
+
+
+  .quiz-entry-label {
+    font-size: 10px;
+
+    letter-spacing: 6px;
+  }
+
+
+  .quiz-title-image {
+    width:
+      min(
+        100%,
+        430px
+      );
+  }
+
+
+  .quiz-entry-subtitle {
+    font-size: 21px;
+
+    letter-spacing: 2px;
+  }
+
+
+  .quiz-entry-description {
+    font-size: 14px;
+  }
+
+
+  .quiz-entry-quote {
+    font-size: 15px;
+
+    letter-spacing: 2px;
+  }
+
+
+  .quiz-reward-card {
+    width: 94%;
+
+    min-height: 510px;
+
+    padding:
+      52px 28px 36px;
+  }
+
+
+  .reward-label {
+    font-size: 11px;
+  }
+
+
+  .reward-title {
+    font-size: 42px;
+  }
+
+
+  .reward-description {
+    font-size: 13px;
+
+    margin-bottom: 32px;
+  }
+
+
+  .reward-token {
+    width: 82px;
+
+    height: 126px;
+
+    margin-bottom: 32px;
+
+    font-size: 40px;
+  }
+
+
+  .quiz-start-btn {
+    max-width: 290px;
+  }
+
+}
+

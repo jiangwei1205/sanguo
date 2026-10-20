@@ -1,0 +1,4190 @@
+<!DOCTYPE html>
+
+
+
+<html lang="zh-Hant">
+
+
+
+<head>
+
+
+
+  <meta charset="UTF-8">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+  <title>招賢台｜參國・史演</title>
+
+
+
+  <!-- Google Fonts -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+
+
+  <link
+
+    rel="preconnect"
+
+    href="https://fonts.gstatic.com"
+
+    crossorigin
+
+  >
+
+
+
+  <link
+
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700;900&display=swap"
+
+    rel="stylesheet"
+
+  >
+
+
+
+
+
+  <!-- 共用樣式：Navbar / Footer / Buttons -->
+
+  <link
+
+    rel="stylesheet"
+
+    href="css/HomePage.css"
+
+  >
+
+
+
+
+
+  <!-- 招賢台專屬 CSS -->
+
+  <link
+
+    rel="stylesheet"
+
+    href="css/Pickcard.css"
+
+  >
+
+  <!-- 曹操漫畫抽卡前場（獨立樣式） -->
+  <link rel="stylesheet" href="css/GachaIntro.css">
+
+
+
+
+
+  <link
+
+    rel="icon"
+
+    type="image/png"
+
+    sizes="100x100"
+
+    href="images/logo1.png"
+
+  >
+  <!-- ===== 抽卡節奏精修測試：只整理震動→翻牌；SSR 原本金光完整保留 ===== -->
+  <style id="gachaRhythmRefine">
+    /*
+      1) 單抽：翻牌前短蓄力一次；十抽：十張落完後集體短蓄力一次，再依序翻牌。
+      2) 不碰既有 3D rotateY 翻牌、不碰 v5 落牌、不碰漫畫過場。
+      3) 不覆蓋 SSR 的 epicGoldGlow / cardShine，讓 Pickcard.css 原本金光與流光照常運作。
+    */
+    @keyframes gachaChargeRefined {
+      0%   { transform: translate(0, 0) rotate(0deg); }
+      18%  { transform: translate(-0.6px, 0.3px) rotate(-0.12deg); }
+      36%  { transform: translate(0.7px, -0.4px) rotate(0.14deg); }
+      54%  { transform: translate(-0.8px, -0.2px) rotate(-0.16deg); }
+      70%  { transform: translate(1.2px, 0.3px) rotate(0.22deg); }
+      82%  { transform: translate(-1.8px, -0.5px) rotate(-0.34deg); }
+      92%  { transform: translate(1.5px, 0.4px) rotate(0.28deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    .card-3d-container.shaking {
+      animation: gachaChargeRefined var(--gacha-charge-duration, 0.46s) cubic-bezier(.35,.05,.2,1) 1 both !important;
+      transform-origin: center center;
+    }
+
+    /*
+      十連抽專用：
+      總蓄力時間仍由 JS 控制為 900ms，
+      但震動本身恢復成快速連續循環，不再把 900ms 當成「只震一次」。
+      直接沿用原本 Pickcard.css 的 violentShake 幅度，
+      並把每輪縮到 0.16s，讓十張一起震時更有蓄力感。
+      單抽不受影響。
+    */
+    #gachaModalContent.wide-modal .card-3d-container.shaking {
+      animation: violentShake 0.16s linear infinite !important;
+      transform-origin: center center;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card-3d-container.shaking,
+      #gachaModalContent.wide-modal .card-3d-container.shaking {
+        animation: none !important;
+      }
+    }
+  </style>
+
+
+</head>
+
+
+
+
+
+<body>
+
+
+
+
+
+  <!-- =========================
+
+       Navbar
+
+  ========================== -->
+
+
+
+  <header class="navbar">
+
+
+
+    <div class="nav-container">
+
+
+
+
+
+      <a
+
+        href="HomePage.html"
+
+        class="logo"
+
+      >
+
+
+
+        <img
+
+          src="images/1212.png"
+
+          alt="參國・史演 Logo"
+
+          class="logo-img"
+
+        >
+
+
+
+      </a>
+
+
+
+
+
+      <nav class="nav-menu" id="primaryNav">
+
+
+
+        <a href="HomePage.html">
+
+          首頁
+
+        </a>
+
+
+
+        <a href="HomePage.html#history">
+
+          史實與演義
+
+        </a>
+
+
+
+        <a href="HomePage.html#stories">
+
+          故事差異
+
+        </a>
+
+
+
+        <a href="QuizEntry.html">
+
+          群雄問答
+
+        </a>
+
+
+
+        <a href="Card.html">
+
+          人物圖鑑
+
+        </a>
+
+
+
+        <a
+
+          href="Pickcard.html"
+
+          class="active"
+
+        >
+
+          招賢台
+
+        </a>
+
+
+
+      </nav>
+
+
+
+
+
+      <button
+        class="mobile-menu-btn"
+        type="button"
+        aria-label="開啟選單"
+        aria-expanded="false"
+        aria-controls="primaryNav"
+      >
+        ☰
+      </button>
+
+
+
+
+
+    </div>
+
+
+
+  </header>
+
+
+
+
+
+
+
+  <!-- =========================
+
+       招賢台主內容區
+
+  ========================== -->
+
+
+
+  <main class="pickcard-main">
+
+
+
+
+
+    <!--
+
+      背景使用真正的圖片層，
+
+      不用 CSS background，
+
+      避免 cover 或 100% 100% 壓縮裁切。
+
+    -->
+
+
+
+    <img
+
+      src="images/招賢台背景.png"
+
+      alt=""
+
+      class="pickcard-bg"
+
+      aria-hidden="true"
+
+    >
+
+
+
+
+
+    <div class="pickcard-container">
+
+
+
+
+
+      <!-- =========================
+
+           CSS 招賢令
+
+      ========================== -->
+
+
+
+      <div
+
+        class="recruit-token-panel"
+
+        aria-label="目前招賢令數量"
+
+      >
+
+
+
+        <div
+
+          class="recruit-token"
+
+          aria-hidden="true"
+
+        >
+
+
+
+          <span class="recruit-token-word">
+
+            令
+
+          </span>
+
+
+
+        </div>
+
+
+
+
+
+        <div class="recruit-token-count">
+
+
+
+          <span class="recruit-token-times">
+
+            ×
+
+          </span>
+
+
+
+          <span id="tokenCount">
+
+            0
+
+          </span>
+
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <!-- =========================
+
+           招募按鈕
+
+      ========================== -->
+
+
+
+      <div class="pickcard-actions">
+
+
+
+        <button
+
+          class="btn pick-btn-secondary"
+
+          type="button"
+
+          onclick="recruit(1)"
+
+        >
+          招募一次
+
+        </button>
+
+
+
+
+
+        <button
+
+          class="btn pick-btn-primary"
+
+          type="button"
+
+          onclick="recruit(10)"
+
+        >
+          廣納十人
+
+        </button>
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <!-- =========================
+
+           重置
+
+      ========================== -->
+
+
+
+      <button
+
+        class="pickcard-reset-btn"
+
+        type="button"
+
+        onclick="resetGameData()"
+
+      >
+
+        重置圖鑑與招賢令資料
+
+      </button>
+
+
+
+
+
+    </div>
+
+
+
+  </main>
+
+
+
+
+
+
+
+
+  <!-- =============================================
+       十連抽前場：曹操・改寫歷史漫畫動畫
+       一次只顯示一格，播放後進入原本的十連抽翻牌
+  ============================================== -->
+  <div id="gachaIntro" class="gacha-intro" aria-hidden="true" role="dialog" aria-label="曹操漫畫抽卡動畫">
+    <div class="gacha-intro__shade"></div>
+    <div class="gacha-intro__scene gacha-intro__scene--1" data-comic-scene="0">
+      <div class="gacha-intro__frame"><img src="images/gacha-comic/01.png" alt="曹操閱覽史書" draggable="false"></div>
+    </div>
+    <div class="gacha-intro__scene gacha-intro__scene--2" data-comic-scene="1">
+      <div class="gacha-intro__frame"><img src="images/gacha-comic/02.png" alt="書中金光開始湧現" draggable="false"></div>
+    </div>
+    <div class="gacha-intro__scene gacha-intro__scene--3" data-comic-scene="2">
+      <div class="gacha-intro__frame"><img src="images/gacha-comic/03.png" alt="史書震動，曹操驚訝" draggable="false"><div class="gacha-intro__prelight"></div></div>
+    </div>
+    <div class="gacha-intro__scene gacha-intro__scene--4" data-comic-scene="3">
+      <div class="gacha-intro__frame"><img src="images/gacha-comic/04.png" alt="史書爆發金光，千軍萬馬現身" draggable="false"><div class="gacha-intro__pageblast"></div></div>
+      <div class="gacha-intro__surge"></div>
+    </div>
+    <div class="gacha-intro__scene gacha-intro__scene--5" data-comic-scene="4">
+      <div class="gacha-intro__eye-line"></div>
+      <div class="gacha-intro__frame"><img id="gachaIntroScene5Image" src="images/gacha-comic/05.png" alt="曹操金瞳展開" draggable="false" data-default-src="images/gacha-comic/05.png" data-default-alt="曹操金瞳展開" data-default-position="50% 46%"><div class="gacha-intro__eye-glow-v5"></div></div>
+    </div>
+    <div id="gachaIntroShock" class="gacha-intro__shock"></div>
+    <div id="gachaIntroFlash" class="gacha-intro__flash"></div>
+    <button id="gachaIntroSkip" type="button" class="gacha-intro__skip">跳過動畫 <span aria-hidden="true">»</span></button>
+  </div>
+
+  <!-- =========================
+
+       抽卡成果展示彈窗
+
+  ========================== -->
+
+
+
+  <div
+
+    id="gachaModal"
+
+    class="gacha-modal-overlay gacha-result-layer"
+
+    style="display: none;"
+
+  >
+
+
+
+    <div
+
+      class="gacha-modal-content gacha-anim-box gacha-result-stage"
+
+      id="gachaModalContent"
+
+    >
+
+
+
+      <h2 class="gacha-title">
+
+        ── 恭 喜 獲 得 ──
+
+      </h2>
+
+
+
+
+
+      <!-- 動態放置卡片 -->
+
+
+
+      <div
+
+        class="gacha-cards-box"
+
+        id="gachaCardBox"
+
+      ></div>
+
+
+
+
+
+      <!-- 抽卡完成後按鈕 -->
+
+
+
+      <div
+
+        class="gacha-btn-group"
+
+        id="gachaBtnGroup"
+
+        style="
+
+          margin-top: 20px;
+
+          opacity: 0;
+
+          pointer-events: none;
+
+          transition: opacity 0.5s;
+
+        "
+
+      >
+
+
+
+        <button
+
+          class="btn pick-btn-secondary"
+
+          onclick="closeGachaModal()"
+
+        >
+
+          返回招賢台
+
+        </button>
+
+
+
+
+
+        <a
+
+          href="Card.html"
+
+          class="btn btn-primary pick-btn-primary"
+
+          style="
+
+            text-decoration: none;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+          "
+
+        >
+
+          查看圖鑑
+
+        </a>
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- =========================
+
+       招賢台自訂提示 / 確認視窗
+
+  ========================== -->
+
+
+
+  <div
+
+    class="pick-alert-overlay"
+
+    id="pickAlert"
+
+    aria-hidden="true"
+
+  >
+
+
+
+    <div
+
+      class="pick-alert-box"
+
+      role="dialog"
+
+      aria-modal="true"
+
+      aria-labelledby="pickAlertTitle"
+
+    >
+
+
+
+      <div class="pick-alert-ornament">
+
+        ◇
+
+      </div>
+
+
+
+
+
+      <h3
+
+        class="pick-alert-title"
+
+        id="pickAlertTitle"
+
+      >
+
+        提 示
+
+      </h3>
+
+
+
+
+
+      <p
+
+        class="pick-alert-message"
+
+        id="pickAlertMessage"
+
+      >
+
+        提示內容
+
+      </p>
+
+
+
+
+
+      <div class="pick-alert-actions">
+
+
+
+        <button
+
+          type="button"
+
+          class="pick-alert-btn pick-alert-btn-cancel"
+
+          id="pickAlertCancel"
+
+        >
+
+          取 消
+
+        </button>
+
+
+
+
+
+        <button
+
+          type="button"
+
+          class="pick-alert-btn pick-alert-btn-confirm"
+
+          id="pickAlertConfirm"
+
+        >
+
+          確 定
+
+        </button>
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- =========================
+
+       Footer
+
+  ========================== -->
+
+
+
+  <footer>
+
+
+
+    <div class="footer-container">
+
+
+
+      <div class="footer-logo">
+
+        參國
+
+      </div>
+
+
+
+      <p>
+
+        一部史書，一部小說，一段被傳說改寫的歷史。
+
+      </p>
+
+
+
+      <span>
+
+        © 2026 參國・史演
+
+      </span>
+
+
+
+    </div>
+
+
+
+  </footer>
+
+
+
+
+
+
+
+  <!-- ======================================================
+
+       招賢台抽卡與機率邏輯
+
+  ====================================================== -->
+
+
+
+  <script>
+
+    // ==========================================
+    // 曹操五格漫畫抽卡前場（不更動抽卡機率與翻牌邏輯）
+    // ==========================================
+    let gachaComicBusy = false;
+    let gachaComicTimers = [];
+    let gachaComicDone = null;
+
+    function scheduleGachaComic(ms, callback) {
+      gachaComicTimers.push(setTimeout(callback, ms));
+    }
+
+    function finishGachaComicIntro() {
+      if (!gachaComicBusy) return;
+      const callback = gachaComicDone;
+      gachaComicDone = null;
+      gachaComicBusy = false;
+      gachaComicTimers.forEach(clearTimeout);
+      gachaComicTimers = [];
+      const overlay = document.getElementById('gachaIntro');
+      overlay.classList.remove('is-playing');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('gacha-intro-body-lock');
+      if (typeof callback === 'function') callback();
+    }
+
+    function playGachaComicIntro(onComplete = null) {
+      if (gachaComicBusy) return;
+      const overlay = document.getElementById('gachaIntro');
+      if (!overlay) {
+        if (typeof onComplete === 'function') onComplete();
+        return;
+      }
+      gachaComicBusy = true;
+      gachaComicDone = onComplete;
+      gachaComicTimers.forEach(clearTimeout);
+      gachaComicTimers = [];
+
+      // 十連抽第五格永遠固定曹操，不受任何單抽角色過場換圖影響。
+      applySinglePullTeaserVisual(null);
+      applySinglePullTeaserFlashStyle(null);
+
+      const scenes = Array.from(overlay.querySelectorAll('[data-comic-scene]'));
+      const flash = document.getElementById('gachaIntroFlash');
+      const shock = document.getElementById('gachaIntroShock');
+      scenes.forEach(s => s.classList.remove('is-current','is-trembling','is-ignited','is-eye-glowing'));
+      flash.classList.remove('is-firing');
+      if (shock) shock.classList.remove('is-bursting');
+      void overlay.offsetWidth;
+      document.body.classList.add('gacha-intro-body-lock');
+      overlay.classList.add('is-playing');
+      overlay.setAttribute('aria-hidden','false');
+
+      // v5 真實時間軸 + v6 分格定位；換格時前一格就消失
+      function showScene(index) {
+        scenes.forEach((scene, i) => scene.classList.toggle('is-current', i === index));
+      }
+      [160, 1330, 2480, 3750, 5000].forEach((ms, i) => scheduleGachaComic(ms, () => showScene(i)));
+      scheduleGachaComic(2700, () => scenes[2].classList.add('is-trembling'));
+      scheduleGachaComic(3750, () => scenes[2].classList.remove('is-trembling'));
+      scheduleGachaComic(4020, () => {
+        scenes[3].classList.add('is-ignited');
+        if (shock) shock.classList.add('is-bursting');
+      });
+      scheduleGachaComic(5450, () => scenes[4].classList.add('is-eye-glowing'));
+      scheduleGachaComic(6070, () => flash.classList.add('is-firing'));
+      scheduleGachaComic(6490, finishGachaComicIntro);
+    }
+
+    // ==========================================
+    // 單抽角色過場：先依『已經抽中的角色』決定要播哪一段
+    // 目前先完成曹操；之後其他武將只要往 singlePullTeaserMap 擴充即可。
+    // 曹操直接沿用十連抽第五格：images/gacha-comic/05.png
+    // ==========================================
+    const singlePullTeaserMap = {
+      "曹操": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05.png",
+        imageAlt: "曹操金瞳展開",
+        eyeGlowDelay: 560,
+        flashDelay: 1120,
+        finishDelay: 1540
+      },
+      "劉備": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-liubei.png",
+        imageAlt: "劉備金焰戰場特寫",
+        eyeGlowDelay: 520,
+        flashDelay: 1080,
+        finishDelay: 1540
+      },
+      "張飛": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-zhangfei.png",
+        imageAlt: "張飛怒吼鬍鬚特寫",
+        eyeGlowDelay: 500,
+        flashDelay: 1040,
+        finishDelay: 1540
+      },
+      "孫權": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-sunquan.png",
+        imageAlt: "孫權金瞳戰魂特寫",
+        eyeGlowDelay: 540,
+        flashDelay: 1080,
+        finishDelay: 1540
+      },
+      "關羽": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-guanyu.png",
+        imageAlt: "關羽青龍偃月刀月下特寫",
+        eyeGlowDelay: 540,
+        flashDelay: 1080,
+        finishDelay: 1540
+      },
+      "司馬懿": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-simayi.png",
+        imageAlt: "司馬懿月下謀略特寫",
+        eyeGlowDelay: 540,
+        flashDelay: 1080,
+        finishDelay: 1540
+      },
+      "周瑜": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-zhouyu.png",
+        imageAlt: "周瑜月下揮扇赤壁特寫",
+        flashTone: "silver",
+        eyeGlowDelay: 520,
+        flashDelay: 1060,
+        finishDelay: 1540
+      },
+      "趙雲": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-zhaoyun.png",
+        imageAlt: "趙雲銀槍冷光特寫",
+        flashTone: "silver",
+        eyeGlowDelay: 500,
+        flashDelay: 1040,
+        finishDelay: 1540
+      },
+      "諸葛亮": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-zhugeliang.png",
+        imageAlt: "諸葛亮羽扇謀略冷光特寫",
+        flashTone: "silver",
+        eyeGlowDelay: 520,
+        flashDelay: 1060,
+        finishDelay: 1540
+      },
+      "黃蓋": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-huanggai.png",
+        imageAlt: "黃蓋烈焰戰場凝眸特寫",
+        flashTone: "silver",
+        eyeGlowDelay: 500,
+        flashDelay: 1040,
+        finishDelay: 1540
+      },
+      "龐統": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-pangtong.png",
+        imageAlt: "龐統月下冷眼羽扇特寫",
+        flashTone: "silver",
+        eyeGlowDelay: 500,
+        flashDelay: 1040,
+        finishDelay: 1540
+      },
+      "郭嘉": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-guojia.png",
+        imageAlt: "郭嘉月下冷眼折扇特寫",
+        flashTone: "silver",
+        eyeGlowDelay: 500,
+        flashDelay: 1040,
+        finishDelay: 1540
+      },
+      "孫策": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-sunce.png",
+        imageAlt: "孫策烈焰江東武器特寫",
+        flashTone: "silver",
+        eyeGlowDelay: 500,
+        flashDelay: 1040,
+        finishDelay: 1540
+      },
+      "夏侯惇": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-xiahoudun.png",
+        imageAlt: "夏侯惇獨眼刀鋒冷光特寫",
+        flashTone: "silver",
+        eyeGlowDelay: 500,
+        flashDelay: 1040,
+        finishDelay: 1540
+      },
+      "甄姬": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-zhenji.png",
+        imageAlt: "甄姬月下櫻影紫眸特寫",
+        flashTone: "ice",
+        eyeGlowDelay: 520,
+        flashDelay: 1060,
+        finishDelay: 1540
+      },
+      "蔡文姬": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-caiwenji.png",
+        imageAlt: "蔡文姬月下撫琴清冷特寫",
+        flashTone: "melody",
+        eyeGlowDelay: 520,
+        flashDelay: 1060,
+        finishDelay: 1540
+      },
+      "孫尚香": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-sunshangxiang.png",
+        imageAlt: "孫尚香月下紅葉弓影特寫",
+        flashTone: "crimson",
+        eyeGlowDelay: 500,
+        flashDelay: 1040,
+        finishDelay: 1540
+      },
+      "關銀屏": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-guanyinping.png",
+        imageAlt: "關銀屏月下青鋒凝眸特寫",
+        flashTone: "jade",
+        eyeGlowDelay: 500,
+        flashDelay: 1040,
+        finishDelay: 1540
+      },
+      "大喬小喬": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-daqiaoxiaoqiao.png",
+        imageAlt: "大小喬月下雙姝櫻花燈影特寫",
+        flashTone: "blossom",
+        imagePosition: "50% 36%",
+        eyeGlowDelay: 520,
+        flashDelay: 1060,
+        finishDelay: 1540
+      },
+      "貂蟬": {
+        sceneIndex: 4,
+        imageSrc: "images/gacha-comic/05-diaochan.png",
+        imageAlt: "貂蟬月夜回眸噤聲圓扇特寫",
+        flashTone: "charm",
+        imagePosition: "50% 42%",
+        eyeGlowDelay: 500,
+        flashDelay: 1040,
+        finishDelay: 1540
+      }
+    };
+
+    function applySinglePullTeaserVisual(teaser) {
+      const scene5Image = document.getElementById('gachaIntroScene5Image');
+      if (!scene5Image) return;
+
+      const defaultSrc = scene5Image.dataset.defaultSrc || 'images/gacha-comic/05.png';
+      const defaultAlt = scene5Image.dataset.defaultAlt || '曹操金瞳展開';
+      const defaultPosition = scene5Image.dataset.defaultPosition || '50% 46%';
+
+      scene5Image.src = teaser?.imageSrc || defaultSrc;
+      scene5Image.alt = teaser?.imageAlt || defaultAlt;
+      scene5Image.style.objectPosition = teaser?.imagePosition || defaultPosition;
+    }
+
+    function applySinglePullTeaserFlashStyle(teaser) {
+      const flash = document.getElementById('gachaIntroFlash');
+      if (!flash) return;
+
+      const tone = teaser?.flashTone || 'gold';
+      if (tone === 'silver') {
+        // SR：維持明亮、乾淨、接近純白的銀色爆閃。
+        flash.style.background = 'radial-gradient(circle, rgba(255,255,255,0.98) 0%, rgba(231,239,255,0.92) 26%, rgba(191,208,232,0.60) 54%, rgba(150,170,198,0.00) 82%)';
+        flash.style.boxShadow = '0 0 120px rgba(245,248,255,0.58), 0 0 240px rgba(176,194,224,0.38)';
+        flash.style.filter = 'brightness(1.08) saturate(0.88)';
+      } else if (tone === 'ice') {
+        // R／甄姬：刻意壓低純白核心，改成明顯的冰藍＋紫藍。
+        // 這樣播放速度再快，也不會看起來跟 SR 的銀白光一樣。
+        flash.style.background = 'radial-gradient(circle, rgba(214,234,255,0.96) 0%, rgba(132,190,255,0.88) 24%, rgba(105,151,255,0.67) 47%, rgba(170,108,255,0.47) 66%, rgba(102,123,214,0.00) 84%)';
+        flash.style.boxShadow = '0 0 105px rgba(165,211,255,0.62), 0 0 215px rgba(105,164,255,0.47), 0 0 315px rgba(169,106,255,0.34)';
+        flash.style.filter = 'brightness(0.94) saturate(1.34)';
+      } else if (tone === 'melody') {
+        // R／蔡文姬：同樣使用明顯冰藍基底，但外圈加入淡金琴韻。
+        // 與甄姬同屬 R，卻保留蔡文姬自己的文雅氣質。
+        flash.style.background = 'radial-gradient(circle, rgba(218,238,255,0.95) 0%, rgba(126,194,255,0.86) 23%, rgba(103,158,232,0.65) 46%, rgba(255,205,118,0.38) 66%, rgba(104,137,206,0.00) 84%)';
+        flash.style.boxShadow = '0 0 105px rgba(168,216,255,0.60), 0 0 210px rgba(100,170,236,0.44), 0 0 300px rgba(255,205,118,0.29)';
+        flash.style.filter = 'brightness(0.95) saturate(1.28)';
+      } else if (tone === 'crimson') {
+        // R／孫尚香：用偏紅楓葉＋暖金的爆閃，和 SR 銀光、SSR 金光明顯區隔。
+        flash.style.background = 'radial-gradient(circle, rgba(255,240,224,0.94) 0%, rgba(255,178,126,0.86) 20%, rgba(255,116,96,0.72) 42%, rgba(233,64,96,0.52) 62%, rgba(126,40,82,0.00) 84%)';
+        flash.style.boxShadow = '0 0 110px rgba(255,196,148,0.58), 0 0 220px rgba(255,118,104,0.43), 0 0 320px rgba(214,55,96,0.28)';
+        flash.style.filter = 'brightness(0.96) saturate(1.34)';
+      } else if (tone === 'blossom') {
+        // R／大喬小喬：用櫻粉紫光搭配暖金燈影，強調雙姝的柔美與華麗，並和 SR 的銀白光分開。
+        flash.style.background = 'radial-gradient(circle, rgba(255,240,252,0.96) 0%, rgba(255,196,224,0.90) 22%, rgba(232,152,210,0.74) 44%, rgba(178,126,236,0.52) 63%, rgba(255,205,156,0.28) 76%, rgba(88,66,132,0.00) 86%)';
+        flash.style.boxShadow = '0 0 108px rgba(255,214,235,0.60), 0 0 220px rgba(227,154,212,0.43), 0 0 310px rgba(180,130,236,0.28), 0 0 360px rgba(255,205,156,0.16)';
+        flash.style.filter = 'brightness(0.97) saturate(1.26)';
+      } else if (tone === 'charm') {
+        // R／貂蟬：月白冰藍基底混入桃紫魅影，避免和 SR 銀白爆閃混在一起。
+        flash.style.background = 'radial-gradient(circle, rgba(244,237,255,0.95) 0%, rgba(206,176,255,0.88) 21%, rgba(184,117,238,0.72) 43%, rgba(237,103,184,0.50) 63%, rgba(116,75,172,0.00) 85%)';
+        flash.style.boxShadow = '0 0 108px rgba(224,201,255,0.60), 0 0 220px rgba(184,123,238,0.43), 0 0 315px rgba(237,103,184,0.29)';
+        flash.style.filter = 'brightness(0.96) saturate(1.31)';
+      } else if (tone === 'jade') {
+        // R／關銀屏：用青綠玉色＋微冷白光，保留英氣與少女感，也和 SR 銀光明顯區分。
+        flash.style.background = 'radial-gradient(circle, rgba(239,255,244,0.94) 0%, rgba(168,238,204,0.86) 22%, rgba(102,205,170,0.70) 44%, rgba(70,170,146,0.52) 64%, rgba(42,94,88,0.00) 84%)';
+        flash.style.boxShadow = '0 0 108px rgba(193,247,220,0.56), 0 0 220px rgba(104,214,176,0.41), 0 0 310px rgba(74,166,141,0.27)';
+        flash.style.filter = 'brightness(0.97) saturate(1.24)';
+      } else {
+        flash.style.background = '';
+        flash.style.boxShadow = '';
+        flash.style.filter = '';
+      }
+    }
+
+    function playSinglePullCharacterTeaser(hero, onComplete = null) {
+      const teaser = hero ? singlePullTeaserMap[hero.name] : null;
+      applySinglePullTeaserVisual(teaser);
+      applySinglePullTeaserFlashStyle(teaser);
+
+      // 還沒製作專屬過場的武將，先直接進入卡牌出場。
+      if (!teaser) {
+        if (typeof onComplete === 'function') onComplete();
+        return;
+      }
+
+      if (gachaComicBusy) return;
+
+      const overlay = document.getElementById('gachaIntro');
+      if (!overlay) {
+        if (typeof onComplete === 'function') onComplete();
+        return;
+      }
+
+      const scenes = Array.from(overlay.querySelectorAll('[data-comic-scene]'));
+      const scene = scenes[teaser.sceneIndex];
+      const flash = document.getElementById('gachaIntroFlash');
+      const shock = document.getElementById('gachaIntroShock');
+
+      if (!scene) {
+        if (typeof onComplete === 'function') onComplete();
+        return;
+      }
+
+      gachaComicBusy = true;
+      gachaComicDone = onComplete;
+      gachaComicTimers.forEach(clearTimeout);
+      gachaComicTimers = [];
+
+      // 只顯示該角色自己的特徵畫面，不播放十連抽前四格。
+      scenes.forEach(s => s.classList.remove('is-current','is-trembling','is-ignited','is-eye-glowing'));
+      if (flash) flash.classList.remove('is-firing');
+      if (shock) shock.classList.remove('is-bursting');
+
+      void overlay.offsetWidth;
+      document.body.classList.add('gacha-intro-body-lock');
+      overlay.classList.add('is-playing');
+      overlay.setAttribute('aria-hidden', 'false');
+      scene.classList.add('is-current');
+
+      scheduleGachaComic(teaser.eyeGlowDelay, () => scene.classList.add('is-eye-glowing'));
+      scheduleGachaComic(teaser.flashDelay, () => {
+        if (flash) flash.classList.add('is-firing');
+      });
+      scheduleGachaComic(teaser.finishDelay, finishGachaComicIntro);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const skip = document.getElementById('gachaIntroSkip');
+      if (skip) skip.addEventListener('click', finishGachaComicIntro);
+    });
+
+    // 測試用：在招賢台按 Shift+P 預覽，不扣招賢令、不影響圖鑑。
+    document.addEventListener('keydown', (event) => {
+      if (event.shiftKey && event.code === 'KeyP' && !event.repeat && !gachaComicBusy) {
+        const modal = document.getElementById('gachaModal');
+        if (!modal || modal.style.display === 'none') playGachaComicIntro();
+      }
+      // Shift+O：免費預覽「完整漫畫 → v5旋轉落牌 → 震動 → 翻牌」；絕不扣令牌或寫入圖鑑。
+      if (event.shiftKey && event.code === 'KeyO' && !event.repeat && !gachaComicBusy) {
+        const result = document.getElementById('gachaModal');
+        if (!result || result.style.display === 'none') {
+          const sample = defaultHeroes.filter(h => !h.exchangeOnly).slice(0, 10);
+          playGachaComicIntro(() => showGachaResults(sample, 10));
+        }
+      }
+      if (event.key === 'Escape' && gachaComicBusy) finishGachaComicIntro();
+    });
+
+
+
+
+
+
+
+    // ==========================================
+
+    // 招賢台自訂提示 / 確認視窗
+
+    // ==========================================
+
+
+
+    let pickAlertConfirmHandler = null;
+
+
+
+
+
+
+
+    function openPickAlert({
+
+
+
+      title = "提 示",
+
+
+
+      message = "",
+
+
+
+      confirmText = "確 定",
+
+
+
+      cancelText = "取 消",
+
+
+
+      showCancel = false,
+
+
+
+      onConfirm = null
+
+
+
+    } = {}) {
+
+
+
+
+
+      const overlay =
+
+        document.getElementById(
+
+          'pickAlert'
+
+        );
+
+
+
+
+
+      const titleEl =
+
+        document.getElementById(
+
+          'pickAlertTitle'
+
+        );
+
+
+
+
+
+      const messageEl =
+
+        document.getElementById(
+
+          'pickAlertMessage'
+
+        );
+
+
+
+
+
+      const confirmBtn =
+
+        document.getElementById(
+
+          'pickAlertConfirm'
+
+        );
+
+
+
+
+
+      const cancelBtn =
+
+        document.getElementById(
+
+          'pickAlertCancel'
+
+        );
+
+
+
+
+
+      if (
+
+        !overlay ||
+
+        !titleEl ||
+
+        !messageEl ||
+
+        !confirmBtn ||
+
+        !cancelBtn
+
+      ) {
+
+        return;
+
+      }
+
+
+
+
+
+      pickAlertConfirmHandler =
+
+        typeof onConfirm === 'function'
+
+          ? onConfirm
+
+          : null;
+
+
+
+
+
+      titleEl.textContent =
+
+        title;
+
+
+
+
+
+      messageEl.textContent =
+
+        message;
+
+
+
+
+
+      confirmBtn.textContent =
+
+        confirmText;
+
+
+
+
+
+      cancelBtn.textContent =
+
+        cancelText;
+
+
+
+
+
+      cancelBtn.style.display =
+
+        showCancel
+
+          ? 'inline-flex'
+
+          : 'none';
+
+
+
+
+
+      overlay.classList.add(
+
+        'show'
+
+      );
+
+
+
+
+
+      overlay.setAttribute(
+
+        'aria-hidden',
+
+        'false'
+
+      );
+
+
+
+
+
+      setTimeout(
+
+        () =>
+
+          confirmBtn.focus(),
+
+        0
+
+      );
+
+
+
+    }
+
+
+
+
+
+
+
+    function closePickAlert() {
+
+
+
+
+
+      const overlay =
+
+        document.getElementById(
+
+          'pickAlert'
+
+        );
+
+
+
+
+
+      if (!overlay) {
+
+        return;
+
+      }
+
+
+
+
+
+      overlay.classList.remove(
+
+        'show'
+
+      );
+
+
+
+
+
+      overlay.setAttribute(
+
+        'aria-hidden',
+
+        'true'
+
+      );
+
+
+
+
+
+      pickAlertConfirmHandler =
+
+        null;
+
+
+
+    }
+
+
+
+
+
+
+
+    function showPickAlert(
+
+      message,
+
+      title = "提 示"
+
+    ) {
+
+
+
+      openPickAlert({
+
+
+
+        title,
+
+
+
+        message,
+
+
+
+        confirmText:
+
+          "確 定",
+
+
+
+        showCancel:
+
+          false
+
+
+
+      });
+
+
+
+    }
+
+
+
+
+
+
+
+    function showPickConfirm(
+
+      message,
+
+      title,
+
+      onConfirm
+
+    ) {
+
+
+
+      openPickAlert({
+
+
+
+        title,
+
+
+
+        message,
+
+
+
+        confirmText:
+
+          "確 定 重 置",
+
+
+
+        cancelText:
+
+          "取 消",
+
+
+
+        showCancel:
+
+          true,
+
+
+
+        onConfirm
+
+
+
+      });
+
+
+
+    }
+
+
+
+
+
+
+
+    document.addEventListener(
+
+      'DOMContentLoaded',
+
+      function () {
+
+
+
+
+
+        const overlay =
+
+          document.getElementById(
+
+            'pickAlert'
+
+          );
+
+
+
+
+
+        const confirmBtn =
+
+          document.getElementById(
+
+            'pickAlertConfirm'
+
+          );
+
+
+
+
+
+        const cancelBtn =
+
+          document.getElementById(
+
+            'pickAlertCancel'
+
+          );
+
+
+
+
+
+
+
+        if (confirmBtn) {
+
+
+
+          confirmBtn.addEventListener(
+
+            'click',
+
+            function () {
+
+
+
+              const handler =
+
+                pickAlertConfirmHandler;
+
+
+
+
+
+              closePickAlert();
+
+
+
+
+
+              if (handler) {
+
+                handler();
+
+              }
+
+
+
+            }
+
+          );
+
+
+
+        }
+
+
+
+
+
+
+
+        if (cancelBtn) {
+
+
+
+          cancelBtn.addEventListener(
+
+            'click',
+
+            closePickAlert
+
+          );
+
+
+
+        }
+
+
+
+
+
+
+
+        if (overlay) {
+
+
+
+          overlay.addEventListener(
+
+            'click',
+
+            function (e) {
+
+
+
+              if (
+
+                e.target === overlay
+
+              ) {
+
+
+
+                closePickAlert();
+
+
+
+              }
+
+
+
+            }
+
+          );
+
+
+
+        }
+
+
+
+      }
+
+    );
+
+
+
+
+
+
+
+    document.addEventListener(
+
+      'keydown',
+
+      function (e) {
+
+
+
+
+
+        if (
+
+          e.key === 'Escape'
+
+        ) {
+
+
+
+
+
+          const overlay =
+
+            document.getElementById(
+
+              'pickAlert'
+
+            );
+
+
+
+
+
+          if (
+
+            overlay &&
+
+            overlay.classList.contains(
+
+              'show'
+
+            )
+
+          ) {
+
+
+
+            closePickAlert();
+
+
+
+          }
+
+
+
+        }
+
+
+
+      }
+
+    );
+
+
+
+
+
+
+
+    // ==========================================
+
+    // 武將資料
+
+    // ==========================================
+
+
+
+    const defaultHeroes = [
+
+
+
+
+
+      {
+
+        name: "曹操",
+
+        faction: "wei",
+
+        rarity: "ssr",
+
+        unlocked: false,
+
+        image: "images/曹操.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: "「治世之能臣，亂世之奸雄。」"
+
+      },
+
+
+
+
+
+      {
+
+        name: "劉備",
+
+        faction: "shu",
+
+        rarity: "ssr",
+
+        unlocked: false,
+
+        image: "images/劉備.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: "「仁德之君，以德服人。」"
+
+      },
+
+
+
+
+
+      {
+
+        name: "孫權",
+
+        faction: "wu",
+
+        rarity: "ssr",
+
+        unlocked: false,
+
+        image: "images/孫權.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: "「坐斷東南戰未休。」"
+
+      },
+
+
+
+
+
+      {
+
+        name: "趙雲",
+
+        faction: "shu",
+
+        rarity: "sr",
+
+        unlocked: false,
+
+        image: "images/趙雲.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: "「長坂坡單騎救主，一身是膽。」"
+
+      },
+
+
+
+
+
+      {
+
+        name: "周瑜",
+
+        faction: "wu",
+
+        rarity: "sr",
+
+        unlocked: false,
+
+        image: "images/周瑜.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: ""
+
+      },
+
+
+
+
+
+      {
+
+        name: "甄姬",
+
+        faction: "wei",
+
+        rarity: "r",
+
+        unlocked: false,
+
+        image: "images/甄姬.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: "「姿貌絕倫，賦性聰慧。」"
+
+      },
+
+
+
+
+
+      {
+
+        name: "蔡文姬",
+
+        faction: "wei",
+
+        rarity: "r",
+
+        unlocked: false,
+
+        image: "images/蔡文姬.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: ""
+
+      },
+
+
+
+
+
+      {
+
+        name: "張飛",
+
+        faction: "shu",
+
+        rarity: "ssr",
+
+        unlocked: false,
+
+        image: "images/張飛.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: ""
+
+      },
+
+
+
+
+
+      {
+
+        name: "孫尚香",
+
+        faction: "wu",
+
+        rarity: "r",
+
+        unlocked: false,
+
+        image: "images/孫上香.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: "「才捷剛猛，弓腰姬也。」"
+
+      },
+
+
+
+
+
+      {
+
+        name: "諸葛亮",
+
+        faction: "shu",
+
+        rarity: "sr",
+
+        unlocked: false,
+
+        image: "images/諸葛亮.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: "「鞠躬盡瘁，死而後已。」"
+
+      },
+
+
+
+
+
+      {
+
+        name: "關羽",
+
+        faction: "shu",
+
+        rarity: "ssr",
+
+        unlocked: false,
+
+        image: "images/關羽.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: "「威震華夏，義薄雲天。」"
+
+      },
+
+
+
+
+
+      {
+
+        name: "司馬懿",
+
+        faction: "wei",
+
+        rarity: "ssr",
+
+        unlocked: false,
+
+        image: "images/司馬懿.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: "「鷹視狼顧，謀定後動。」"
+
+      },
+
+
+
+
+
+      {
+
+        name: "龐統",
+
+        faction: "shu",
+
+        rarity: "sr",
+
+        unlocked: false,
+
+        image: "images/龐統.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: "「鳳雛奇謀，運籌帷幄。」"
+
+      },
+
+
+
+
+
+      {
+
+        name: "黃蓋",
+
+        faction: "wu",
+
+        rarity: "sr",
+
+        unlocked: false,
+
+        image: "images/黃蓋.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: "「苦肉計成，火燒赤壁。」"
+
+      },
+
+
+
+
+
+      {
+
+        name: "關銀屏",
+
+        faction: "shu",
+
+        rarity: "r",
+
+        unlocked: false,
+
+        image: "images/關銀屏.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: ""
+
+      },
+
+
+
+
+
+      {
+
+        name: "大喬小喬",
+
+        faction: "wu",
+
+        rarity: "r",
+
+        unlocked: false,
+
+        image: "images/大喬小喬.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: "「銅雀春深鎖二喬。」"
+
+      },
+
+
+
+
+
+      {
+
+        name: "夏侯惇",
+
+        faction: "wei",
+
+        rarity: "sr",
+
+        unlocked: false,
+
+        image: "images/夏侯惇.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: ""
+
+      },
+
+
+
+
+
+      {
+
+        name: "郭嘉",
+
+        faction: "wei",
+
+        rarity: "sr",
+
+        unlocked: false,
+
+        image: "images/郭嘉.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: ""
+
+      },
+
+
+
+
+
+      {
+
+        name: "孫策",
+
+        faction: "wu",
+
+        rarity: "sr",
+
+        unlocked: false,
+
+        image: "images/孫策.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: ""
+
+      },
+
+
+
+
+
+      {
+
+        name: "呂布",
+
+        faction: "special",
+
+        rarity: "ssr",
+
+        unlocked: false,
+
+        hidden: true,
+
+        // 不進一般抽卡池；改由右下角呂布 NPC 彩蛋解鎖
+        exchangeOnly: true,
+
+        npcUnlockOnly: true,
+
+        image: "images/呂布.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: ""
+
+      },
+
+
+
+
+
+      {
+
+        name: "貂蟬",
+
+        faction: "special",
+
+        rarity: "r",
+
+        unlocked: false,
+
+        hidden: true,
+
+        exchangeKey: true,
+
+        image: "images/貂蟬.png",
+
+        lockedImage: "images/未解鎖.png",
+
+        novel: ""
+
+      }
+
+
+
+    ];
+
+
+
+
+
+
+
+    // ==========================================
+
+    // 招賢令初始化
+
+    // ==========================================
+
+
+
+    document.addEventListener(
+
+      'DOMContentLoaded',
+
+      function () {
+
+
+
+
+
+        let tokens =
+
+          localStorage.getItem(
+
+            'userTokens'
+
+          );
+
+
+
+
+
+        if (
+
+          tokens === null
+
+        ) {
+
+
+
+          tokens = 0;
+
+
+
+          localStorage.setItem(
+
+            'userTokens',
+
+            tokens
+
+          );
+
+
+
+        }
+
+
+
+
+
+        updateTokenUI(
+
+          tokens
+
+        );
+
+
+
+      }
+
+    );
+
+
+
+
+
+
+
+    // ==========================================
+
+    // 更新招賢令 UI
+
+    // ==========================================
+
+
+
+    function updateTokenUI(
+
+      count
+
+    ) {
+
+      const tokenCountEl =
+
+        document.getElementById(
+
+          'tokenCount'
+
+        );
+
+      if (tokenCountEl) {
+
+        const nextCount = Number(count);
+        const previousCount =
+          tokenCountEl.dataset.currentCount === undefined
+            ? nextCount
+            : Number(tokenCountEl.dataset.currentCount);
+
+        tokenCountEl.textContent = count;
+        tokenCountEl.dataset.currentCount = String(nextCount);
+
+        // 只有真的扣除招賢令時才給短回饋；首次載入不播放。
+        if (nextCount < previousCount) {
+          const panel = tokenCountEl.closest('.recruit-token-count');
+
+          if (panel) {
+            panel.classList.remove('token-spend-feedback');
+            void panel.offsetWidth;
+            panel.classList.add('token-spend-feedback');
+
+            window.setTimeout(() => {
+              panel.classList.remove('token-spend-feedback');
+            }, 420);
+          }
+        }
+
+      }
+
+    }
+
+
+
+    // ==========================================
+
+    // 同步圖鑑資料
+
+    // ==========================================
+
+
+
+    function getSyncedHeroesData() {
+
+
+
+
+
+      const savedHeroes =
+
+        JSON.parse(
+
+          localStorage.getItem(
+
+            'heroesData'
+
+          )
+
+        )
+
+        ||
+
+        [];
+
+
+
+
+
+      const savedHeroMap =
+
+        new Map(
+
+          savedHeroes.map(
+
+            hero => [
+
+              hero.name,
+
+              hero
+
+            ]
+
+          )
+
+        );
+
+
+
+
+
+      const syncedHeroes =
+
+        defaultHeroes.map(
+
+          defaultHero => {
+
+
+
+
+
+            const savedHero =
+
+              savedHeroMap.get(
+
+                defaultHero.name
+
+              );
+
+
+
+
+
+            if (savedHero) {
+
+
+
+              return {
+
+                ...defaultHero,
+
+                unlocked:
+
+                  savedHero.unlocked
+
+              };
+
+
+
+            }
+
+
+
+
+
+            return {
+
+              ...defaultHero
+
+            };
+
+
+
+          }
+
+        );
+
+
+
+
+
+      localStorage.setItem(
+
+        'heroesData',
+
+        JSON.stringify(
+
+          syncedHeroes
+
+        )
+
+      );
+
+
+
+
+
+      return syncedHeroes;
+
+
+
+    }
+
+
+
+
+
+
+
+    // ==========================================
+
+    // 招募
+
+    // ==========================================
+
+
+
+    function recruit(
+
+      count
+
+    ) {
+
+      if (gachaComicBusy) return;
+
+
+
+
+
+      let tokens =
+
+        parseInt(
+
+          localStorage.getItem(
+
+            'userTokens'
+
+          )
+
+          ||
+
+          0
+
+        );
+
+
+
+
+
+      let heroes =
+
+        getSyncedHeroesData();
+
+
+
+
+
+
+
+      // 呂布是 NPC 彩蛋角色
+
+      // exchangeOnly 只用來排除一般抽卡池，
+      // 真正解鎖由 main.js 的呂布 × 貂蟬事件負責
+
+      let lockedHeroes =
+
+        heroes.filter(
+
+          h =>
+
+            !h.unlocked &&
+
+            !h.exchangeOnly
+
+        );
+
+
+
+
+
+      if (
+
+        lockedHeroes.length === 0
+
+      ) {
+
+
+
+        showPickAlert(
+
+
+
+          "目前已沒有可透過招賢台取得的武將。",
+
+
+
+          "招 賢 完 成"
+
+
+
+        );
+
+
+
+        return;
+
+
+
+      }
+
+
+
+      /*
+        最終串接修正：
+        如果普通卡池剩餘角色少於玩家按下的抽數，
+        只扣實際能招募的數量，避免「只剩 3 人卻扣 10 枚招賢令」。
+        十連按鈕仍維持十連漫畫與十連舞台，不改演出規格。
+      */
+      const actualRecruitCount =
+        Math.min(
+          count,
+          lockedHeroes.length
+        );
+
+
+
+      // 招賢令不足：以本次真正能抽到的數量判定。
+      if (
+        tokens < actualRecruitCount
+      ) {
+
+        showPickAlert(
+          "招賢令數量不足，請前往「群雄問答」挑戰獲取更多代幣",
+          "招 賢 令 不 足"
+        );
+
+        return;
+      }
+
+
+
+      // 扣除實際招募數量
+
+      tokens -= actualRecruitCount;
+
+
+
+
+
+      localStorage.setItem(
+
+        'userTokens',
+
+        tokens
+
+      );
+
+
+
+
+
+      updateTokenUI(
+
+        tokens
+
+      );
+
+
+
+
+
+
+
+      let drawnHeroes = [];
+
+
+
+
+
+
+
+      // ========================================
+
+      // 開始抽卡
+
+      // ========================================
+
+
+
+      for (
+
+        let i = 0;
+
+        i < actualRecruitCount;
+
+        i++
+
+      ) {
+
+
+
+
+
+        let currentLocked =
+
+          heroes.filter(
+
+            h =>
+
+              !h.unlocked &&
+
+              !h.exchangeOnly
+
+          );
+
+
+
+
+
+        if (
+
+          currentLocked.length === 0
+
+        ) {
+
+          break;
+
+        }
+
+
+
+
+
+
+
+        // ======================================
+
+        // 機率
+
+        //
+
+        // SSR 20%
+
+        // SR  70%
+
+        // R   10%
+
+        // ======================================
+
+
+
+        const rand =
+
+          Math.random()
+
+          *
+
+          100;
+
+
+
+
+
+        let targetRarity =
+
+          'r';
+
+
+
+
+
+        if (
+
+          rand < 20
+
+        ) {
+
+
+
+          targetRarity =
+
+            'ssr';
+
+
+
+        }
+
+
+
+        else if (
+
+          rand < 90
+
+        ) {
+
+
+
+          targetRarity =
+
+            'sr';
+
+
+
+        }
+
+
+
+        else {
+
+
+
+          targetRarity =
+
+            'r';
+
+
+
+        }
+
+
+
+
+
+
+
+        let pool =
+
+          currentLocked.filter(
+
+            h =>
+
+              h.rarity ===
+
+              targetRarity
+
+          );
+
+
+
+
+
+        // 如果該稀有度已經抽完
+
+        // 就從其他未解鎖角色補
+
+        if (
+
+          pool.length === 0
+
+        ) {
+
+
+
+          pool =
+
+            currentLocked;
+
+
+
+        }
+
+
+
+
+
+
+
+        const randomIndex =
+
+          Math.floor(
+
+            Math.random()
+
+            *
+
+            pool.length
+
+          );
+
+
+
+
+
+        let selectedHero =
+
+          pool[
+
+            randomIndex
+
+          ];
+
+
+
+
+
+
+
+        heroes =
+
+          heroes.map(
+
+            h => {
+
+
+
+
+
+              if (
+
+                h.name ===
+
+                selectedHero.name
+
+              ) {
+
+
+
+                return {
+
+                  ...h,
+
+                  unlocked: true
+
+                };
+
+
+
+              }
+
+
+
+
+
+              return h;
+
+
+
+            }
+
+          );
+
+
+
+
+
+        drawnHeroes.push(
+
+          selectedHero
+
+        );
+
+
+
+      }
+
+
+
+
+
+
+
+      localStorage.setItem(
+
+        'heroesData',
+
+        JSON.stringify(
+
+          heroes
+
+        )
+
+      );
+
+
+
+
+
+      if (count === 10 && drawnHeroes.length > 0) {
+        // 十連抽維持原本完整曹操五格漫畫，不改流程。
+        playGachaComicIntro(() => showGachaResults(drawnHeroes, count));
+      } else if (count === 1 && drawnHeroes.length === 1) {
+        // 單抽先依真正抽到的武將播放專屬特徵過場；目前曹操使用 05.png。
+        // 過場播完後才進入同一張已抽中的卡，不會再次 random。
+        playSinglePullCharacterTeaser(
+          drawnHeroes[0],
+          () => showGachaResults(drawnHeroes, count)
+        );
+      } else {
+        showGachaResults(drawnHeroes, count);
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+    // ==========================================
+
+    // 顯示抽卡結果
+
+    // ==========================================
+
+
+
+
+    // ==========================================
+    // v5 十連抽：十張卡背從光中順序旋轉落牌（並非 v7/v8 召喚門）
+    // ==========================================
+    function startV5TenPull(cardItems, onComplete) {
+      const modal = document.getElementById('gachaModal');
+      if (!modal || cardItems.length === 0) { onComplete(); return; }
+      if (window.stopV5TenPull) window.stopV5TenPull();
+      const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const spacing = reduced ? 0 : 90;
+      const duration = reduced ? 150 : 850;
+      let finished = false;
+      let timeoutId = null;
+      function dispose() {
+        if (finished) return;
+        finished = true;
+        if (timeoutId !== null) clearTimeout(timeoutId);
+        modal.classList.remove('v5-ten-pull-active');
+        cardItems.forEach(card => card.classList.remove('v5-card-dropping'));
+        if (window.stopV5TenPull === dispose) window.stopV5TenPull = null;
+      }
+      window.stopV5TenPull = dispose;
+      modal.classList.add('v5-ten-pull-active');
+      cardItems.forEach((card, i) => {
+        card.style.setProperty('--v5-order', i);
+        card.classList.add('v5-card-dropping');
+      });
+      timeoutId = setTimeout(() => {
+        dispose();
+        onComplete();
+      }, (cardItems.length - 1) * spacing + duration + 160);
+    }
+
+    function showGachaResults(
+
+      heroesList,
+
+      count
+
+    ) {
+
+
+
+
+
+      const modal =
+
+        document.getElementById(
+
+          'gachaModal'
+
+        );
+
+
+
+
+
+      const cardBox =
+
+        document.getElementById(
+
+          'gachaCardBox'
+
+        );
+
+
+
+
+
+      const modalContent =
+
+        document.getElementById(
+
+          'gachaModalContent'
+
+        );
+
+
+
+
+
+      const btnGroup =
+
+        document.getElementById(
+
+          'gachaBtnGroup'
+
+        );
+
+
+
+
+
+
+
+      if (window.gachaStageTimers) {
+        window.gachaStageTimers.forEach(clearTimeout);
+        window.gachaStageTimers = [];
+      }
+      if (window.stopV5TenPull) window.stopV5TenPull();
+      modal.classList.remove('has-gacha-card-flow','v5-ten-pull-active');
+      cardBox.classList.remove('gacha-flow-stage');
+
+      cardBox.innerHTML =
+
+        '';
+
+
+
+
+
+      btnGroup.style.opacity =
+
+        '0';
+
+
+
+
+
+      btnGroup.style.pointerEvents =
+
+        'none';
+
+
+
+
+
+
+
+      // ========================================
+
+      // 建立卡牌 HTML
+
+      // ========================================
+
+
+
+      function createCardHTML(
+
+        hero
+
+      ) {
+
+
+
+
+
+        return `
+
+
+
+          <div
+
+            class="
+
+              gacha-hero-card
+
+              card-3d-container
+
+              rarity-${hero.rarity}
+
+            "
+
+          >
+
+
+
+            <div class="card-3d-inner">
+
+
+
+
+
+              <!-- 卡背 -->
+
+
+
+              <div class="card-3d-front">
+
+
+
+                <img
+
+                  src="images/cardback.png"
+
+                  alt="卡背"
+
+                >
+
+
+
+              </div>
+
+
+
+
+
+              <!-- 卡面 -->
+
+
+
+              <div class="card-3d-back">
+
+
+
+                <div class="gacha-img-container">
+
+
+
+                  <img
+
+                    src="${hero.image}"
+
+                    alt="${hero.name}"
+
+                  >
+
+
+
+                </div>
+
+
+
+              </div>
+
+
+
+
+
+            </div>
+
+
+
+          </div>
+
+
+
+        `;
+
+
+
+      }
+
+
+
+
+
+
+
+      // ========================================
+
+      // 單抽
+
+      // ========================================
+
+
+
+      if (
+
+        count === 1
+
+      ) {
+
+
+
+
+
+        modalContent.classList.remove(
+
+          'wide-modal'
+
+        );
+
+
+
+
+
+        cardBox.className =
+
+          'gacha-cards-box single-card-wrapper';
+
+
+
+
+
+        const hero =
+
+          heroesList[0];
+
+
+
+
+
+        cardBox.innerHTML =
+
+          createCardHTML(
+
+            hero
+
+          );
+
+
+
+
+
+        cardBox.innerHTML +=
+
+          `
+
+            <p
+
+              class="gacha-quote gacha-quote-hidden"
+
+              id="singleQuote"
+
+            >
+
+              ${
+
+                hero.novel
+
+                ||
+
+                "「亂世群雄，由你主宰。」"
+
+              }
+
+            </p>
+
+          `;
+
+
+
+      }
+
+
+
+
+
+
+
+      // ========================================
+
+      // 十抽
+
+      // ========================================
+
+
+
+      else {
+
+
+
+
+
+        modalContent.classList.add(
+
+          'wide-modal'
+
+        );
+
+
+
+
+
+        cardBox.className =
+
+          'gacha-cards-box gacha-cards-grid';
+
+
+
+
+
+        heroesList.forEach(
+
+          hero => {
+
+
+
+
+
+            cardBox.innerHTML +=
+
+              createCardHTML(
+
+                hero
+
+              );
+
+
+
+          }
+
+        );
+
+
+
+      }
+
+
+
+
+
+
+
+      modal.style.display =
+
+        'flex';
+
+      document.body.classList.add(
+        'gacha-result-open'
+      );
+
+
+
+
+
+
+
+      const cards =
+
+        document.querySelectorAll(
+
+          '.card-3d-container'
+
+        );
+
+
+
+
+
+      const quote =
+
+        document.getElementById(
+
+          'singleQuote'
+
+        );
+
+
+
+
+
+
+
+      // ========================================
+      // 節奏精修：保留 v5 旋轉落牌與原本 3D 翻牌，只整理每張卡的蓄力時機
+      // ========================================
+      const cardItems = Array.from(cards);
+      const stageTimers = [];
+      const laterGacha = (ms, fn) => stageTimers.push(setTimeout(fn, ms));
+      window.gachaStageTimers = stageTimers;
+
+      function finishResultAfterLastFlip() {
+        laterGacha(650, () => {
+          if (quote) {
+            quote.classList.remove('gacha-quote-hidden');
+            quote.classList.add('gacha-quote-fadein');
+          }
+          btnGroup.style.opacity = '1';
+          btnGroup.style.pointerEvents = 'auto';
+        });
+      }
+
+      function flipCardsSequentially(firstFlipAt = 0, flipSpacing = 235) {
+        cardItems.forEach((card, index) => {
+          laterGacha(firstFlipAt + index * flipSpacing, () => {
+            card.classList.remove('shaking');
+            card.classList.add('flipped');
+
+            // 十連抽蓄力後的邊緣光會陪著這張卡完成整段 3D 翻牌，
+            // 不會在翻牌剛開始時突然消失。
+            laterGacha(820, () => {
+              card.classList.remove('gacha-edge-hold');
+            });
+
+            if (index === cardItems.length - 1) {
+              finishResultAfterLastFlip();
+            }
+          });
+        });
+      }
+
+      function startSinglePullShakeAndFlip() {
+        // 單抽維持上一版手感：一張卡自己短蓄力，接著直接翻開。
+        const card = cardItems[0];
+        if (!card) return;
+
+        const reduced = window.matchMedia &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        const chargeDuration = reduced ? 80 : 460;
+        const flipAt = reduced ? 100 : 500;
+        const chargeAt = Math.max(0, flipAt - chargeDuration);
+
+        laterGacha(chargeAt, () => {
+          card.style.removeProperty('--gacha-charge-duration');
+          card.classList.remove('shaking');
+          void card.offsetWidth;
+          card.classList.add('shaking');
+        });
+
+        laterGacha(flipAt, () => {
+          card.classList.remove('shaking');
+          card.classList.add('flipped');
+          finishResultAfterLastFlip();
+        });
+      }
+
+      function startTenPullGroupShakeAndFlip() {
+        /*
+          十抽新節奏：
+          v5 十張依序落牌完成
+          → startV5TenPull 本身已留約 160ms 靜止
+          → 十張同時短蓄力一次
+          → 全部停住一小拍
+          → 再乾淨地依序翻牌
+
+          不再「每張輪到自己才震」，避免依序落 → 依序震 → 依序翻三層排隊感。
+        */
+        const reduced = window.matchMedia &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        const groupChargeDuration = reduced ? 80 : 900;
+        const settleAfterCharge = reduced ? 20 : 120;
+        const flipSpacing = reduced ? 70 : 235;
+
+        cardItems.forEach(card => {
+          card.classList.remove('shaking');
+          card.style.setProperty(
+            '--gacha-charge-duration',
+            `${groupChargeDuration}ms`
+          );
+        });
+
+        // 同一個 frame 讓十張一起開始蓄力。
+        if (cardItems[0]) void cardItems[0].offsetWidth;
+        cardItems.forEach(card => card.classList.add('shaking'));
+
+        laterGacha(groupChargeDuration, () => {
+          cardItems.forEach(card => {
+            card.classList.remove('shaking');
+            card.classList.add('gacha-edge-hold');
+            card.style.removeProperty('--gacha-charge-duration');
+          });
+        });
+
+        // 全部停止後留一小拍，再開始逐張揭曉。
+        flipCardsSequentially(
+          groupChargeDuration + settleAfterCharge,
+          flipSpacing
+        );
+      }
+
+      if (count === 10 && cardItems.length >= 1) {
+        // 十連抽：即使卡池最後只剩 1 張，也維持 v5 落牌 → 集體蓄力 → 翻牌。
+        startV5TenPull(cardItems, () => startTenPullGroupShakeAndFlip());
+      } else if (count === 1 && cardItems.length === 1) {
+        // 單抽仍沿用 v5 卡背落牌，再做一張卡自己的短蓄力 → 翻牌。
+        startV5TenPull(cardItems, () => startSinglePullShakeAndFlip());
+      } else {
+        // 保底分支：沒有十張時直接依序翻開。
+        flipCardsSequentially(0, 235);
+      }
+
+    }
+
+
+
+
+    // ==========================================
+
+    // 關閉抽卡結果
+
+    // ==========================================
+
+
+
+    function closeGachaModal() {
+      // 先停止所有尚未完成的抽卡計時器，避免關閉後仍有翻牌／亮光 callback 執行。
+      if (window.gachaStageTimers) {
+        window.gachaStageTimers.forEach(clearTimeout);
+        window.gachaStageTimers = [];
+      }
+
+      if (window.stopV5TenPull) {
+        window.stopV5TenPull();
+      }
+
+      const modal = document.getElementById('gachaModal');
+      const cardBox = document.getElementById('gachaCardBox');
+      const btnGroup = document.getElementById('gachaBtnGroup');
+
+      if (modal) {
+        // 把本輪抽卡可能留下的所有動畫狀態一次清乾淨。
+        modal.querySelectorAll('.card-3d-container').forEach(card => {
+          card.classList.remove(
+            'shaking',
+            'gacha-edge-hold',
+            'flipped',
+            'v5-card-dropping'
+          );
+
+          card.style.removeProperty('--gacha-charge-duration');
+          card.style.removeProperty('--v5-order');
+        });
+
+        modal.classList.remove(
+          'has-gacha-card-flow',
+          'v5-ten-pull-active'
+        );
+
+        modal.style.display = 'none';
+      }
+
+      if (cardBox) {
+        cardBox.classList.remove('gacha-flow-stage');
+      }
+
+      // 下一輪 showGachaResults 仍會重新設定，這裡先恢復成乾淨的初始值。
+      if (btnGroup) {
+        btnGroup.style.opacity = '0';
+        btnGroup.style.pointerEvents = 'none';
+      }
+
+      document.body.classList.remove('gacha-result-open');
+    }
+
+
+
+
+
+
+
+    // ==========================================
+
+    // 重置資料
+
+    // ==========================================
+
+
+
+    function resetGameData() {
+
+
+
+
+
+      showPickConfirm(
+
+
+
+        "確定要重置所有圖鑑解鎖狀態與招賢令嗎？",
+
+
+
+        "重 置 資 料",
+
+
+
+        function () {
+
+
+
+
+
+          localStorage.removeItem(
+
+            'heroesData'
+
+          );
+
+
+
+
+
+          localStorage.removeItem(
+
+            'specialFishingCaoUnlocked'
+
+          );
+
+
+
+
+
+          localStorage.removeItem(
+
+            'specialFishingCaoClickCount'
+
+          );
+
+
+
+
+
+          localStorage.setItem(
+
+            'userTokens',
+
+            20
+
+          );
+
+
+
+
+
+          updateTokenUI(
+
+            20
+
+          );
+
+
+
+
+
+          showPickAlert(
+
+
+
+            "圖鑑解鎖狀態與招賢令已重置完成。",
+
+
+
+            "重 置 完 成"
+
+
+
+          );
+
+
+
+        }
+
+
+
+      );
+
+
+
+    }
+
+
+
+
+
+  </script>
+
+
+
+
+
+
+
+  <!-- ======================================================
+
+       全站 NPC 彩蛋
+
+  ====================================================== -->
+
+
+
+  <div
+
+    class="site-npc"
+
+    id="siteNpc"
+
+  >
+
+
+
+
+
+    <!-- =========================
+
+         對話框
+
+    ========================== -->
+
+
+
+    <div
+
+      class="npc-dialogue"
+
+      id="npcDialogue"
+
+    >
+
+
+
+      <div
+
+        class="npc-dialogue-name"
+
+        id="npcName"
+
+      >
+
+        曹操
+
+      </div>
+
+
+
+
+
+      <p id="npcDialogueText">
+
+        「天下英雄，誰堪與孤一論？」
+
+      </p>
+
+
+
+
+
+      <span class="npc-dialogue-next">
+
+        ▶
+
+      </span>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- =========================
+
+         NPC 本體
+
+    ========================== -->
+
+
+
+    <button
+
+      class="npc-character"
+
+      id="npcCharacter"
+
+      type="button"
+
+      aria-label="與 NPC 互動"
+
+    >
+
+
+
+
+
+      <!-- 驚嘆號 -->
+
+
+
+      <span
+
+        class="npc-alert"
+
+        id="npcAlert"
+
+      >
+
+        !
+
+      </span>
+
+
+
+
+
+      <!-- NPC Sprite -->
+
+
+
+      <span
+
+        class="npc-sprite"
+
+        id="npcSprite"
+
+      ></span>
+
+
+
+
+
+    </button>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- ======================================================
+
+       貂蟬跑進來
+
+  ====================================================== -->
+
+
+
+  <div
+
+    class="dc-runner"
+
+    id="dcRunner"
+
+    aria-hidden="true"
+
+  >
+
+
+
+    <span
+
+      class="dc-sprite"
+
+      id="dcSprite"
+
+    ></span>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- ======================================================
+
+       呂布 × 貂蟬 親吻停止畫面
+
+  ====================================================== -->
+
+
+
+  <div
+
+    class="kiss-scene"
+
+    id="kissScene"
+
+    aria-hidden="true"
+
+  >
+
+
+
+    <span
+
+      class="kiss-sprite"
+
+      id="kissSprite"
+
+    ></span>
+
+
+
+  </div>
+
+
+
+
+
+
+
+  <!-- ======================================================
+
+       共用 JS
+
+
+
+       ★ 只保留這一個 main.js
+
+  ====================================================== -->
+
+
+
+  <script src="js/main.js"></script>
+
+
+
+
+
+
+
+  <script>
+
+
+
+    function flipBook(element) {
+
+
+
+      element.classList.toggle(
+
+        'flipped'
+
+      );
+
+
+
+    }
+
+
+
+  </script>
+
+
+
+
+
+</body>
+
+
+
+</html>

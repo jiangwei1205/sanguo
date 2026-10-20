@@ -1,0 +1,8472 @@
+
+
+
+/* ======================================
+
+
+   CARD PAGE 專屬樣式
+
+
+   輕度遊戲化：月夜古城 × 米白古卷
+
+
+====================================== */
+
+
+:root {
+
+
+  --bg-color: #f3efe6;
+
+
+  --card-bg: #e6dfd1;
+
+
+  --border-color: #bfa77a;
+
+
+  --border-dark: #8c734b;
+
+
+  --text-main: #33271d;
+
+
+  --text-muted: #736352;
+
+
+  --gold: #d4af37;
+
+
+}
+
+
+* {
+
+
+  box-sizing: border-box;
+
+
+  margin: 0;
+
+
+  padding: 0;
+
+
+}
+
+
+/* ======================================
+
+
+   月夜古城背景
+
+
+====================================== */
+
+
+body {
+
+
+  color: var(--text-main);
+
+
+  font-family: 'Noto Sans TC', sans-serif;
+
+
+  min-height: 100vh;
+
+
+  display: flex;
+
+
+  flex-direction: column;
+
+
+  background-color: #111d30;
+
+
+  background-image:
+
+
+    radial-gradient(
+
+
+      circle at 12% 78%,
+
+
+      rgba(206, 135, 52, 0.18),
+
+
+      transparent 24%
+
+
+    ),
+
+
+    radial-gradient(
+
+
+      circle at 88% 82%,
+
+
+      rgba(206, 135, 52, 0.16),
+
+
+      transparent 24%
+
+
+    ),
+
+
+    linear-gradient(
+
+
+      rgba(10, 15, 24, 0.18),
+
+
+      rgba(10, 15, 24, 0.38)
+
+
+    ),
+
+
+    url('../images/card-bg.png');
+
+
+  background-size: cover;
+
+
+  background-position: center top;
+
+
+  background-repeat: no-repeat;
+
+
+  background-attachment: fixed;
+
+
+}
+
+
+/* ======================================
+
+
+   人物圖鑑：米白古卷主面板
+
+
+====================================== */
+
+
+.codex-container {
+
+
+  max-width: 1450px;
+
+
+  width: 92%;
+
+
+  margin: 95px auto 45px;
+
+
+  padding: 30px 42px 45px;
+
+
+  display: flex;
+
+
+  flex-direction: column;
+
+
+  gap: 20px;
+
+
+  flex: 1;
+
+
+  position: relative;
+
+
+  isolation: isolate;
+
+
+  background:
+
+
+    radial-gradient(
+
+
+      ellipse at 82% 10%,
+
+
+      rgba(198, 163, 103, 0.15),
+
+
+      transparent 38%
+
+
+    ),
+
+
+    radial-gradient(
+
+
+      ellipse at 14% 88%,
+
+
+      rgba(117, 82, 43, 0.08),
+
+
+      transparent 32%
+
+
+    ),
+
+
+    linear-gradient(
+
+
+      160deg,
+
+
+      rgba(250, 245, 231, 0.93),
+
+
+      rgba(241, 229, 206, 0.91)
+
+
+    );
+
+
+  border: 2px solid #b58a48;
+
+
+  border-radius: 5px;
+
+
+  box-shadow:
+
+
+    0 16px 40px rgba(0, 0, 0, 0.38),
+
+
+    inset 0 0 36px rgba(153, 111, 55, 0.09);
+
+
+}
+
+
+/* 古卷內側金框 */
+
+
+.codex-container::before {
+
+
+  content: '';
+
+
+  position: absolute;
+
+
+  inset: 9px;
+
+
+  border: 1px solid rgba(176, 127, 57, 0.52);
+
+
+  border-radius: 2px;
+
+
+  pointer-events: none;
+
+
+  z-index: 0;
+
+
+}
+
+
+.codex-container > * {
+
+
+  position: relative;
+
+
+  z-index: 1;
+
+
+}
+
+
+/* ======================================
+
+
+   陣營分類列
+
+
+====================================== */
+
+
+.codex-faction-bar {
+
+
+  display: flex;
+
+
+  justify-content: space-between;
+
+
+  align-items: center;
+
+
+  border-bottom: 1px solid rgba(177, 131, 67, 0.78);
+
+
+  padding-bottom: 14px;
+
+
+  flex-wrap: wrap;
+
+
+  gap: 15px;
+
+
+}
+
+
+.faction-menu {
+
+
+  display: flex;
+
+
+  flex-wrap: wrap;
+
+
+  gap: 12px;
+
+
+  font-family: 'Noto Serif TC', serif;
+
+
+  font-size: 18px;
+
+
+  font-weight: 700;
+
+
+}
+
+
+.faction-tab {
+
+
+  background: rgba(225, 214, 191, 0.40);
+
+
+  border: 1px solid rgba(151, 111, 60, 0.32);
+
+
+  border-radius: 4px;
+
+
+  cursor: pointer;
+
+
+  color: var(--text-muted);
+
+
+  font-size: 18px;
+
+
+  font-family: inherit;
+
+
+  padding: 9px 23px;
+
+
+  transition:
+
+
+    background 0.25s,
+
+
+    color 0.25s,
+
+
+    border-color 0.25s,
+
+
+    box-shadow 0.25s;
+
+
+}
+
+
+.faction-tab:hover {
+
+
+  color: var(--text-main);
+
+
+  border-color: #b48a48;
+
+
+  background: rgba(233, 219, 190, 0.76);
+
+
+}
+
+
+.faction-tab.active {
+
+
+  color: #fff4d0;
+
+
+  background: linear-gradient(135deg, #4b3725, #241912);
+
+
+  border-color: #ca9b4a;
+
+
+  box-shadow:
+
+
+    0 0 12px rgba(205, 157, 69, 0.20),
+
+
+    inset 0 0 0 1px rgba(252, 216, 153, 0.10);
+
+
+}
+
+
+.codex-progress {
+
+
+  font-family: 'Noto Serif TC', serif;
+
+
+  font-size: 16px;
+
+
+  color: #725639;
+
+
+  font-weight: 700;
+
+
+  letter-spacing: 1px;
+
+
+  white-space: nowrap;
+
+
+}
+
+
+/* ======================================
+
+
+   稀有度與搜尋控制面板
+
+
+====================================== */
+
+
+.codex-panel {
+
+
+  display: flex;
+
+
+  flex-direction: column;
+
+
+  width: 100%;
+
+
+  background: linear-gradient(
+
+
+    90deg,
+
+
+    rgba(248, 239, 219, 0.88),
+
+
+    rgba(228, 213, 184, 0.74)
+
+
+  );
+
+
+  border: 1px solid rgba(175, 132, 69, 0.68);
+
+
+  border-radius: 6px;
+
+
+  padding: 13px 20px;
+
+
+  box-shadow:
+
+
+    inset 0 1px 0 rgba(255, 255, 255, 0.60),
+
+
+    0 4px 12px rgba(69, 49, 28, 0.07);
+
+
+}
+
+
+.codex-sub-bar {
+
+
+  display: flex;
+
+
+  justify-content: space-between;
+
+
+  align-items: center;
+
+
+  flex-wrap: wrap;
+
+
+  gap: 15px;
+
+
+}
+
+
+.rarity-filters {
+
+
+  display: flex;
+
+
+  flex-wrap: wrap;
+
+
+  gap: 4px;
+
+
+  background: rgba(225, 214, 193, 0.67);
+
+
+  padding: 5px;
+
+
+  border-radius: 6px;
+
+
+  border: 1px solid var(--border-color);
+
+
+}
+
+
+.rarity-btn {
+
+
+  background: transparent;
+
+
+  border: 1px solid transparent;
+
+
+  cursor: pointer;
+
+
+  padding: 7px 13px;
+
+
+  min-width: 54px;
+
+
+  font-family: 'Noto Serif TC', serif;
+
+
+  font-size: 14px;
+
+
+  font-weight: 700;
+
+
+  color: var(--text-muted);
+
+
+  border-radius: 4px;
+
+
+  transition: all 0.2s;
+
+
+}
+
+
+.rarity-btn:hover {
+
+
+  background: rgba(255, 255, 255, 0.40);
+
+
+  color: var(--text-main);
+
+
+}
+
+
+.rarity-btn.active {
+
+
+  background: linear-gradient(135deg, #3c2c1e, #251a13);
+
+
+  border-color: rgba(202, 155, 74, 0.62);
+
+
+  color: #fff4dc;
+
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+
+
+}
+
+
+/* ======================================
+
+
+   搜尋框
+
+
+====================================== */
+
+
+.search-box {
+
+
+  position: relative;
+
+
+  display: flex;
+
+
+  align-items: center;
+
+
+}
+
+
+.search-input {
+
+
+  background: rgba(236, 228, 210, 0.96);
+
+
+  border: 1px solid #c3a36d;
+
+
+  padding: 9px 14px 9px 37px;
+
+
+  border-radius: 6px;
+
+
+  font-size: 14px;
+
+
+  color: var(--text-main);
+
+
+  width: 220px;
+
+
+  outline: none;
+
+
+  transition:
+
+
+    width 0.3s,
+
+
+    border-color 0.2s,
+
+
+    box-shadow 0.2s;
+
+
+}
+
+
+.search-input:focus {
+
+
+  width: 260px;
+
+
+  border-color: var(--border-dark);
+
+
+  box-shadow: 0 0 0 3px rgba(172, 132, 67, 0.12);
+
+
+}
+
+
+.search-icon {
+
+
+  position: absolute;
+
+
+  left: 11px;
+
+
+  color: var(--text-muted);
+
+
+  font-size: 14px;
+
+
+  pointer-events: none;
+
+
+}
+
+
+/* ======================================
+
+
+   卡片網格
+
+
+====================================== */
+
+
+.cards-grid {
+
+
+  display: grid;
+
+
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+
+
+  gap: 20px;
+
+
+  padding-bottom: 40px;
+
+
+}
+
+
+/* ======================================
+
+
+   人物卡片
+
+
+====================================== */
+
+
+.hero-card {
+
+
+  background: linear-gradient(
+
+
+    135deg,
+
+
+    #2b221b 0%,
+
+
+    #1a1410 100%
+
+
+  );
+
+
+  border: 2px solid var(--border-dark);
+
+
+  border-radius: 8px;
+
+
+  overflow: hidden;
+
+
+  cursor: pointer;
+
+
+  position: relative;
+
+
+  min-width: 0;
+
+
+  box-shadow:
+
+
+    0 6px 14px rgba(0, 0, 0, 0.22),
+
+
+    0 0 0 1px rgba(208, 166, 88, 0.08);
+
+
+  transition:
+
+
+    transform 0.23s,
+
+
+    box-shadow 0.23s,
+
+
+    border-color 0.23s;
+
+
+}
+
+
+.hero-card:not(.locked):hover {
+
+
+  transform: translateY(-4px) scale(1.01);
+
+
+  border-color: #c99b4d;
+
+
+  box-shadow:
+
+
+    0 10px 22px rgba(50, 31, 18, 0.28),
+
+
+    0 0 14px rgba(202, 157, 72, 0.16);
+
+
+}
+
+
+/* ======================================
+
+
+   人物圖片
+
+
+====================================== */
+
+
+.hero-image-placeholder {
+
+
+  width: 100%;
+
+
+  aspect-ratio: 220 / 300;
+
+
+  height: auto;
+
+
+  background-color: #3d3124;
+
+
+  display: flex;
+
+
+  flex-direction: column;
+
+
+  align-items: center;
+
+
+  justify-content: center;
+
+
+  position: relative;
+
+
+  overflow: hidden;
+
+
+  border-bottom: 1px solid var(--border-dark);
+
+
+}
+
+
+.hero-image-placeholder img {
+
+
+  width: 100%;
+
+
+  height: 100%;
+
+
+  object-fit: contain;
+
+
+  display: block;
+
+
+}
+
+
+/* ======================================
+
+
+   人物名稱
+
+
+====================================== */
+
+
+.hero-name {
+
+
+  text-align: center;
+
+
+  padding: 10px 5px;
+
+
+  font-family: 'Noto Serif TC', serif;
+
+
+  font-size: 16px;
+
+
+  font-weight: 700;
+
+
+  letter-spacing: 1px;
+
+
+  color: #f3efe6;
+
+
+  background: linear-gradient(180deg, #3a2a1e, #221810);
+
+
+}
+
+
+/* ======================================
+
+
+   未解鎖卡片
+
+
+====================================== */
+
+
+.hero-card.locked {
+
+
+  background: #1c1815;
+
+
+  border-color: #554331;
+
+
+  cursor: not-allowed;
+
+
+}
+
+
+.hero-card.locked:hover {
+
+
+  transform: none;
+
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.17);
+
+
+}
+
+
+.hero-card.locked .hero-image-placeholder {
+
+
+  background-color: #14110f;
+
+
+  border-bottom-color: #2b221b;
+
+
+}
+
+
+.hero-card.locked .hero-name {
+
+
+  color: #8e795d;
+
+
+}
+
+
+/* ======================================
+
+
+   角色介紹 Modal
+
+
+====================================== */
+
+
+.hero-modal-overlay {
+
+
+  position: fixed;
+
+
+  top: 0;
+
+
+  left: 0;
+
+
+  width: 100vw;
+
+
+  height: 100vh;
+
+
+  background-color: rgba(0, 0, 0, 0.73);
+
+
+  display: flex;
+
+
+  justify-content: center;
+
+
+  align-items: center;
+
+
+  z-index: 1000;
+
+
+  opacity: 0;
+
+
+  visibility: hidden;
+
+
+  transition:
+
+
+    opacity 0.3s ease,
+
+
+    visibility 0.3s ease;
+
+
+}
+
+
+.hero-modal-overlay.active {
+
+
+  opacity: 1;
+
+
+  visibility: visible;
+
+
+}
+
+
+.hero-modal-content {
+
+
+  background: linear-gradient(135deg, #2b221b 0%, #1a1410 100%);
+
+
+  border: 2px solid #ae884f;
+
+
+  border-radius: 12px;
+
+
+  width: 90%;
+
+
+  max-width: 720px;
+
+
+  max-height: 85vh;
+
+
+  overflow-y: auto;
+
+
+  padding: 30px;
+
+
+  position: relative;
+
+
+  box-shadow:
+
+
+    0 10px 30px rgba(0, 0, 0, 0.5),
+
+
+    0 0 20px rgba(191, 151, 83, 0.12);
+
+
+  color: #f3efe6;
+
+
+  transform: translateY(20px);
+
+
+  transition: transform 0.3s ease;
+
+
+}
+
+
+.hero-modal-overlay.active .hero-modal-content {
+
+
+  transform: translateY(0);
+
+
+}
+
+
+.modal-close-btn {
+
+
+  position: absolute;
+
+
+  top: 15px;
+
+
+  right: 20px;
+
+
+  background: none;
+
+
+  border: none;
+
+
+  color: var(--border-color);
+
+
+  font-size: 24px;
+
+
+  cursor: pointer;
+
+
+  transition: color 0.2s;
+
+
+}
+
+
+.modal-close-btn:hover {
+
+
+  color: #fff;
+
+
+}
+
+
+.modal-body-layout {
+
+
+  display: flex;
+
+
+  gap: 25px;
+
+
+  align-items: flex-start;
+
+
+}
+
+
+.modal-hero-img {
+
+
+  width: 220px;
+
+
+  height: 310px;
+
+
+  background-color: #3d3124;
+
+
+  border-radius: 6px;
+
+
+  overflow: hidden;
+
+
+  border: 1px solid var(--border-dark);
+
+
+  flex-shrink: 0;
+
+
+  display: flex;
+
+
+  align-items: center;
+
+
+  justify-content: center;
+
+
+}
+
+
+.modal-hero-img img {
+
+
+  width: 100%;
+
+
+  height: 100%;
+
+
+  object-fit: contain;
+
+
+}
+
+
+.modal-info-area {
+
+
+  flex: 1;
+
+
+  min-width: 0;
+
+
+}
+
+
+.modal-info-area h2 {
+
+
+  font-family: 'Noto Serif TC', serif;
+
+
+  font-size: 28px;
+
+
+  color: var(--gold);
+
+
+  margin-bottom: 10px;
+
+
+}
+
+
+.modal-tags {
+
+
+  display: flex;
+
+
+  gap: 10px;
+
+
+  margin-bottom: 15px;
+
+
+  flex-wrap: wrap;
+
+
+}
+
+
+.modal-tag {
+
+
+  background-color: #3d3124;
+
+
+  border: 1px solid var(--border-dark);
+
+
+  padding: 2px 8px;
+
+
+  border-radius: 4px;
+
+
+  font-size: 12px;
+
+
+  color: var(--border-color);
+
+
+}
+
+
+.modal-desc-section {
+
+
+  margin-top: 15px;
+
+
+  border-top: 1px solid rgba(181, 167, 122, 0.2);
+
+
+  padding-top: 15px;
+
+
+}
+
+
+.modal-desc-section h4 {
+
+
+  font-family: 'Noto Serif TC', serif;
+
+
+  color: var(--gold);
+
+
+  font-size: 16px;
+
+
+  margin-bottom: 6px;
+
+
+}
+
+
+.modal-desc-section p {
+
+
+  font-size: 14px;
+
+
+  line-height: 1.6;
+
+
+  color: #d1c7b7;
+
+
+  margin-bottom: 10px;
+
+
+}
+
+
+/* ======================================
+
+
+   貂蟬特殊羈絆按鈕
+
+
+====================================== */
+
+
+#modalBondSection {
+
+
+  border-color: rgba(181, 139, 70, 0.55) !important;
+
+
+}
+
+
+#unlockBondBtn {
+
+
+  border: 1px solid #bc8c47;
+
+
+  border-radius: 5px;
+
+
+  background: linear-gradient(135deg, #826036, #4b321e);
+
+
+  color: #fff4dc;
+
+
+  font-family: 'Noto Serif TC', serif;
+
+
+  font-weight: 700;
+
+
+  padding: 11px 14px;
+
+
+  transition:
+
+
+    filter 0.2s,
+
+
+    box-shadow 0.2s;
+
+
+}
+
+
+#unlockBondBtn:not(:disabled):hover {
+
+
+  filter: brightness(1.13);
+
+
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.23);
+
+
+}
+
+
+#unlockBondBtn:disabled {
+
+
+  cursor: default;
+
+
+}
+
+
+/* ======================================
+
+
+   響應式調整
+
+
+====================================== */
+
+
+@media (max-width: 1200px) {
+
+
+  .cards-grid {
+
+
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+
+
+  }
+
+
+  .codex-container {
+
+
+    padding: 28px 30px 38px;
+
+
+  }
+
+
+}
+
+
+@media (max-width: 980px) {
+
+
+  .cards-grid {
+
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+
+    gap: 16px;
+
+
+  }
+
+
+}
+
+
+@media (max-width: 768px) {
+
+
+  body {
+
+
+    background-attachment: scroll;
+
+
+  }
+
+
+  .codex-container {
+
+
+    width: 94%;
+
+
+    padding: 24px 20px 32px;
+
+
+  }
+
+
+  .codex-faction-bar,
+
+
+  .codex-sub-bar {
+
+
+    flex-direction: column;
+
+
+    align-items: flex-start;
+
+
+  }
+
+
+  .faction-menu {
+
+
+    gap: 8px;
+
+
+  }
+
+
+  .faction-tab {
+
+
+    font-size: 16px;
+
+
+    padding: 8px 16px;
+
+
+  }
+
+
+  .search-box,
+
+
+  .search-input {
+
+
+    width: 100%;
+
+
+  }
+
+
+  .search-input:focus {
+
+
+    width: 100%;
+
+
+  }
+
+
+  .cards-grid {
+
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+
+    gap: 13px;
+
+
+  }
+
+
+  .hero-name {
+
+
+    font-size: 14px;
+
+
+  }
+
+
+}
+
+
+@media (max-width: 600px) {
+
+
+  .modal-body-layout {
+
+
+    flex-direction: column;
+
+
+    align-items: center;
+
+
+    text-align: center;
+
+
+  }
+
+
+  .modal-hero-img {
+
+
+    width: 180px;
+
+
+    height: 250px;
+
+
+  }
+
+
+  .modal-tags {
+
+
+    justify-content: center;
+
+
+  }
+
+
+  .hero-modal-content {
+
+
+    padding: 24px 18px;
+
+
+  }
+
+
+}
+
+
+@media (max-width: 480px) {
+
+
+  .codex-container {
+
+
+    margin-top: 84px;
+
+
+    padding: 22px 15px 28px;
+
+
+  }
+
+
+  .cards-grid {
+
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+
+    gap: 12px;
+
+
+  }
+
+
+  .faction-tab {
+
+
+    padding: 7px 12px;
+
+
+  }
+
+
+  .codex-panel {
+
+
+    padding: 12px;
+
+
+  }
+
+
+  .hero-name {
+
+
+    padding: 8px 3px;
+
+
+    font-size: 13px;
+
+
+  }
+
+
+}
+
+
+/* ==========================================================
+
+
+
+   月夜群雄圖鑑 UI
+
+
+
+   只追加視覺覆蓋，不改原本 6 欄 / gap / 卡片尺寸 / RWD
+
+
+
+========================================================== */
+
+
+/* ===== 整體夜景 ===== */
+
+
+body {
+
+
+
+  background-image:
+
+
+
+    linear-gradient(
+
+
+
+      rgba(6, 10, 17, 0.18),
+
+
+
+      rgba(6, 10, 17, 0.42)
+
+
+
+    ),
+
+
+
+    url('../images/card-bg.png') !important;
+
+
+  background-size: cover;
+
+
+
+  background-position: center top;
+
+
+
+  background-repeat: no-repeat;
+
+
+
+  background-attachment: fixed;
+
+
+
+}
+
+
+/* ===== 拔掉米白大面板 ===== */
+
+
+.codex-container {
+
+
+
+  background: transparent !important;
+
+
+
+  border: none !important;
+
+
+
+  box-shadow: none !important;
+
+
+  /* 預留一點視覺空間給標題，但不改原本寬度 */
+
+
+
+  position: relative;
+
+
+
+}
+
+
+/* ===== 第一層：陣營 HUD ===== */
+
+
+.codex-faction-bar {
+
+
+
+  background:
+
+
+
+    linear-gradient(
+
+
+
+      90deg,
+
+
+
+      rgba(17, 14, 12, 0.94),
+
+
+
+      rgba(34, 25, 18, 0.90)
+
+
+
+    );
+
+
+  border:
+
+
+
+    1px solid rgba(195, 144, 65, 0.74);
+
+
+  border-radius: 8px;
+
+
+  box-shadow:
+
+
+
+    0 8px 26px rgba(0, 0, 0, 0.34),
+
+
+
+    inset 0 0 22px rgba(212, 175, 55, 0.025);
+
+
+  backdrop-filter: blur(4px);
+
+
+
+  -webkit-backdrop-filter: blur(4px);
+
+
+
+}
+
+
+.faction-tab {
+
+
+
+  color: #c7b28e;
+
+
+  background: transparent;
+
+
+  border:
+
+
+
+    1px solid transparent;
+
+
+  box-shadow: none;
+
+
+  text-shadow:
+
+
+
+    0 1px 2px rgba(0, 0, 0, 0.55);
+
+
+
+}
+
+
+.faction-tab:hover {
+
+
+
+  color: #ffe8ae;
+
+
+  background:
+
+
+
+    rgba(109, 72, 30, 0.20);
+
+
+  border-color:
+
+
+
+    rgba(201, 151, 71, 0.40);
+
+
+
+}
+
+
+.faction-tab.active {
+
+
+
+  color: #fff1bb;
+
+
+  background:
+
+
+
+    radial-gradient(
+
+
+
+      circle at 50% 50%,
+
+
+
+      rgba(154, 95, 31, 0.92),
+
+
+
+      rgba(66, 38, 16, 0.98)
+
+
+
+    );
+
+
+  border-color: #d1a151;
+
+
+  box-shadow:
+
+
+
+    0 0 16px rgba(220, 170, 74, 0.28),
+
+
+
+    inset 0 0 0 1px rgba(255, 227, 167, 0.08);
+
+
+
+}
+
+
+.codex-progress {
+
+
+
+  color: #efd39a;
+
+
+  text-shadow:
+
+
+
+    0 1px 3px rgba(0, 0, 0, 0.65);
+
+
+
+}
+
+
+/* ===== 第二層：稀有度 / 搜尋 ===== */
+
+
+.codex-panel {
+
+
+
+  background:
+
+
+
+    linear-gradient(
+
+
+
+      90deg,
+
+
+
+      rgba(20, 16, 13, 0.90),
+
+
+
+      rgba(31, 23, 17, 0.86)
+
+
+
+    );
+
+
+  border:
+
+
+
+    1px solid rgba(190, 141, 66, 0.62);
+
+
+  border-radius: 8px;
+
+
+  box-shadow:
+
+
+
+    0 7px 20px rgba(0, 0, 0, 0.26),
+
+
+
+    inset 0 0 16px rgba(212, 175, 55, 0.02);
+
+
+  backdrop-filter: blur(4px);
+
+
+
+  -webkit-backdrop-filter: blur(4px);
+
+
+
+}
+
+
+.rarity-filters {
+
+
+
+  background:
+
+
+
+    rgba(47, 33, 22, 0.66);
+
+
+  border:
+
+
+
+    1px solid rgba(189, 140, 69, 0.44);
+
+
+
+}
+
+
+.rarity-btn {
+
+
+
+  color: #c0ad8c;
+
+
+
+}
+
+
+.rarity-btn:hover {
+
+
+
+  color: #f3deb3;
+
+
+  background:
+
+
+
+    rgba(110, 73, 31, 0.20);
+
+
+
+}
+
+
+.rarity-btn.active {
+
+
+
+  color: #fff0bd;
+
+
+  background:
+
+
+
+    radial-gradient(
+
+
+
+      circle at 50% 50%,
+
+
+
+      rgba(137, 82, 27, 0.92),
+
+
+
+      rgba(57, 32, 15, 0.98)
+
+
+
+    );
+
+
+  border-color:
+
+
+
+    rgba(209, 161, 79, 0.70);
+
+
+  box-shadow:
+
+
+
+    0 0 12px rgba(212, 175, 55, 0.18);
+
+
+
+}
+
+
+/* ===== 搜尋框 ===== */
+
+
+.search-input {
+
+
+
+  color: #ecddbd;
+
+
+  background:
+
+
+
+    rgba(14, 12, 10, 0.74);
+
+
+  border:
+
+
+
+    1px solid rgba(190, 142, 69, 0.52);
+
+
+  box-shadow:
+
+
+
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+
+
+
+}
+
+
+.search-input::placeholder {
+
+
+
+  color: #9f9077;
+
+
+
+}
+
+
+.search-input:focus {
+
+
+
+  border-color: #c5944d;
+
+
+  box-shadow:
+
+
+
+    0 0 0 3px rgba(190, 141, 67, 0.10),
+
+
+
+    0 0 12px rgba(212, 175, 55, 0.08);
+
+
+
+}
+
+
+.search-icon {
+
+
+
+  color: #cba35d;
+
+
+
+}
+
+
+/* ===== 卡片區完全透明 ===== */
+
+
+.cards-grid {
+
+
+
+  background: transparent !important;
+
+
+
+  border: none !important;
+
+
+
+  box-shadow: none !important;
+
+
+
+}
+
+
+.cards-grid::before,
+
+
+
+.cards-grid::after {
+
+
+
+  content: none !important;
+
+
+
+  display: none !important;
+
+
+
+}
+
+
+/* ===== 卡片本體 ===== */
+
+
+.hero-card {
+
+
+
+  border-color: #8b663b;
+
+
+  background:
+
+
+
+    linear-gradient(
+
+
+
+      180deg,
+
+
+
+      rgba(50, 36, 25, 0.98),
+
+
+
+      rgba(25, 18, 13, 0.99)
+
+
+
+    );
+
+
+  box-shadow:
+
+
+
+    0 10px 24px rgba(0, 0, 0, 0.50),
+
+
+
+    0 0 0 1px rgba(207, 163, 79, 0.07);
+
+
+  transition:
+
+
+
+    transform 0.22s ease,
+
+
+
+    box-shadow 0.22s ease,
+
+
+
+    border-color 0.22s ease,
+
+
+
+    filter 0.22s ease;
+
+
+
+}
+
+
+.hero-card:not(.locked):hover {
+
+
+
+  transform:
+
+
+
+    translateY(-5px)
+
+
+
+    scale(1.012);
+
+
+  border-color: #d3a453;
+
+
+  box-shadow:
+
+
+
+    0 15px 30px rgba(0, 0, 0, 0.56),
+
+
+
+    0 0 20px rgba(212, 175, 55, 0.22);
+
+
+
+}
+
+
+/* ===== SSR / SR / R 額外質感
+
+
+
+   若目前 HTML 沒有 data-rarity，不影響原本版面
+
+
+
+===== */
+
+
+.hero-card[data-rarity="ssr"] {
+
+
+
+  border-color: #c8943d;
+
+
+  box-shadow:
+
+
+
+    0 10px 24px rgba(0, 0, 0, 0.50),
+
+
+
+    0 0 15px rgba(224, 169, 54, 0.18);
+
+
+
+}
+
+
+.hero-card[data-rarity="sr"] {
+
+
+
+  border-color: #9ea7b3;
+
+
+  box-shadow:
+
+
+
+    0 10px 24px rgba(0, 0, 0, 0.48),
+
+
+
+    0 0 12px rgba(196, 211, 231, 0.10);
+
+
+
+}
+
+
+.hero-card[data-rarity="r"] {
+
+
+
+  border-color: #657f9e;
+
+
+  box-shadow:
+
+
+
+    0 10px 24px rgba(0, 0, 0, 0.46),
+
+
+
+    0 0 10px rgba(100, 155, 211, 0.08);
+
+
+
+}
+
+
+/* ===== 人名底條 ===== */
+
+
+.hero-name {
+
+
+
+  color: #f3e5c5;
+
+
+  background:
+
+
+
+    linear-gradient(
+
+
+
+      180deg,
+
+
+
+      rgba(55, 39, 27, 0.99),
+
+
+
+      rgba(27, 19, 14, 0.99)
+
+
+
+    );
+
+
+  border-top:
+
+
+
+    1px solid rgba(211, 164, 80, 0.14);
+
+
+  text-shadow:
+
+
+
+    0 1px 2px rgba(0, 0, 0, 0.62);
+
+
+
+}
+
+
+/* ===== 未解鎖卡：封印感 ===== */
+
+
+.hero-card.locked {
+
+
+
+  border-color: #4f412f;
+
+
+  background:
+
+
+
+    linear-gradient(
+
+
+
+      180deg,
+
+
+
+      rgba(29, 25, 21, 0.98),
+
+
+
+      rgba(15, 13, 11, 0.99)
+
+
+
+    );
+
+
+  box-shadow:
+
+
+
+    0 8px 20px rgba(0, 0, 0, 0.44);
+
+
+
+}
+
+
+.hero-card.locked:hover {
+
+
+
+  transform: none;
+
+
+  box-shadow:
+
+
+
+    0 8px 20px rgba(0, 0, 0, 0.44);
+
+
+
+}
+
+
+.hero-card.locked .hero-image-placeholder img {
+
+
+
+  filter:
+
+
+
+    brightness(0.72)
+
+
+
+    saturate(0.72)
+
+
+
+    contrast(1.04);
+
+
+
+}
+
+
+.hero-card.locked .hero-name {
+
+
+
+  color: #8a7454;
+
+
+  background:
+
+
+
+    linear-gradient(
+
+
+
+      180deg,
+
+
+
+      rgba(41, 32, 25, 0.98),
+
+
+
+      rgba(23, 18, 14, 0.99)
+
+
+
+    );
+
+
+
+}
+
+
+/* ==========================================================
+
+   人物圖鑑 UI 精修版
+
+   重點：
+
+   - 不改原本 6 欄 / gap / 卡片尺寸 / RWD
+
+   - 拿掉過多框線
+
+   - 修正按鈕與進度文字對齊
+
+   - 卡片不再包第二層厚框
+
+========================================================== */
+
+
+
+/* ===== 主區域保持透明 ===== */
+
+.codex-container {
+
+  background: transparent !important;
+
+  border: none !important;
+
+  box-shadow: none !important;
+
+}
+
+
+
+.codex-container::before,
+
+.codex-container::after {
+
+  content: none !important;
+
+  display: none !important;
+
+}
+
+
+
+/* ===== 第一層：陣營列 ===== */
+
+.codex-faction-bar {
+
+  min-height: 62px;
+
+
+
+  padding:
+
+    0 22px !important;
+
+
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+
+
+  background:
+
+    rgba(18, 14, 11, 0.84) !important;
+
+
+
+  border:
+
+    1px solid rgba(181, 132, 61, 0.44) !important;
+
+
+
+  border-radius: 7px;
+
+
+
+  box-shadow:
+
+    0 7px 20px rgba(0, 0, 0, 0.25) !important;
+
+
+
+  backdrop-filter: blur(5px);
+
+  -webkit-backdrop-filter: blur(5px);
+
+}
+
+
+
+.faction-menu {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 22px !important;
+
+}
+
+
+
+.faction-tab {
+
+  position: relative;
+
+
+
+  min-width: auto !important;
+
+
+
+  padding:
+
+    18px 8px 17px !important;
+
+
+
+  background:
+
+    transparent !important;
+
+
+
+  border:
+
+    none !important;
+
+
+
+  border-radius: 0 !important;
+
+
+
+  box-shadow:
+
+    none !important;
+
+
+
+  color: #b9a889 !important;
+
+
+
+  font-size: 18px;
+
+  line-height: 1;
+
+
+
+  transition:
+
+    color 0.2s ease,
+
+    text-shadow 0.2s ease;
+
+}
+
+
+
+.faction-tab:hover {
+
+  color: #ecd8aa !important;
+
+  background: transparent !important;
+
+  border: none !important;
+
+}
+
+
+
+.faction-tab.active {
+
+  color: #ffe5a5 !important;
+
+
+
+  background:
+
+    transparent !important;
+
+
+
+  border:
+
+    none !important;
+
+
+
+  box-shadow:
+
+    none !important;
+
+
+
+  text-shadow:
+
+    0 0 9px rgba(214, 167, 76, 0.22);
+
+}
+
+
+
+.faction-tab.active::after {
+
+  content: "";
+
+
+
+  position: absolute;
+
+
+
+  left: 14%;
+
+  right: 14%;
+
+  bottom: 9px;
+
+
+
+  height: 2px;
+
+
+
+  background:
+
+    linear-gradient(
+
+      90deg,
+
+      transparent,
+
+      #d5a14c 22%,
+
+      #efc66c 50%,
+
+      #d5a14c 78%,
+
+      transparent
+
+    );
+
+
+
+  box-shadow:
+
+    0 0 8px rgba(212, 175, 55, 0.38);
+
+}
+
+
+
+/* 修正進度文字垂直位置 */
+
+.codex-progress {
+
+  display: flex;
+
+  align-items: center;
+
+
+
+  margin-left: auto;
+
+
+
+  padding: 0 !important;
+
+
+
+  line-height: 1;
+
+
+
+  color: #e5c98e !important;
+
+
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+
+
+  white-space: nowrap;
+
+
+
+  text-shadow:
+
+    0 1px 2px rgba(0, 0, 0, 0.55);
+
+}
+
+
+
+/* ===== 第二層：稀有度 / 搜尋 ===== */
+
+.codex-panel {
+
+  min-height: 58px;
+
+
+
+  padding:
+
+    0 20px !important;
+
+
+
+  display: flex;
+
+  justify-content: center;
+
+
+
+  background:
+
+    rgba(18, 14, 11, 0.78) !important;
+
+
+
+  border:
+
+    1px solid rgba(181, 132, 61, 0.38) !important;
+
+
+
+  border-radius: 7px;
+
+
+
+  box-shadow:
+
+    0 6px 18px rgba(0, 0, 0, 0.20) !important;
+
+
+
+  backdrop-filter: blur(5px);
+
+  -webkit-backdrop-filter: blur(5px);
+
+}
+
+
+
+.codex-sub-bar {
+
+  width: 100%;
+
+  min-height: 58px;
+
+
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+
+
+  gap: 15px;
+
+}
+
+
+
+/* 稀有度列去掉外層大框 */
+
+.rarity-filters {
+
+  display: flex;
+
+  align-items: center;
+
+
+
+  gap: 18px !important;
+
+
+
+  padding: 0 !important;
+
+
+
+  background:
+
+    transparent !important;
+
+
+
+  border:
+
+    none !important;
+
+
+
+  border-radius: 0 !important;
+
+
+
+  box-shadow:
+
+    none !important;
+
+}
+
+
+
+.rarity-btn {
+
+  position: relative;
+
+
+
+  min-width: auto !important;
+
+
+
+  padding:
+
+    18px 4px 17px !important;
+
+
+
+  background:
+
+    transparent !important;
+
+
+
+  border:
+
+    none !important;
+
+
+
+  border-radius: 0 !important;
+
+
+
+  box-shadow:
+
+    none !important;
+
+
+
+  color: #aa9a80 !important;
+
+
+
+  font-size: 14px;
+
+  line-height: 1;
+
+
+
+  transition:
+
+    color 0.2s ease,
+
+    text-shadow 0.2s ease;
+
+}
+
+
+
+.rarity-btn:hover {
+
+  color: #ddc698 !important;
+
+  background: transparent !important;
+
+}
+
+
+
+.rarity-btn.active {
+
+  color: #f0cf87 !important;
+
+
+
+  background:
+
+    transparent !important;
+
+
+
+  border:
+
+    none !important;
+
+
+
+  box-shadow:
+
+    none !important;
+
+
+
+  text-shadow:
+
+    0 0 7px rgba(212, 175, 55, 0.20);
+
+}
+
+
+
+.rarity-btn.active::after {
+
+  content: "";
+
+
+
+  position: absolute;
+
+
+
+  left: 5%;
+
+  right: 5%;
+
+  bottom: 10px;
+
+
+
+  height: 1px;
+
+
+
+  background:
+
+    linear-gradient(
+
+      90deg,
+
+      transparent,
+
+      #c89443,
+
+      transparent
+
+    );
+
+}
+
+
+
+/* ===== 搜尋框 ===== */
+
+.search-box {
+
+  display: flex;
+
+  align-items: center;
+
+}
+
+
+
+.search-input {
+
+  height: 40px;
+
+
+
+  padding:
+
+    0 14px 0 38px !important;
+
+
+
+  color: #dfcfaf !important;
+
+
+
+  background:
+
+    rgba(10, 9, 8, 0.58) !important;
+
+
+
+  border:
+
+    1px solid rgba(181, 132, 61, 0.40) !important;
+
+
+
+  border-radius: 5px !important;
+
+
+
+  box-shadow:
+
+    none !important;
+
+}
+
+
+
+.search-input::placeholder {
+
+  color: #988a75 !important;
+
+}
+
+
+
+.search-input:focus {
+
+  border-color:
+
+    rgba(203, 151, 72, 0.70) !important;
+
+
+
+  box-shadow:
+
+    0 0 0 2px rgba(190, 141, 67, 0.08) !important;
+
+}
+
+
+
+.search-icon {
+
+  color: #c99e55 !important;
+
+}
+
+
+
+/* ===== 卡片區 ===== */
+
+.cards-grid {
+
+  background: transparent !important;
+
+  border: none !important;
+
+  box-shadow: none !important;
+
+}
+
+
+
+.cards-grid::before,
+
+.cards-grid::after {
+
+  content: none !important;
+
+  display: none !important;
+
+}
+
+
+
+/* 拿掉 CSS 額外外框，直接讓卡圖自己的金框當主框 */
+
+.hero-card {
+
+  border:
+
+    none !important;
+
+
+
+  border-radius:
+
+    6px !important;
+
+
+
+  background:
+
+    transparent !important;
+
+
+
+  box-shadow:
+
+    0 9px 22px rgba(0, 0, 0, 0.40) !important;
+
+
+
+  overflow:
+
+    hidden;
+
+}
+
+
+
+.hero-card:not(.locked):hover {
+
+  transform:
+
+    translateY(-5px) !important;
+
+
+
+  box-shadow:
+
+    0 15px 30px rgba(0, 0, 0, 0.50),
+
+    0 0 14px rgba(212, 175, 55, 0.14) !important;
+
+}
+
+
+
+/* 圖片區不要額外畫邊 */
+
+.hero-image-placeholder {
+
+  border-bottom:
+
+    none !important;
+
+
+
+  background:
+
+    transparent !important;
+
+}
+
+
+
+/* 名稱底條縮薄 */
+
+.hero-name {
+
+  min-height: 42px;
+
+
+
+  padding:
+
+    8px 5px !important;
+
+
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+
+
+  background:
+
+    rgba(24, 17, 12, 0.92) !important;
+
+
+
+  border-top:
+
+    1px solid rgba(203, 157, 78, 0.15) !important;
+
+
+
+  color:
+
+    #ead9b8 !important;
+
+
+
+  font-size:
+
+    15px !important;
+
+
+
+  line-height:
+
+    1.2;
+
+
+
+  text-shadow:
+
+    0 1px 2px rgba(0, 0, 0, 0.50);
+
+}
+
+
+
+/* ===== 未解鎖 ===== */
+
+.hero-card.locked {
+
+  border:
+
+    none !important;
+
+
+
+  background:
+
+    transparent !important;
+
+
+
+  box-shadow:
+
+    0 8px 18px rgba(0, 0, 0, 0.34) !important;
+
+}
+
+
+
+.hero-card.locked:hover {
+
+  transform:
+
+    none !important;
+
+
+
+  box-shadow:
+
+    0 8px 18px rgba(0, 0, 0, 0.34) !important;
+
+}
+
+
+
+.hero-card.locked .hero-image-placeholder {
+
+  background:
+
+    transparent !important;
+
+}
+
+
+
+.hero-card.locked .hero-image-placeholder img {
+
+  filter:
+
+    brightness(0.76)
+
+    saturate(0.76)
+
+    contrast(1.03);
+
+}
+
+
+
+.hero-card.locked .hero-name {
+
+  color:
+
+    #857156 !important;
+
+
+
+  background:
+
+    rgba(23, 18, 14, 0.92) !important;
+
+}
+
+
+
+/* ==========================================================
+
+   手機版只修對齊，不改原本欄數規則
+
+========================================================== */
+
+
+
+@media (max-width: 768px) {
+
+
+
+  .codex-faction-bar,
+
+  .codex-sub-bar {
+
+    align-items:
+
+      stretch !important;
+
+  }
+
+
+
+  .codex-progress {
+
+    margin-left:
+
+      0;
+
+
+
+    padding:
+
+      4px 8px !important;
+
+  }
+
+
+
+  .faction-menu,
+
+  .rarity-filters {
+
+    width:
+
+      100%;
+
+
+
+    overflow-x:
+
+      auto;
+
+  }
+
+
+
+  .search-box {
+
+    width:
+
+      100%;
+
+  }
+
+
+
+  .search-input {
+
+    width:
+
+      100% !important;
+
+  }
+
+}
+
+
+/* ==========================================================
+
+   最終微調版
+
+   針對目前正常夜景圖鑑版做細節收斂
+
+========================================================== */
+
+
+
+/* 1. 卡片間距：橫向稍微收緊、上下保留呼吸感 */
+
+.cards-grid {
+
+  gap: 24px 15px !important;
+
+}
+
+
+
+/* 2. 第一層陣營列再薄一點 */
+
+.codex-faction-bar {
+
+  min-height: 56px !important;
+
+}
+
+
+
+/* 3. 第二層稀有度 / 搜尋列再薄一點 */
+
+.codex-panel,
+
+.codex-sub-bar {
+
+  min-height: 52px !important;
+
+}
+
+
+
+/* 4. 陣營按鈕同步縮短高度 */
+
+.faction-tab {
+
+  padding: 15px 8px 14px !important;
+
+}
+
+
+
+/* 5. 稀有度按鈕同步縮短高度 */
+
+.rarity-btn {
+
+  padding: 15px 4px 14px !important;
+
+}
+
+
+
+/* 6. 卡名底條縮薄，讓卡圖成為主角 */
+
+.hero-name {
+
+  min-height: 36px !important;
+
+
+
+  padding: 6px 5px !important;
+
+
+
+  font-size: 14px !important;
+
+
+
+  background:
+
+    rgba(17, 13, 10, 0.88) !important;
+
+
+
+  border-top:
+
+    1px solid rgba(203, 157, 78, 0.13) !important;
+
+}
+
+
+
+/* 7. 卡片本體不加外框，只保留浮起陰影 */
+
+.hero-card {
+
+  border: none !important;
+
+
+
+  box-shadow:
+
+    0 12px 24px rgba(0, 0, 0, 0.48),
+
+    0 10px 22px rgba(166, 105, 35, 0.06) !important;
+
+}
+
+
+
+/* 8. 已解鎖卡 hover：淡金光，不要太誇張 */
+
+.hero-card:not(.locked):hover {
+
+  transform:
+
+    translateY(-5px) !important;
+
+
+
+  box-shadow:
+
+    0 18px 34px rgba(0, 0, 0, 0.55),
+
+    0 0 18px rgba(219, 169, 61, 0.18) !important;
+
+}
+
+
+
+/* 9. 未解鎖卡保持更低調 */
+
+.hero-card.locked {
+
+  border: none !important;
+
+
+
+  box-shadow:
+
+    0 10px 20px rgba(0, 0, 0, 0.34) !important;
+
+}
+
+
+
+.hero-card.locked:hover {
+
+  transform: none !important;
+
+
+
+  box-shadow:
+
+    0 10px 20px rgba(0, 0, 0, 0.34) !important;
+
+}
+
+
+
+/* 10. 搜尋框高度配合較薄 toolbar */
+
+.search-input {
+
+  height: 38px !important;
+
+}
+
+
+
+/* 11. 小螢幕維持原本欄數邏輯，只讓間距別太擠 */
+
+@media (max-width: 980px) {
+
+  .cards-grid {
+
+    gap: 20px 14px !important;
+
+  }
+
+}
+
+
+
+@media (max-width: 768px) {
+
+  .cards-grid {
+
+    gap: 16px 12px !important;
+
+  }
+
+
+
+  .hero-name {
+
+    min-height: 34px !important;
+
+    font-size: 13px !important;
+
+  }
+
+}
+
+
+
+@media (max-width: 480px) {
+
+  .cards-grid {
+
+    gap: 14px 10px !important;
+
+  }
+
+}
+
+
+/* ==========================================================
+   搜尋圖示最終版
+   不改 HTML，直接把原本 🔍 emoji 隱藏，
+   改成純 CSS 金色線框放大鏡
+========================================================== */
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* 隱藏原本 emoji，本體拿來當定位容器 */
+.search-icon {
+  position: absolute !important;
+
+  left: 15px !important;
+  top: 50% !important;
+
+  width: 16px !important;
+  height: 16px !important;
+
+  transform: translateY(-50%) !important;
+
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+
+  z-index: 2;
+  pointer-events: none;
+
+  text-shadow: none !important;
+}
+
+/* 放大鏡圓圈 */
+.search-icon::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 11px;
+  height: 11px;
+
+  border: 1.8px solid #c99a4d;
+  border-radius: 50%;
+
+  box-sizing: border-box;
+
+  box-shadow:
+    0 0 6px rgba(212, 175, 55, 0.14);
+}
+
+/* 放大鏡握柄 */
+.search-icon::after {
+  content: "";
+
+  position: absolute;
+
+  width: 7px;
+  height: 1.8px;
+
+  left: 10px;
+  top: 11px;
+
+  background: #c99a4d;
+
+  border-radius: 2px;
+
+  transform: rotate(45deg);
+  transform-origin: left center;
+
+  box-shadow:
+    0 0 5px rgba(212, 175, 55, 0.12);
+}
+
+/* 搜尋框左側空間配合新圖示 */
+.search-input {
+  padding-left: 42px !important;
+}
+
+/* focus 時放大鏡稍微亮一點 */
+.search-box:focus-within .search-icon::before {
+  border-color: #e0b35e;
+
+  box-shadow:
+    0 0 8px rgba(224, 179, 94, 0.24);
+}
+
+.search-box:focus-within .search-icon::after {
+  background: #e0b35e;
+
+  box-shadow:
+    0 0 7px rgba(224, 179, 94, 0.20);
+}
+
+
+/* ==========================================================
+   角色介紹 Modal｜遊戲圖鑑化完整版
+   只覆蓋角色介紹視窗，不影響卡池網格與上方篩選
+========================================================== */
+
+.hero-modal-overlay {
+  padding: 24px;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(21, 16, 12, 0.34),
+      rgba(0, 0, 0, 0.82)
+    ) !important;
+
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.hero-modal-content {
+  width: min(94vw, 980px) !important;
+  max-width: 980px !important;
+  max-height: 88vh !important;
+
+  padding: 28px 30px 30px !important;
+
+  overflow-y: auto;
+
+  border:
+    1px solid rgba(193, 143, 66, 0.86) !important;
+
+  border-radius: 10px !important;
+
+  background:
+    radial-gradient(
+      circle at 20% 25%,
+      rgba(124, 82, 36, 0.12),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 78% 75%,
+      rgba(98, 62, 31, 0.08),
+      transparent 32%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(43, 31, 23, 0.985),
+      rgba(23, 17, 13, 0.992)
+    ) !important;
+
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.62),
+    0 0 0 1px rgba(255, 210, 123, 0.05),
+    inset 0 0 60px rgba(154, 101, 43, 0.06) !important;
+}
+
+/* 內層淡金邊 */
+.hero-modal-content::before {
+  content: "";
+
+  position: absolute;
+  inset: 8px;
+
+  border:
+    1px solid rgba(188, 137, 62, 0.16);
+
+  border-radius: 6px;
+
+  pointer-events: none;
+}
+
+/* 關閉按鈕 */
+.modal-close-btn {
+  top: 17px !important;
+  right: 20px !important;
+
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  color: #c9aa72 !important;
+  font-size: 28px !important;
+  line-height: 1;
+
+  border-radius: 50%;
+
+  z-index: 5;
+}
+
+.modal-close-btn:hover {
+  color: #ffe2a1 !important;
+
+  background:
+    rgba(133, 88, 38, 0.16) !important;
+
+  text-shadow:
+    0 0 10px rgba(223, 177, 81, 0.28);
+}
+
+/* 左右版面 */
+.modal-body-layout {
+  display: grid !important;
+
+  grid-template-columns:
+    minmax(255px, 300px)
+    minmax(0, 1fr);
+
+  gap: 34px !important;
+
+  align-items: start !important;
+}
+
+/* ==============================
+   左側卡牌展示
+============================== */
+
+.modal-visual-column {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-hero-img {
+  width: min(100%, 286px) !important;
+  height: auto !important;
+  aspect-ratio: 220 / 300;
+
+  padding: 8px;
+
+  border:
+    1px solid rgba(193, 145, 71, 0.70) !important;
+
+  border-radius: 7px !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(91, 61, 34, 0.48),
+      rgba(34, 25, 19, 0.80)
+    ) !important;
+
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.36),
+    0 0 22px rgba(221, 168, 66, 0.10),
+    inset 0 0 0 1px rgba(255, 222, 150, 0.04) !important;
+
+  position: relative;
+}
+
+/* 卡片後面的淡金光 */
+.modal-hero-img::before {
+  content: "";
+
+  position: absolute;
+  inset: 10%;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(222, 171, 69, 0.18),
+      transparent 68%
+    );
+
+  filter: blur(18px);
+
+  z-index: 0;
+}
+
+.modal-hero-img img {
+  position: relative;
+  z-index: 1;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: contain;
+}
+
+.modal-card-footer {
+  width: 86%;
+
+  margin-top: 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  color: #99805c;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size: 12px;
+  letter-spacing: 4px;
+}
+
+.modal-card-footer::before,
+.modal-card-footer::after {
+  content: "";
+
+  flex: 1;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(192, 143, 67, 0.28)
+    );
+}
+
+.modal-card-footer::after {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(192, 143, 67, 0.28),
+      transparent
+    );
+}
+
+.modal-card-footer-mark {
+  color: rgba(213, 166, 80, 0.70);
+}
+
+/* ==============================
+   右側人物標題
+============================== */
+
+.modal-info-area {
+  min-width: 0 !important;
+  padding-right: 6px;
+}
+
+.modal-title-block {
+  position: relative;
+
+  padding:
+    2px 50px 14px 0;
+
+  margin-bottom: 13px;
+
+  border-bottom:
+    1px solid rgba(181, 139, 70, 0.24);
+}
+
+.modal-title-block::after {
+  content: "◇";
+
+  position: absolute;
+  right: 5px;
+  bottom: -7px;
+
+  padding: 0 7px;
+
+  color: rgba(208, 160, 75, 0.68);
+  background: #211811;
+
+  font-size: 11px;
+}
+
+.modal-info-area h2 {
+  margin: 0 0 6px !important;
+
+  color: #e1b94d !important;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size:
+    clamp(28px, 3vw, 36px) !important;
+
+  line-height: 1.05;
+
+  letter-spacing: 2px;
+
+  text-shadow:
+    0 2px 10px rgba(212, 175, 55, 0.10);
+}
+
+.modal-role-title {
+  color: #b9a27c;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size: 13px;
+
+  letter-spacing: 1.5px;
+
+  line-height: 1.5;
+}
+
+/* ==============================
+   人物標籤
+============================== */
+
+.modal-tags {
+  gap: 8px !important;
+  margin-bottom: 18px !important;
+}
+
+.modal-tag {
+  padding:
+    6px 11px !important;
+
+  border:
+    1px solid rgba(184, 135, 62, 0.44) !important;
+
+  border-radius:
+    4px !important;
+
+  background:
+    rgba(64, 45, 31, 0.70) !important;
+
+  color:
+    #cdb489 !important;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size:
+    12px !important;
+
+  letter-spacing:
+    0.5px;
+
+  box-shadow:
+    inset 0 0 10px rgba(0, 0, 0, 0.10);
+}
+
+.faction-tag {
+  border-color:
+    rgba(99, 151, 103, 0.46) !important;
+
+  color:
+    #a9c8a2 !important;
+
+  background:
+    rgba(29, 61, 39, 0.50) !important;
+}
+
+.rarity-tag {
+  border-color:
+    rgba(210, 161, 73, 0.54) !important;
+
+  color:
+    #e7c27b !important;
+
+  background:
+    rgba(82, 57, 28, 0.58) !important;
+}
+
+.role-tag {
+  border-color:
+    rgba(153, 116, 175, 0.42) !important;
+
+  color:
+    #ceb2d9 !important;
+
+  background:
+    rgba(63, 43, 71, 0.48) !important;
+}
+
+/* ==============================
+   史實 / 演義資訊卡
+============================== */
+
+.modal-story-card {
+  position: relative;
+
+  margin-top: 12px;
+  padding: 15px 17px 16px;
+
+  overflow: hidden;
+
+  border:
+    1px solid rgba(170, 126, 63, 0.30);
+
+  border-radius: 6px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(75, 53, 34, 0.34),
+      rgba(40, 29, 22, 0.66)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 225, 165, 0.025);
+}
+
+.modal-story-card::after {
+  content: "";
+
+  position: absolute;
+  right: -22px;
+  bottom: -35px;
+
+  width: 110px;
+  height: 110px;
+
+  border:
+    1px solid rgba(191, 143, 66, 0.08);
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 16px rgba(191, 143, 66, 0.025),
+    0 0 0 32px rgba(191, 143, 66, 0.015);
+
+  pointer-events: none;
+}
+
+.history-card {
+  border-left:
+    3px solid rgba(203, 158, 76, 0.60);
+}
+
+.novel-card {
+  border-left:
+    3px solid rgba(161, 113, 77, 0.62);
+}
+
+.modal-section-title {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  margin-bottom: 9px;
+}
+
+.modal-section-title::after {
+  content: "";
+
+  flex: 1;
+  height: 1px;
+
+  margin-left: 5px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(199, 151, 72, 0.28),
+      transparent
+    );
+}
+
+.modal-section-icon {
+  width: 25px;
+  height: 25px;
+
+  display: grid;
+  place-items: center;
+
+  border:
+    1px solid rgba(190, 140, 65, 0.48);
+
+  transform:
+    rotate(45deg);
+
+  color:
+    #d1a352;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size:
+    10px;
+
+  background:
+    rgba(55, 38, 26, 0.72);
+
+  flex-shrink: 0;
+}
+.modal-section-title h4 {
+  margin: 0 !important;
+
+  color:
+    #d8ae4d !important;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size:
+    16px !important;
+
+  letter-spacing:
+    1px;
+}
+
+.modal-story-card p {
+  position: relative;
+  z-index: 1;
+
+  margin: 0 !important;
+
+  color:
+    #d8cec0 !important;
+
+  font-size:
+    14px !important;
+
+  line-height:
+    1.8 !important;
+}
+
+/* ==============================
+   人物羈絆
+============================== */
+
+.modal-relations-section {
+  margin-top: 19px;
+  padding-top: 15px;
+
+  border-top:
+    1px solid rgba(181, 139, 70, 0.22);
+}
+
+.modal-relations-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 12px;
+}
+
+.modal-relations-heading > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-relations-heading strong {
+  color: #d9ad4e;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size: 15px;
+
+  letter-spacing: 1px;
+}
+
+.modal-relations-heading small {
+  color: #81715f;
+  font-size: 11px;
+}
+
+.modal-relations-symbol {
+  color:
+    rgba(212, 165, 76, 0.70);
+
+  font-size:
+    10px;
+}
+
+.modal-relations-list {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 9px;
+}
+
+.modal-relation-card {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 7px 9px;
+
+  border:
+    1px solid rgba(178, 130, 61, 0.32);
+
+  border-radius: 5px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(69, 48, 31, 0.70),
+      rgba(35, 26, 20, 0.86)
+    );
+
+  color: #d8c7a5;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.modal-relation-card:not(:disabled):hover {
+  transform:
+    translateY(-2px);
+
+  border-color:
+    rgba(213, 163, 75, 0.62);
+
+  box-shadow:
+    0 7px 15px rgba(0, 0, 0, 0.22),
+    0 0 10px rgba(210, 160, 74, 0.08);
+}
+
+.modal-relation-card.locked {
+  cursor: default;
+  opacity: 0.62;
+}
+
+.relation-avatar {
+  width: 38px;
+  height: 38px;
+
+  overflow: hidden;
+
+  border:
+    1px solid rgba(190, 143, 68, 0.40);
+
+  border-radius: 4px;
+
+  background:
+    rgba(12, 10, 9, 0.60);
+
+  flex-shrink: 0;
+}
+
+.relation-avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+.modal-relation-card.locked .relation-avatar img {
+  filter:
+    brightness(0.62)
+    saturate(0.58);
+}
+
+.relation-name {
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 12px;
+}
+
+/* ==============================
+   貂蟬 → 呂布 特殊羈絆
+============================== */
+
+#modalBondSection.modal-special-bond {
+  display: none;
+
+  margin-top: 16px;
+  padding: 14px 15px;
+
+  border:
+    1px solid rgba(171, 102, 129, 0.42) !important;
+
+  border-radius: 6px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(76, 39, 55, 0.48),
+      rgba(36, 25, 25, 0.76)
+    );
+}
+
+.modal-special-bond-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 8px;
+}
+
+.modal-special-bond-title span {
+  color: #dfb18e;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-weight: 700;
+}
+
+.modal-special-bond-title small {
+  color: #9c7b79;
+  font-size: 11px;
+}
+
+#modalBondText {
+  margin-bottom: 12px !important;
+
+  color: #cdbcb2 !important;
+
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+}
+
+.modal-bond-button {
+  width: 100%;
+
+  cursor: pointer;
+
+  border:
+    1px solid rgba(201, 149, 82, 0.58) !important;
+
+  border-radius:
+    4px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #76502e,
+      #49301f
+    ) !important;
+
+  color:
+    #fff0cf !important;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-weight: 700;
+
+  letter-spacing:
+    1px;
+}
+
+/* ==============================
+   Modal 響應式
+============================== */
+
+@media (max-width: 820px) {
+  .hero-modal-content {
+    width: 94vw !important;
+    padding: 24px 22px !important;
+  }
+
+  .modal-body-layout {
+    grid-template-columns:
+      220px minmax(0, 1fr);
+
+    gap: 24px !important;
+  }
+
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .hero-modal-overlay {
+    padding: 12px;
+  }
+
+  .hero-modal-content {
+    width: 96vw !important;
+    max-height: 92vh !important;
+
+    padding:
+      22px 16px 24px !important;
+  }
+
+  .modal-body-layout {
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 20px !important;
+
+    align-items:
+      stretch !important;
+  }
+
+  .modal-visual-column {
+    position: static;
+
+    width: 100%;
+  }
+
+  .modal-hero-img {
+    width: 190px !important;
+
+    margin:
+      0 auto;
+  }
+
+  .modal-info-area {
+    text-align:
+      left !important;
+  }
+
+  .modal-title-block {
+    padding-right:
+      40px;
+  }
+
+  .modal-info-area h2 {
+    font-size:
+      28px !important;
+  }
+
+  .modal-tags {
+    justify-content:
+      flex-start !important;
+  }
+
+  .modal-relations-heading {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 430px) {
+  .modal-relations-list {
+    grid-template-columns:
+      1fr;
+  }
+
+  .modal-story-card {
+    padding:
+      13px 14px 14px;
+  }
+}
+
+
+/* ==========================================================
+   角色介紹細節修正
+   1.「史 / 演」字保持正向，不跟菱形一起旋轉
+   2. 人物羈絆縮圖放大，改成小卡牌比例
+========================================================== */
+
+/* --- 史 / 演標記：外框是菱形，文字保持正向 --- */
+.modal-section-icon {
+  position: relative;
+
+  width: 27px !important;
+  height: 27px !important;
+
+  display: grid !important;
+  place-items: center !important;
+
+  border: none !important;
+  border-radius: 0 !important;
+
+  background: transparent !important;
+
+  transform: none !important;
+
+  color: #d1a352 !important;
+
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px !important;
+  font-weight: 700;
+
+  line-height: 1;
+
+  flex-shrink: 0;
+
+  z-index: 1;
+}
+
+/* 菱形框另外畫，只有框旋轉 */
+.modal-section-icon::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 2px;
+
+  border:
+    1px solid rgba(190, 140, 65, 0.50);
+
+  background:
+    rgba(55, 38, 26, 0.72);
+
+  transform: rotate(45deg);
+
+  z-index: -1;
+}
+/* --- 人物羈絆：改成較明顯的小卡牌 --- */
+.modal-relations-list {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr)) !important;
+
+  gap: 12px !important;
+}
+
+.modal-relation-card {
+  min-height: 78px;
+
+  display: flex !important;
+  align-items: center !important;
+
+  gap: 11px !important;
+
+  padding: 8px 10px !important;
+
+  border:
+    1px solid rgba(178, 130, 61, 0.38) !important;
+
+  border-radius: 6px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(72, 49, 31, 0.78),
+      rgba(31, 23, 18, 0.92)
+    ) !important;
+}
+
+/* 原本 38x38 太小，完整卡圖被縮成一個小點
+   改成直式迷你卡牌比例 */
+.relation-avatar {
+  width: 46px !important;
+  height: 62px !important;
+
+  overflow: hidden;
+
+  border:
+    1px solid rgba(207, 158, 76, 0.56) !important;
+
+  border-radius: 3px !important;
+
+  background:
+    rgba(12, 10, 9, 0.72) !important;
+
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.24);
+
+  flex-shrink: 0;
+}
+
+.relation-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+
+  /* 卡牌本來就是直式，所以完整顯示比較自然 */
+  object-fit: cover !important;
+
+  display: block;
+}
+
+.relation-name {
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size: 14px !important;
+
+  font-weight: 700;
+
+  color: #decaa5;
+
+  letter-spacing: 1px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 已解鎖角色 hover 更像可點的圖鑑關係卡 */
+.modal-relation-card:not(:disabled):hover {
+  transform:
+    translateY(-2px) !important;
+
+  border-color:
+    rgba(218, 169, 80, 0.72) !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(87, 59, 34, 0.86),
+      rgba(38, 27, 20, 0.95)
+    ) !important;
+
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.24),
+    0 0 12px rgba(210, 160, 74, 0.08) !important;
+}
+
+
+/* --- 平板 --- */
+@media (max-width: 820px) {
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .relation-avatar {
+    width: 44px !important;
+    height: 59px !important;
+  }
+}
+
+/* --- 手機 --- */
+@media (max-width: 430px) {
+  .modal-relations-list {
+    grid-template-columns:
+      1fr !important;
+  }
+
+  .relation-avatar {
+    width: 42px !important;
+    height: 57px !important;
+  }
+}
+
+
+/* ==========================================================
+   人物羈絆：橫向人物特寫最終版
+   重點放人物臉部與上半身
+========================================================== */
+
+.modal-relations-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.modal-relation-card {
+  min-height: 72px;
+
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+
+  padding: 7px 9px !important;
+
+  border:
+    1px solid rgba(178, 130, 61, 0.38) !important;
+
+  border-radius: 6px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(72, 49, 31, 0.78),
+      rgba(31, 23, 18, 0.92)
+    ) !important;
+
+  color: #d8c7a5 !important;
+
+  overflow: hidden;
+}
+
+/* 橫向人物特寫框 */
+.relation-avatar {
+  width: 82px !important;
+  height: 54px !important;
+
+  overflow: hidden;
+
+  border:
+    1px solid rgba(207, 158, 76, 0.56) !important;
+
+  border-radius: 4px !important;
+
+  background:
+    rgba(12, 10, 9, 0.72) !important;
+
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.24);
+
+  flex-shrink: 0;
+}
+
+/* 重點裁人物臉與上半身 */
+.relation-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: cover !important;
+
+  /* 人物通常位於卡牌中上部 */
+  object-position: 50% 27% !important;
+
+  display: block;
+
+  transform: scale(1.10);
+  transform-origin: center 28%;
+}
+
+/* 未解鎖羈絆 */
+.modal-relation-card.locked .relation-avatar img {
+  filter:
+    brightness(0.58)
+    saturate(0.52);
+}
+
+.relation-name {
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size: 14px !important;
+  font-weight: 700;
+
+  color: #decaa5 !important;
+
+  letter-spacing: 1px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 可點擊角色 hover */
+.modal-relation-card:not(:disabled):hover {
+  transform: translateY(-2px) !important;
+
+  border-color:
+    rgba(218, 169, 80, 0.72) !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(87, 59, 34, 0.86),
+      rgba(38, 27, 20, 0.95)
+    ) !important;
+
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.24),
+    0 0 12px rgba(210, 160, 74, 0.08) !important;
+}
+
+/* 平板 */
+@media (max-width: 820px) {
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .relation-avatar {
+    width: 78px !important;
+    height: 52px !important;
+  }
+}
+
+/* 手機 */
+@media (max-width: 430px) {
+  .modal-relations-list {
+    grid-template-columns:
+      1fr !important;
+  }
+
+  .relation-avatar {
+    width: 76px !important;
+    height: 50px !important;
+  }
+}
+
+
+/* ==========================================================
+   人物羈絆縮圖：近滿版人物特寫
+   - 圖片幾乎填滿整張羈絆卡
+   - 裁掉原卡牌左側的大字與角標
+   - 著重人物臉部 / 上半身
+========================================================== */
+
+.modal-relations-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.modal-relation-card {
+  position: relative;
+
+  min-height: 86px;
+
+  display: block !important;
+
+  padding: 0 !important;
+
+  overflow: hidden;
+
+  border:
+    1px solid rgba(190, 142, 68, 0.42) !important;
+
+  border-radius: 7px !important;
+
+  background:
+    rgba(26, 19, 15, 0.92) !important;
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.20);
+
+  color: #ead7ae !important;
+}
+
+/* 圖片幾乎滿版 */
+.relation-avatar {
+  width: 100% !important;
+  height: 86px !important;
+
+  display: block !important;
+
+  overflow: hidden;
+
+  border: none !important;
+  border-radius: 0 !important;
+
+  background:
+    rgba(12, 10, 9, 0.72) !important;
+
+  box-shadow: none !important;
+}
+
+/* 重点：放大卡面，只留下人物中間區域 */
+.relation-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: cover !important;
+
+  /* 先以人物中上部為中心 */
+  object-position: 58% 30% !important;
+
+  /* 放大後裁掉左側卡牌名字與邊框 */
+  transform: scale(1.78) !important;
+  transform-origin: 60% 31% !important;
+
+  display: block;
+
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
+}
+
+/* 底部名字做成淡黑漸層，不再占一大塊 */
+.relation-name {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 2;
+
+  padding:
+    20px 10px 7px;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(15, 11, 9, 0.96),
+      rgba(15, 11, 9, 0.58),
+      transparent
+    );
+
+  color: #f1ddb3 !important;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size: 13px !important;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  text-align: center;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 可點擊角色 hover */
+.modal-relation-card:not(:disabled):hover {
+  transform:
+    translateY(-2px) !important;
+
+  border-color:
+    rgba(220, 170, 80, 0.74) !important;
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.30),
+    0 0 14px rgba(209, 158, 71, 0.10) !important;
+}
+
+.modal-relation-card:not(:disabled):hover .relation-avatar img {
+  transform: scale(1.86) !important;
+}
+
+/* 未解鎖羈絆 */
+.modal-relation-card.locked .relation-avatar img {
+  filter:
+    brightness(0.52)
+    saturate(0.42);
+}
+
+/* 平板 */
+@media (max-width: 820px) {
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .modal-relation-card,
+  .relation-avatar {
+    min-height: 82px;
+    height: 82px !important;
+  }
+}
+
+/* 手機 */
+@media (max-width: 430px) {
+  .modal-relations-list {
+    grid-template-columns:
+      1fr !important;
+  }
+
+  .modal-relation-card,
+  .relation-avatar {
+    min-height: 92px;
+    height: 92px !important;
+  }
+}
+
+
+/* ==========================================================
+   人物羈絆｜角色特寫裁切最終版
+   目標：
+   1. 臉不要被上方切掉
+   2. 盡量避開原卡牌左側大字 / SSR、SR、R 字樣
+   3. 人物露出更多，不要只剩一張臉
+   4. 大喬小喬等雙人角色額外拉遠
+========================================================== */
+
+.modal-relations-list {
+  display: grid !important;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+/* 整張羈絆角色卡 */
+.modal-relation-card {
+  position: relative;
+
+  min-width: 0;
+  height: 104px !important;
+  min-height: 104px !important;
+
+  display: block !important;
+
+  padding: 0 !important;
+
+  overflow: hidden;
+
+  border:
+    1px solid rgba(190, 142, 68, 0.42) !important;
+
+  border-radius: 7px !important;
+
+  background:
+    rgba(25, 18, 14, 0.94) !important;
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.22);
+
+  color:
+    #ead7ae !important;
+}
+
+/* 圖片直接鋪滿整張羈絆卡 */
+.relation-avatar {
+  position: absolute !important;
+
+  inset: 0 !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  display: block !important;
+
+  overflow: hidden;
+
+  border: none !important;
+  border-radius: 0 !important;
+
+  background:
+    rgba(12, 10, 9, 0.72) !important;
+
+  box-shadow: none !important;
+}
+
+/*
+   一般角色預設裁切：
+   - 高度變高，所以臉不容易被上下切掉
+   - scale 從之前約 1.78 降為 1.34
+   - transform-origin 往人物常出現的右中上區移
+   - 能避開大部分左側直排姓名
+*/
+.relation-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: cover !important;
+  object-position: 66% 31% !important;
+
+  display: block;
+
+  transform:
+    scale(1.34) !important;
+
+  transform-origin:
+    66% 31% !important;
+
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
+
+  will-change: transform;
+}
+
+/* 底部名稱浮在圖片上，不占額外高度 */
+.relation-name {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 3;
+
+  padding:
+    28px 10px 8px;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(13, 10, 8, 0.97) 0%,
+      rgba(13, 10, 8, 0.65) 42%,
+      rgba(13, 10, 8, 0) 100%
+    );
+
+  color:
+    #f1ddb3 !important;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size:
+    13px !important;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    1px;
+
+  text-align:
+    center;
+
+  white-space:
+    nowrap;
+
+  overflow:
+    hidden;
+
+  text-overflow:
+    ellipsis;
+
+  pointer-events:
+    none;
+}
+
+/* hover 只微微放大，不要再把臉切掉 */
+.modal-relation-card:not(:disabled):hover {
+  transform:
+    translateY(-2px) !important;
+
+  border-color:
+    rgba(220, 170, 80, 0.74) !important;
+
+  box-shadow:
+    0 9px 19px rgba(0, 0, 0, 0.30),
+    0 0 14px rgba(209, 158, 71, 0.10) !important;
+}
+
+.modal-relation-card:not(:disabled):hover .relation-avatar img {
+  transform:
+    scale(1.38) !important;
+}
+
+/* 未解鎖羈絆角色 */
+.modal-relation-card.locked .relation-avatar img {
+  filter:
+    brightness(0.52)
+    saturate(0.42);
+}
+
+
+/* ==========================================================
+   個別角色裁切微調
+   之後哪隻角色不漂亮，只需要在這裡調
+========================================================== */
+
+/* 雙人卡：大喬小喬
+   要看到兩人，所以比一般角色拉遠很多 */
+.modal-relation-card[data-hero="大喬小喬"] .relation-avatar img {
+  object-position:
+    59% 30% !important;
+
+  transform:
+    scale(1.12) !important;
+
+  transform-origin:
+    59% 30% !important;
+}
+
+.modal-relation-card[data-hero="大喬小喬"]:not(:disabled):hover
+.relation-avatar img {
+  transform:
+    scale(1.16) !important;
+}
+
+
+/* 周瑜：人物位置偏右，稍微拉遠 */
+.modal-relation-card[data-hero="周瑜"] .relation-avatar img {
+  object-position:
+    67% 29% !important;
+
+  transform:
+    scale(1.27) !important;
+
+  transform-origin:
+    67% 29% !important;
+}
+
+
+/* 孫權：臉的位置比較靠上，畫面往下多留一些 */
+.modal-relation-card[data-hero="孫權"] .relation-avatar img {
+  object-position:
+    66% 34% !important;
+
+  transform:
+    scale(1.27) !important;
+
+  transform-origin:
+    66% 34% !important;
+}
+
+
+/* 劉備：保留臉、肩膀與部分衣甲 */
+.modal-relation-card[data-hero="劉備"] .relation-avatar img {
+  object-position:
+    68% 31% !important;
+
+  transform:
+    scale(1.28) !important;
+
+  transform-origin:
+    68% 31% !important;
+}
+
+
+/* 關羽：人物偏右中，避免左邊大字 */
+.modal-relation-card[data-hero="關羽"] .relation-avatar img {
+  object-position:
+    70% 33% !important;
+
+  transform:
+    scale(1.27) !important;
+
+  transform-origin:
+    70% 33% !important;
+}
+
+
+/* 張飛：拉遠一些，保留更多身體 */
+.modal-relation-card[data-hero="張飛"] .relation-avatar img {
+  object-position:
+    68% 34% !important;
+
+  transform:
+    scale(1.24) !important;
+
+  transform-origin:
+    68% 34% !important;
+}
+
+
+/* 諸葛亮：帽冠容易被切，視野稍微往上、拉遠 */
+.modal-relation-card[data-hero="諸葛亮"] .relation-avatar img {
+  object-position:
+    67% 25% !important;
+
+  transform:
+    scale(1.22) !important;
+
+  transform-origin:
+    67% 25% !important;
+}
+
+
+/* 趙雲：保留頭部與上身盔甲 */
+.modal-relation-card[data-hero="趙雲"] .relation-avatar img {
+  object-position:
+    66% 28% !important;
+
+  transform:
+    scale(1.25) !important;
+
+  transform-origin:
+    66% 28% !important;
+}
+
+
+/* 孫策：人物較大，稍微拉遠 */
+.modal-relation-card[data-hero="孫策"] .relation-avatar img {
+  object-position:
+    68% 31% !important;
+
+  transform:
+    scale(1.23) !important;
+
+  transform-origin:
+    68% 31% !important;
+}
+
+
+/* 曹操：保留臉與肩甲，避開左側曹操大字 */
+.modal-relation-card[data-hero="曹操"] .relation-avatar img {
+  object-position:
+    69% 30% !important;
+
+  transform:
+    scale(1.27) !important;
+
+  transform-origin:
+    69% 30% !important;
+}
+
+
+/* 貂蟬：人物需要露出更多服裝 */
+.modal-relation-card[data-hero="貂蟬"] .relation-avatar img {
+  object-position:
+    65% 30% !important;
+
+  transform:
+    scale(1.18) !important;
+
+  transform-origin:
+    65% 30% !important;
+}
+
+
+/* 呂布：保留盔甲與頭冠 */
+.modal-relation-card[data-hero="呂布"] .relation-avatar img {
+  object-position:
+    66% 27% !important;
+
+  transform:
+    scale(1.22) !important;
+
+  transform-origin:
+    66% 27% !important;
+}
+
+
+/* ==========================================================
+   RWD
+========================================================== */
+
+@media (max-width: 820px) {
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .modal-relation-card {
+    height:
+      100px !important;
+
+    min-height:
+      100px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .modal-relations-list {
+    grid-template-columns:
+      1fr !important;
+  }
+
+  .modal-relation-card {
+    height:
+      112px !important;
+
+    min-height:
+      112px !important;
+  }
+}
+
+
+/* ==========================================================
+   人物羈絆｜臉部特寫最終版
+   直接把羈絆縮圖當作角色頭像使用
+   目的：最大程度避開原卡牌上的大字 / 稀有度文字
+========================================================== */
+
+.modal-relation-card {
+  height: 96px !important;
+  min-height: 96px !important;
+}
+
+/* 圖片鋪滿羈絆卡 */
+.relation-avatar {
+  position: absolute !important;
+  inset: 0 !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  overflow: hidden !important;
+
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+/*
+   預設直接聚焦人物臉。
+   原卡左側通常有姓名文字，
+   所以畫面重心往右上偏。
+*/
+.relation-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: cover !important;
+  object-position: 70% 24% !important;
+
+  transform: scale(2.18) !important;
+  transform-origin: 70% 24% !important;
+
+  display: block;
+
+  transition:
+    transform 0.22s ease,
+    filter 0.22s ease;
+}
+
+/* hover 不要放太大，避免臉被切掉 */
+.modal-relation-card:not(:disabled):hover .relation-avatar img {
+  transform: scale(2.24) !important;
+}
+
+/* 名字壓在圖片最底部 */
+.relation-name {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 3;
+
+  padding:
+    23px 8px 6px !important;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(10, 8, 7, 0.97),
+      rgba(10, 8, 7, 0.56),
+      transparent
+    ) !important;
+
+  color: #f0ddb7 !important;
+
+  font-size: 13px !important;
+  font-weight: 700;
+
+  text-align: center;
+}
+
+
+/* ==========================================================
+   個別角色臉部位置微調
+   若某張卡之後還有偏掉，只改這裡即可
+========================================================== */
+
+/* 曹操 */
+.modal-relation-card[data-hero="曹操"] .relation-avatar img {
+  object-position: 68% 27% !important;
+  transform: scale(2.06) !important;
+  transform-origin: 68% 27% !important;
+}
+
+/* 劉備 */
+.modal-relation-card[data-hero="劉備"] .relation-avatar img {
+  object-position: 69% 27% !important;
+  transform: scale(2.08) !important;
+  transform-origin: 69% 27% !important;
+}
+
+/* 張飛 */
+.modal-relation-card[data-hero="張飛"] .relation-avatar img {
+  object-position: 70% 30% !important;
+  transform: scale(2.02) !important;
+  transform-origin: 70% 30% !important;
+}
+
+/* 孫權 */
+.modal-relation-card[data-hero="孫權"] .relation-avatar img {
+  object-position: 68% 26% !important;
+  transform: scale(2.02) !important;
+  transform-origin: 68% 26% !important;
+}
+
+/* 周瑜 */
+.modal-relation-card[data-hero="周瑜"] .relation-avatar img {
+  object-position: 69% 24% !important;
+  transform: scale(2.12) !important;
+  transform-origin: 69% 24% !important;
+}
+
+/* 趙雲 */
+.modal-relation-card[data-hero="趙雲"] .relation-avatar img {
+  object-position: 68% 23% !important;
+  transform: scale(2.10) !important;
+  transform-origin: 68% 23% !important;
+}
+
+/* 諸葛亮 */
+.modal-relation-card[data-hero="諸葛亮"] .relation-avatar img {
+  object-position: 67% 22% !important;
+  transform: scale(2.06) !important;
+  transform-origin: 67% 22% !important;
+}
+
+/* 關羽 */
+.modal-relation-card[data-hero="關羽"] .relation-avatar img {
+  object-position: 70% 29% !important;
+  transform: scale(2.02) !important;
+  transform-origin: 70% 29% !important;
+}
+
+/* 司馬懿 */
+.modal-relation-card[data-hero="司馬懿"] .relation-avatar img {
+  object-position: 69% 27% !important;
+  transform: scale(2.06) !important;
+  transform-origin: 69% 27% !important;
+}
+
+/* 郭嘉 */
+.modal-relation-card[data-hero="郭嘉"] .relation-avatar img {
+  object-position: 68% 24% !important;
+  transform: scale(2.08) !important;
+  transform-origin: 68% 24% !important;
+}
+
+/* 黃蓋 */
+.modal-relation-card[data-hero="黃蓋"] .relation-avatar img {
+  object-position: 69% 28% !important;
+  transform: scale(2.00) !important;
+  transform-origin: 69% 28% !important;
+}
+
+/* 孫策 */
+.modal-relation-card[data-hero="孫策"] .relation-avatar img {
+  object-position: 68% 25% !important;
+  transform: scale(2.10) !important;
+  transform-origin: 68% 25% !important;
+}
+
+/* 夏侯惇 */
+.modal-relation-card[data-hero="夏侯惇"] .relation-avatar img {
+  object-position: 68% 24% !important;
+  transform: scale(2.08) !important;
+  transform-origin: 68% 24% !important;
+}
+
+/* 龐統 */
+.modal-relation-card[data-hero="龐統"] .relation-avatar img {
+  object-position: 68% 24% !important;
+  transform: scale(2.08) !important;
+  transform-origin: 68% 24% !important;
+}
+
+/* 孫尚香 */
+.modal-relation-card[data-hero="孫尚香"] .relation-avatar img {
+  object-position: 68% 24% !important;
+  transform: scale(2.05) !important;
+  transform-origin: 68% 24% !important;
+}
+
+/* 關銀屏 */
+.modal-relation-card[data-hero="關銀屏"] .relation-avatar img {
+  object-position: 67% 22% !important;
+  transform: scale(2.08) !important;
+  transform-origin: 67% 22% !important;
+}
+
+/* 蔡文姬 */
+.modal-relation-card[data-hero="蔡文姬"] .relation-avatar img {
+  object-position: 67% 22% !important;
+  transform: scale(2.08) !important;
+  transform-origin: 67% 22% !important;
+}
+
+/* 甄姬 */
+.modal-relation-card[data-hero="甄姬"] .relation-avatar img {
+  object-position: 67% 22% !important;
+  transform: scale(2.08) !important;
+  transform-origin: 67% 22% !important;
+}
+
+/* 貂蟬 */
+.modal-relation-card[data-hero="貂蟬"] .relation-avatar img {
+  object-position: 67% 24% !important;
+  transform: scale(2.02) !important;
+  transform-origin: 67% 24% !important;
+}
+
+/* 呂布 */
+.modal-relation-card[data-hero="呂布"] .relation-avatar img {
+  object-position: 68% 25% !important;
+  transform: scale(2.08) !important;
+  transform-origin: 68% 25% !important;
+}
+
+/*
+   大喬小喬是唯一例外：
+   兩個人都要露出，所以不拉到單人臉那麼近。
+   仍然比之前更聚焦人物區，不顯示整張卡。
+*/
+.modal-relation-card[data-hero="大喬小喬"] .relation-avatar img {
+  object-position: 64% 28% !important;
+  transform: scale(1.55) !important;
+  transform-origin: 64% 28% !important;
+}
+
+.modal-relation-card[data-hero="大喬小喬"]:not(:disabled):hover
+.relation-avatar img {
+  transform: scale(1.60) !important;
+}
+
+
+/* 未解鎖 */
+.modal-relation-card.locked .relation-avatar img {
+  filter:
+    brightness(0.50)
+    saturate(0.40);
+}
+
+
+/* 平板 */
+@media (max-width: 820px) {
+  .modal-relation-card {
+    height: 92px !important;
+    min-height: 92px !important;
+  }
+}
+
+/* 手機 */
+@media (max-width: 430px) {
+  .modal-relation-card {
+    height: 108px !important;
+    min-height: 108px !important;
+  }
+}
+
+
+/* ==========================================================
+   人物羈絆｜完整直式卡牌最終版
+   不再裁切人物臉，完整顯示原卡牌
+========================================================== */
+
+.modal-relations-list {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.modal-relation-card {
+  position: relative;
+
+  min-width: 0;
+  height: auto !important;
+  min-height: 0 !important;
+
+  display: flex !important;
+  flex-direction: column;
+  align-items: stretch;
+
+  padding: 0 !important;
+
+  overflow: hidden;
+
+  border:
+    1px solid rgba(190, 142, 68, 0.42) !important;
+
+  border-radius: 7px !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(57, 39, 27, 0.92),
+      rgba(26, 19, 15, 0.97)
+    ) !important;
+
+  box-shadow:
+    0 6px 14px rgba(0, 0, 0, 0.24);
+
+  color: #ead7ae !important;
+}
+
+/* 完整直式卡牌圖 */
+.relation-avatar {
+  position: relative !important;
+  inset: auto !important;
+
+  width: 100% !important;
+  height: auto !important;
+
+  aspect-ratio: 220 / 300;
+
+  display: block !important;
+
+  overflow: hidden;
+
+  border: none !important;
+  border-radius: 0 !important;
+
+  background:
+    rgba(12, 10, 9, 0.72) !important;
+
+  box-shadow: none !important;
+
+  flex-shrink: 0;
+}
+
+.relation-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: contain !important;
+  object-position: center center !important;
+
+  transform: none !important;
+  transform-origin: center center !important;
+
+  display: block;
+
+  filter: none;
+
+  transition:
+    filter 0.22s ease,
+    transform 0.22s ease;
+}
+
+/* 名字改回卡牌下方 */
+.relation-name {
+  position: static !important;
+
+  display: block;
+
+  padding:
+    9px 8px 10px !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(48, 33, 23, 0.96),
+      rgba(28, 20, 15, 0.98)
+    ) !important;
+
+  color:
+    #f0ddb7 !important;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size:
+    13px !important;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    1px;
+
+  text-align:
+    center;
+
+  white-space:
+    nowrap;
+
+  overflow:
+    hidden;
+
+  text-overflow:
+    ellipsis;
+}
+
+/* hover */
+.modal-relation-card:not(:disabled):hover {
+  transform:
+    translateY(-3px) !important;
+
+  border-color:
+    rgba(220, 170, 80, 0.72) !important;
+
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.30),
+    0 0 14px rgba(209, 158, 71, 0.10) !important;
+}
+
+.modal-relation-card:not(:disabled):hover .relation-avatar img {
+  transform:
+    scale(1.015) !important;
+}
+
+/* 未解鎖角色維持暗化 */
+.modal-relation-card.locked .relation-avatar img {
+  filter:
+    brightness(0.50)
+    saturate(0.42);
+}
+
+/* 平板 */
+@media (max-width: 820px) {
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* 手機 */
+@media (max-width: 430px) {
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .relation-name {
+    font-size:
+      12px !important;
+  }
+}
+
+
+/* ==========================================================
+   人物羈絆｜精簡直式卡最終版
+   1. 完整卡牌，不裁人物
+   2. 整體縮小
+   3. 三張水平對齊、尺寸一致
+   4. 名字直接浮在卡圖底部，不再有獨立文字區
+========================================================== */
+
+/* 羈絆卡區：固定三欄、置中、間距一致 */
+.modal-relations-list {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 138px)) !important;
+
+  justify-content: start !important;
+  align-items: start !important;
+
+  gap: 14px !important;
+
+  width: 100%;
+}
+
+/* 單張羈絆卡 */
+.modal-relation-card {
+  position: relative !important;
+
+  width: 138px !important;
+  height: auto !important;
+  min-height: 0 !important;
+
+  display: block !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  overflow: hidden;
+
+  border:
+    1px solid rgba(190, 142, 68, 0.42) !important;
+
+  border-radius: 6px !important;
+
+  background:
+    #17110d !important;
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.22);
+
+}
+
+/* 完整直式卡圖 */
+.relation-avatar {
+  position: relative !important;
+  inset: auto !important;
+
+  display: block !important;
+
+  width: 100% !important;
+  height: auto !important;
+
+  /*
+     和人物卡本身比例一致，
+     所以三張上下、左右都會整齊
+  */
+  aspect-ratio: 220 / 300;
+
+  overflow: hidden;
+
+  border: none !important;
+  border-radius: 0 !important;
+
+  background:
+    rgba(12, 10, 9, 0.72) !important;
+
+  box-shadow: none !important;
+}
+
+/* 卡牌完整顯示 */
+.relation-avatar img {
+  display: block !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: contain !important;
+  object-position: center center !important;
+
+  transform: none !important;
+  transform-origin: center center !important;
+
+  margin: 0 !important;
+
+  filter: none;
+
+  transition:
+    transform 0.20s ease,
+    filter 0.20s ease;
+}
+
+/* 名字直接疊在圖片下方，不另外占一個區塊 */
+.relation-name {
+  position: absolute !important;
+
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+
+  z-index: 3;
+
+  display: block;
+
+  width: 100%;
+
+  padding:
+    26px 6px 7px !important;
+
+  margin: 0 !important;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(12, 9, 7, 0.96) 0%,
+      rgba(12, 9, 7, 0.66) 45%,
+      rgba(12, 9, 7, 0) 100%
+    ) !important;
+
+  color:
+    #f1dfbd !important;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size:
+    12px !important;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.2;
+
+  letter-spacing:
+    1px;
+
+  text-align:
+    center;
+
+  white-space:
+    nowrap;
+
+  overflow:
+    hidden;
+
+  text-overflow:
+    ellipsis;
+
+  pointer-events:
+    none;
+}
+
+/* hover：整張卡輕微浮起即可 */
+.modal-relation-card:not(:disabled):hover {
+  transform:
+    translateY(-3px) !important;
+
+  border-color:
+    rgba(220, 170, 80, 0.74) !important;
+
+  box-shadow:
+    0 9px 18px rgba(0, 0, 0, 0.30),
+    0 0 12px rgba(209, 158, 71, 0.09) !important;
+}
+
+/* 圖片只微微放大，仍然保持完整 */
+.modal-relation-card:not(:disabled):hover .relation-avatar img {
+  transform:
+    scale(1.015) !important;
+}
+
+/* 未解鎖人物 */
+.modal-relation-card.locked .relation-avatar img {
+  filter:
+    brightness(0.50)
+    saturate(0.42);
+}
+
+/* ==========================================================
+   平板
+========================================================== */
+@media (max-width: 820px) {
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(3, minmax(0, 128px)) !important;
+
+    gap:
+      11px !important;
+  }
+
+  .modal-relation-card {
+    width:
+      128px !important;
+  }
+}
+
+/* ==========================================================
+   手機
+========================================================== */
+@media (max-width: 650px) {
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(3, minmax(0, 105px)) !important;
+
+    justify-content:
+      center !important;
+
+    gap:
+      9px !important;
+  }
+
+  .modal-relation-card {
+    width:
+      105px !important;
+  }
+
+  .relation-name {
+    padding:
+      22px 4px 6px !important;
+
+    font-size:
+      11px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(2, minmax(0, 112px)) !important;
+
+    justify-content:
+      center !important;
+
+    gap:
+      10px !important;
+  }
+
+  .modal-relation-card {
+    width:
+      112px !important;
+  }
+}
+
+
+/* ==========================================================
+   人物羈絆｜直式卡牌尺寸與框線最終校正版
+   - 所有角色固定同尺寸
+   - 圖片完整縮進卡框
+   - 清除之前各角色的 scale / object-position 覆蓋
+   - 大喬小喬也與其他卡完全一致
+========================================================== */
+
+.modal-relations-list {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(3, 132px) !important;
+
+  justify-content: start !important;
+  align-items: start !important;
+
+  gap: 14px !important;
+
+  width: 100%;
+}
+
+/* 外框就是卡片本身的固定比例 */
+.modal-relation-card {
+  position: relative !important;
+
+  width: 132px !important;
+  height: auto !important;
+  min-height: 0 !important;
+
+  aspect-ratio: 2 / 3 !important;
+
+  display: block !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  overflow: hidden !important;
+
+  border:
+    1px solid rgba(196, 146, 70, 0.52) !important;
+
+  border-radius: 6px !important;
+
+  background:
+    #120e0b !important;
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.24) !important;
+
+  box-sizing: border-box !important;
+}
+
+/* 圖片區完整填滿卡框 */
+.relation-avatar {
+  position: absolute !important;
+
+  inset: 0 !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  aspect-ratio: auto !important;
+
+  display: block !important;
+
+  overflow: hidden !important;
+
+  border: none !important;
+  border-radius: 0 !important;
+
+  background:
+    #120e0b !important;
+
+  box-shadow: none !important;
+
+  box-sizing: border-box !important;
+}
+
+/* ==========================================================
+   最重要：
+   強制取消前面所有角色的個別縮放與位置設定
+========================================================== */
+
+.modal-relations-list
+.modal-relation-card
+.relation-avatar
+img,
+
+.modal-relations-list
+.modal-relation-card[data-hero]
+.relation-avatar
+img,
+
+.modal-relations-list
+.modal-relation-card[data-hero="大喬小喬"]
+.relation-avatar
+img {
+  display: block !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  max-width: 100% !important;
+  max-height: 100% !important;
+
+  object-fit: contain !important;
+  object-position: center center !important;
+
+  transform: none !important;
+  transform-origin: center center !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  filter: none;
+
+  box-sizing: border-box !important;
+}
+
+/* hover 時不要再放大圖片，只浮起整張卡 */
+.modal-relations-list
+.modal-relation-card:not(:disabled):hover
+.relation-avatar
+img,
+
+.modal-relations-list
+.modal-relation-card[data-hero]:not(:disabled):hover
+.relation-avatar
+img,
+
+.modal-relations-list
+.modal-relation-card[data-hero="大喬小喬"]:not(:disabled):hover
+.relation-avatar
+img {
+  transform: none !important;
+}
+
+/* 名字直接浮在卡面下方 */
+.relation-name {
+  position: absolute !important;
+
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+
+  z-index: 4;
+
+  display: block !important;
+
+  width: 100% !important;
+
+  margin: 0 !important;
+
+  padding:
+    25px 5px 7px !important;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(10, 8, 7, 0.96) 0%,
+      rgba(10, 8, 7, 0.56) 45%,
+      rgba(10, 8, 7, 0) 100%
+    ) !important;
+
+  color:
+    #f1dfbd !important;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size:
+    12px !important;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.2;
+
+  letter-spacing:
+    1px;
+
+  text-align:
+    center;
+
+  white-space:
+    nowrap;
+
+  overflow:
+    hidden;
+
+  text-overflow:
+    ellipsis;
+
+  pointer-events:
+    none;
+
+  box-sizing:
+    border-box !important;
+}
+
+/* hover 只動外框本身 */
+.modal-relation-card:not(:disabled):hover {
+  transform:
+    translateY(-3px) !important;
+
+  border-color:
+    rgba(224, 174, 83, 0.76) !important;
+
+  box-shadow:
+    0 9px 18px rgba(0, 0, 0, 0.30),
+    0 0 12px rgba(209, 158, 71, 0.09) !important;
+}
+
+/* 未解鎖角色 */
+.modal-relation-card.locked .relation-avatar img {
+  filter:
+    brightness(0.50)
+    saturate(0.42) !important;
+}
+
+
+/* ==========================================================
+   平板
+========================================================== */
+
+@media (max-width: 820px) {
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(3, 122px) !important;
+
+    gap:
+      11px !important;
+  }
+
+  .modal-relation-card {
+    width:
+      122px !important;
+  }
+}
+
+
+/* ==========================================================
+   手機
+========================================================== */
+
+@media (max-width: 650px) {
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(3, 102px) !important;
+
+    justify-content:
+      center !important;
+
+    gap:
+      8px !important;
+  }
+
+  .modal-relation-card {
+    width:
+      102px !important;
+  }
+
+  .relation-name {
+    padding:
+      21px 4px 6px !important;
+
+    font-size:
+      10px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .modal-relations-list {
+    grid-template-columns:
+      repeat(2, 108px) !important;
+
+    justify-content:
+      center !important;
+
+    gap:
+      10px !important;
+  }
+
+  .modal-relation-card {
+    width:
+      108px !important;
+  }
+}
+
+
+/* ==========================================================
+   人物羈絆｜移除額外卡框
+   保留原始角色卡牌自己的邊框，不再額外框住圖片
+========================================================== */
+
+.modal-relation-card {
+  border: none !important;
+  outline: none !important;
+
+  background: transparent !important;
+
+  box-shadow: none !important;
+
+  border-radius: 0 !important;
+}
+
+/* 圖片本身也不要再加任何外框 */
+.relation-avatar {
+  border: none !important;
+  outline: none !important;
+
+  background: transparent !important;
+
+  box-shadow: none !important;
+
+  border-radius: 0 !important;
+}
+
+/* hover 時不要再出現外框，只做很輕的浮起 */
+.modal-relation-card:not(:disabled):hover {
+  border: none !important;
+  outline: none !important;
+
+  transform:
+    translateY(-3px) !important;
+
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.22) !important;
+}
+
+/* 名字仍然壓在原卡牌底部，不另外形成框線 */
+.relation-name {
+  border: none !important;
+  outline: none !important;
+}
+
+
+/* ==========================================================
+   移除角色介紹視窗內層的大方框
+   保留 Modal 本身外框，不再額外畫第二層框線
+========================================================== */
+
+.hero-modal-content::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* ==========================================================
+   圖鑑自訂提示視窗
+   取代 Chrome / GitHub Pages 原生 alert
+========================================================== */
+
+body.codex-alert-open {
+  overflow: hidden;
+}
+
+.codex-alert-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background:
+    rgba(4, 4, 4, 0.72);
+
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 0.22s ease,
+    visibility 0.22s ease;
+}
+
+.codex-alert-overlay.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.codex-alert-box {
+  position: relative;
+
+  width: min(92vw, 460px);
+
+  padding:
+    31px 34px 27px;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(126, 78, 31, 0.16),
+      transparent 42%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(47, 31, 20, 0.99),
+      rgba(15, 10, 7, 0.995)
+    );
+
+  border:
+    1px solid rgba(202, 151, 72, 0.94);
+
+  border-radius: 8px;
+
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.62),
+    0 0 26px rgba(211, 159, 70, 0.09),
+    inset 0 0 28px rgba(212, 175, 55, 0.035);
+
+  transform:
+    translateY(14px)
+    scale(0.96);
+
+  transition:
+    transform 0.22s ease;
+}
+
+.codex-alert-overlay.show
+.codex-alert-box {
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+.codex-alert-box::before {
+  content: "";
+
+  position: absolute;
+  inset: 7px;
+
+  border:
+    1px solid rgba(216, 166, 78, 0.18);
+
+  border-radius: 4px;
+
+  pointer-events: none;
+}
+
+.codex-alert-corner {
+  position: absolute;
+
+  width: 17px;
+  height: 17px;
+
+  pointer-events: none;
+}
+
+.codex-alert-corner::before,
+.codex-alert-corner::after {
+  content: "";
+  position: absolute;
+
+  background: #c79547;
+}
+
+.codex-alert-corner::before {
+  width: 17px;
+  height: 1px;
+}
+
+.codex-alert-corner::after {
+  width: 1px;
+  height: 17px;
+}
+
+.codex-alert-corner-tl {
+  top: 7px;
+  left: 7px;
+}
+
+.codex-alert-corner-tr {
+  top: 7px;
+  right: 7px;
+
+  transform: scaleX(-1);
+}
+
+.codex-alert-corner-bl {
+  bottom: 7px;
+  left: 7px;
+
+  transform: scaleY(-1);
+}
+
+.codex-alert-corner-br {
+  right: 7px;
+  bottom: 7px;
+
+  transform: scale(-1);
+}
+
+.codex-alert-ornament {
+  position: relative;
+  z-index: 1;
+
+  margin-bottom: 6px;
+
+  color: #c99b4d;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 16px;
+
+  text-shadow:
+    0 0 10px rgba(212, 175, 55, 0.18);
+}
+
+.codex-alert-title {
+  position: relative;
+  z-index: 1;
+
+  margin: 0 0 14px;
+
+  color: #e7bb62;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 22px;
+  font-weight: 900;
+
+  letter-spacing: 6px;
+  text-indent: 6px;
+
+  text-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.72),
+    0 0 14px rgba(212, 175, 55, 0.10);
+}
+
+.codex-alert-message {
+  position: relative;
+  z-index: 1;
+
+  margin:
+    0 auto 23px;
+
+  color: #eadcc1;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  line-height: 1.9;
+  letter-spacing: 1px;
+}
+
+.codex-alert-btn {
+  position: relative;
+  z-index: 1;
+
+  min-width: 132px;
+
+  padding:
+    10px 25px;
+
+  border:
+    1px solid #d0a054;
+
+  border-radius: 5px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #96592a,
+      #603018
+    );
+
+  color: #fff0cf;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  letter-spacing: 3px;
+
+  cursor: pointer;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 222, 159, 0.10),
+    0 6px 14px rgba(0, 0, 0, 0.27);
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.codex-alert-btn:hover,
+.codex-alert-btn:focus-visible {
+  transform: translateY(-2px);
+
+  filter: brightness(1.10);
+
+  border-color: #e2b866;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 226, 169, 0.14),
+    0 9px 20px rgba(0, 0, 0, 0.34),
+    0 0 14px rgba(212, 175, 55, 0.14);
+
+  outline: none;
+}
+
+.codex-alert-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+
+  .codex-alert-overlay {
+    padding: 16px;
+  }
+
+  .codex-alert-box {
+    width: min(94vw, 400px);
+
+    padding:
+      27px 21px 23px;
+  }
+
+  .codex-alert-title {
+    font-size: 19px;
+    letter-spacing: 4px;
+    text-indent: 4px;
+  }
+
+  .codex-alert-message {
+    font-size: 14px;
+  }
+
+  .codex-alert-btn {
+    min-width: 120px;
+    padding: 9px 20px;
+  }
+}
+
+/* ==========================================================
+   隱藏彩蛋卡｜釣魚版曹操｜乾淨版
+   只保留：
+   - 連點裂痕
+   - 第 10 下短暫震動
+   - 真實 PNG 浪花由下往上拍
+   - 釣魚版曹操從浪後浮出
+========================================================== */
+
+/* 卡牌外層透明，名字黑底保留 */
+.hero-card,
+.hero-card.locked,
+.hero-card.special-egg-card,
+.hero-card.special-egg-card.locked,
+.hero-card.special-egg-card:not(.locked) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.hero-card.special-egg-card.locked {
+  cursor: pointer !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.34) !important;
+}
+
+.hero-card.special-egg-card.locked:hover {
+  transform: translateY(-2px) scale(1.004) !important;
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.40),
+    0 0 12px rgba(212, 175, 55, 0.10) !important;
+}
+
+.hero-card.special-egg-card .hero-name {
+  position: relative;
+  z-index: 20;
+  background: rgba(17, 13, 10, 0.92) !important;
+}
+
+.hero-card.special-egg-card.locked .hero-name {
+  color: #d5b56e !important;
+}
+
+/* 特殊卡圖片區 */
+.hero-card.special-egg-card .special-egg-image {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate;
+  background: transparent !important;
+}
+
+.hero-card.special-egg-card .special-egg-image > img {
+  position: relative;
+  z-index: 1;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: none !important;
+  transition:
+    filter 0.18s ease,
+    transform 0.18s ease,
+    opacity 0.18s ease;
+}
+
+/* 未解鎖金卡淡淡掃光 */
+.hero-card.special-egg-card.special-egg-locked
+.special-egg-image::before {
+  content: "";
+  position: absolute;
+  inset: -10% -55%;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      112deg,
+      transparent 36%,
+      rgba(255, 241, 189, 0.03) 43%,
+      rgba(255, 241, 189, 0.20) 50%,
+      rgba(255, 213, 112, 0.05) 57%,
+      transparent 64%
+    );
+  transform: translateX(-45%);
+  animation: fishingCaoGoldSweep 3.2s ease-in-out infinite;
+}
+
+@keyframes fishingCaoGoldSweep {
+  0%, 30% {
+    opacity: 0;
+    transform: translateX(-45%);
+  }
+  48% {
+    opacity: 1;
+  }
+  72% {
+    opacity: 0.85;
+    transform: translateX(45%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(45%);
+  }
+}
+
+/* 每次點擊只小震一下 */
+.hero-card.special-egg-card.special-egg-hit {
+  animation: fishingCaoTapHit 0.18s ease-out;
+}
+
+@keyframes fishingCaoTapHit {
+  0%   { transform: translate(0, 0); }
+  35%  { transform: translate(-2px, 1px); }
+  70%  { transform: translate(2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* 點擊累積裂痕 */
+.special-egg-cracks {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+  background-image:
+    linear-gradient(
+      117deg,
+      transparent 0 47%,
+      rgba(255, 230, 160, 0.90) 48% 48.7%,
+      transparent 49.4% 100%
+    ),
+    linear-gradient(
+      62deg,
+      transparent 0 53%,
+      rgba(255, 211, 107, 0.82) 54% 54.6%,
+      transparent 55.3% 100%
+    ),
+    linear-gradient(
+      145deg,
+      transparent 0 64%,
+      rgba(255, 240, 186, 0.74) 65% 65.5%,
+      transparent 66.2% 100%
+    );
+  background-size:
+    62% 72%,
+    58% 70%,
+    48% 55%;
+  background-position:
+    44% 35%,
+    66% 58%,
+    25% 72%;
+  background-repeat: no-repeat;
+  transition:
+    opacity 0.16s ease,
+    filter 0.16s ease;
+}
+
+.hero-card.special-egg-card.egg-stage-1 .special-egg-cracks {
+  opacity: 0.16;
+}
+
+.hero-card.special-egg-card.egg-stage-2 .special-egg-cracks {
+  opacity: 0.34;
+  filter: drop-shadow(0 0 3px rgba(255, 207, 98, 0.38));
+}
+
+.hero-card.special-egg-card.egg-stage-3 .special-egg-cracks {
+  opacity: 0.58;
+  filter: drop-shadow(0 0 4px rgba(255, 219, 120, 0.55));
+}
+
+/* 第 10 下：裂痕很快消失 */
+.hero-card.special-egg-card.egg-unlocking .special-egg-cracks {
+  animation: fishingCaoCrackBreak 0.26s ease-out both !important;
+}
+
+@keyframes fishingCaoCrackBreak {
+  0% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+  42% {
+    opacity: 1;
+    transform: scale(1.025);
+    filter:
+      brightness(2.1)
+      drop-shadow(0 0 5px rgba(235, 253, 255, 0.88));
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+}
+
+/* 短暫白藍閃光 */
+.special-egg-flash {
+  position: absolute;
+  inset: -12%;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(211, 247, 255, 0.55) 25%,
+      rgba(88, 190, 236, 0.18) 50%,
+      transparent 72%
+    );
+}
+
+.hero-card.special-egg-card.egg-unlocking .special-egg-flash {
+  animation: fishingCaoSeaFlash 0.44s ease-out both;
+}
+
+@keyframes fishingCaoSeaFlash {
+  0% {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+  35% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+/* ==========================================================
+   真實浪花 PNG｜加強浪花飛濺版
+   使用 images/wave-splash.png
+
+   效果：
+   - 主浪從底部拍起
+   - 左右各有一股較小浪花
+   - 三股浪不同時間出現，增加流動感
+   - 不超出卡牌範圍
+   - 不再出現巨大海嘯
+========================================================== */
+
+
+/* ==========================================================
+   浪花特效容器
+========================================================== */
+
+.special-egg-wave-splash {
+  position: absolute !important;
+
+  left: 0 !important;
+  bottom: 0 !important;
+
+  width: 100% !important;
+  height: 100% !important;
+
+  z-index: 6 !important;
+
+  pointer-events: none !important;
+
+  overflow: hidden !important;
+
+  opacity: 1 !important;
+
+  transform: none !important;
+
+  animation: none !important;
+}
+
+
+/* ==========================================================
+   中央主浪
+========================================================== */
+
+.special-egg-wave-splash > img {
+  position: absolute !important;
+
+  left: 50% !important;
+  bottom: -12% !important;
+
+  width: 126% !important;
+  height: auto !important;
+
+  display: block !important;
+
+  opacity: 0;
+
+  transform:
+    translateX(-50%)
+    translateY(58%)
+    scale(0.76);
+
+  transform-origin:
+    center bottom;
+
+  pointer-events: none;
+
+  user-select: none;
+  -webkit-user-drag: none;
+
+  filter:
+    brightness(1.02)
+    saturate(0.92);
+
+  will-change:
+    transform,
+    opacity,
+    filter;
+}
+
+
+/* 第 10 下主浪拍起來 */
+.hero-card.special-egg-card.egg-unlocking
+.special-egg-wave-splash > img {
+
+  animation:
+    fishingCaoMainWave
+    0.92s
+    0.08s
+    cubic-bezier(.14,.78,.18,1)
+    both !important;
+}
+
+
+@keyframes fishingCaoMainWave {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(60%)
+      scaleX(0.76)
+      scaleY(0.68);
+  }
+
+
+  12% {
+    opacity: 0.72;
+  }
+
+
+  34% {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(14%)
+      scaleX(0.98)
+      scaleY(0.96);
+  }
+
+
+  52% {
+    opacity: 1;
+
+    transform:
+      translateX(-51%)
+      translateY(-1%)
+      scaleX(1.035)
+      scaleY(1.05);
+  }
+
+
+  68% {
+    opacity: 0.94;
+
+    transform:
+      translateX(-49%)
+      translateY(-7%)
+      scaleX(1.055)
+      scaleY(1.08);
+  }
+
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(-21%)
+      scaleX(1.10)
+      scaleY(1.13);
+  }
+}
+
+
+/* ==========================================================
+   左側碎浪
+   使用同一張 wave-splash.png，
+   但縮小、旋轉、延遲不同
+========================================================== */
+
+.special-egg-wave-splash::before {
+  content: "";
+
+  position: absolute;
+
+  left: -29%;
+  bottom: -5%;
+
+  width: 92%;
+  height: 76%;
+
+  opacity: 0;
+
+  background-image:
+    url("../images/wave-splash.png");
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center bottom;
+
+  background-size:
+    contain;
+
+  transform:
+    translateY(70%)
+    rotate(-16deg)
+    scale(0.58);
+
+  transform-origin:
+    right bottom;
+
+  filter:
+    brightness(1.06)
+    saturate(0.88);
+
+  pointer-events:
+    none;
+
+  will-change:
+    transform,
+    opacity;
+}
+
+
+/* 左邊浪花 */
+.hero-card.special-egg-card.egg-unlocking
+.special-egg-wave-splash::before {
+
+  animation:
+    fishingCaoLeftSplash
+    0.72s
+    0.15s
+    cubic-bezier(.16,.82,.18,1)
+    both;
+}
+
+
+@keyframes fishingCaoLeftSplash {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(70%)
+      rotate(-18deg)
+      scale(0.50);
+  }
+
+
+  22% {
+    opacity: 0.78;
+  }
+
+
+  52% {
+    opacity: 0.92;
+
+    transform:
+      translateY(9%)
+      rotate(-24deg)
+      scale(0.78);
+  }
+
+
+  72% {
+    opacity: 0.62;
+
+    transform:
+      translateY(-5%)
+      rotate(-27deg)
+      scale(0.86);
+  }
+
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translateY(-25%)
+      rotate(-31deg)
+      scale(0.94);
+  }
+}
+
+
+/* ==========================================================
+   右側碎浪
+========================================================== */
+
+.special-egg-wave-splash::after {
+  content: "";
+
+  position: absolute;
+
+  right: -29%;
+  bottom: -4%;
+
+  width: 90%;
+  height: 74%;
+
+  opacity: 0;
+
+  background-image:
+    url("../images/wave-splash.png");
+
+  background-repeat:
+    no-repeat;
+
+  background-position:
+    center bottom;
+
+  background-size:
+    contain;
+
+  transform:
+    translateY(72%)
+    rotate(17deg)
+    scale(0.55);
+
+  transform-origin:
+    left bottom;
+
+  filter:
+    brightness(1.10)
+    saturate(0.90);
+
+  pointer-events:
+    none;
+
+  will-change:
+    transform,
+    opacity;
+}
+
+
+/* 右邊浪稍微晚一點 */
+.hero-card.special-egg-card.egg-unlocking
+.special-egg-wave-splash::after {
+
+  animation:
+    fishingCaoRightSplash
+    0.76s
+    0.20s
+    cubic-bezier(.15,.80,.18,1)
+    both;
+}
+
+
+@keyframes fishingCaoRightSplash {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(72%)
+      rotate(19deg)
+      scale(0.48);
+  }
+
+
+  20% {
+    opacity: 0.72;
+  }
+
+
+  48% {
+    opacity: 0.90;
+
+    transform:
+      translateY(12%)
+      rotate(24deg)
+      scale(0.76);
+  }
+
+
+  70% {
+    opacity: 0.58;
+
+    transform:
+      translateY(-7%)
+      rotate(28deg)
+      scale(0.84);
+  }
+
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translateY(-27%)
+      rotate(32deg)
+      scale(0.92);
+  }
+}
+
+
+/* ==========================================================
+   浪花最高點時稍微加亮
+   讓白色泡沫有「啪！」拍起來的感覺
+========================================================== */
+
+.hero-card.special-egg-card.egg-unlocking
+.special-egg-wave-splash > img {
+
+  filter:
+    brightness(1.08)
+    saturate(0.94)
+    drop-shadow(
+      0 -3px 5px
+      rgba(205, 246, 255, 0.24)
+    );
+}
+
+
+/* ==========================================================
+   重要：
+   浪花只能存在卡牌圖片內
+========================================================== */
+
+.hero-card.special-egg-card
+.special-egg-image {
+
+  position: relative !important;
+
+  overflow: hidden !important;
+}
+
+
+/* 避免浪花蓋到名字 */
+.hero-card.special-egg-card
+.hero-name {
+
+  position: relative;
+
+  z-index: 20;
+}
+
+
+/* ==========================================================
+   手機版
+========================================================== */
+
+@media (max-width: 600px) {
+
+  .special-egg-wave-splash > img {
+    width: 132% !important;
+    bottom: -10% !important;
+  }
+
+
+  .special-egg-wave-splash::before {
+    left: -31%;
+    width: 96%;
+  }
+
+
+  .special-egg-wave-splash::after {
+    right: -31%;
+    width: 94%;
+  }
+
+}
+.hero-card.special-egg-card.egg-unlocking {
+  overflow: hidden !important;
+  z-index: auto !important;
+  animation:
+    fishingCaoFinalShake
+    0.36s
+    ease-out
+    both !important;
+}
+
+@keyframes fishingCaoFinalShake {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(-4px, 1px); }
+  40%  { transform: translate(4px, -1px); }
+  60%  { transform: translate(-3px, 0); }
+  80%  { transform: translate(2px, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+/* 曹操卡在浪花最高點附近浮出 */
+.hero-card.special-egg-card.special-egg-revealed
+.hero-image-placeholder > img {
+  animation:
+    fishingCaoImageReveal
+    0.58s
+    cubic-bezier(.18,.84,.27,1.14)
+    both !important;
+}
+
+@keyframes fishingCaoImageReveal {
+  0% {
+    opacity: 0;
+    transform:
+      translateY(16px)
+      scale(1.035);
+    filter:
+      brightness(1.40)
+      saturate(0.88);
+  }
+  55% {
+    opacity: 1;
+    transform:
+      translateY(-3px)
+      scale(1.012);
+    filter:
+      brightness(1.10)
+      saturate(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+    filter:
+      brightness(1)
+      saturate(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .special-egg-wave-splash {
+    width: 136% !important;
+    bottom: -8% !important;
+  }
+}
+
+
+/* ==========================================================
+   群英圖鑑標題圖（左上角／無外框）
+   保留其他頁面樣式，僅修正標題圖的位置與意外繼承的框線
+========================================================== */
+.codex-container {
+  position: relative;
+  padding-top: 118px !important;
+}
+
+.codex-container::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute;
+  inset: auto !important; /* 取消原本古卷內框的 inset: 9px */
+  top: 12px !important;
+  left: 42px !important; /* 與下方篩選列的左邊緣對齊 */
+  width: 340px;
+  height: 108px;
+  max-width: calc(100% - 84px);
+  background: transparent url('../images/群英圖鑑鎏金書法標誌.png') left center / contain no-repeat !important;
+  border: none !important; /* 取消原本 ::before 的金色方框 */
+  border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  pointer-events: none;
+  z-index: 6;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.28));
+}
+
+@media (max-width: 1200px) {
+  .codex-container::before {
+    left: 30px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .codex-container {
+    padding-top: 102px !important;
+  }
+
+  .codex-container::before {
+    top: 10px !important;
+    left: 20px !important;
+    width: min(290px, 58vw);
+    height: 88px;
+  }
+}
+
+@media (max-width: 480px) {
+  .codex-container {
+    padding-top: 88px !important;
+  }
+
+  .codex-container::before {
+    top: 8px !important;
+    left: 15px !important;
+    width: min(230px, 66vw);
+    height: 74px;
+  }
+}
+
+
+/* ==========================================================
+   人物介紹左下角 Q 版 Sprite（目前只有曹操）
+   使用已整理為等寬四格的 images/曹操動作.png
+   每格 900 × 675；安全留白至少 160px；動畫由 Card.html JS 逐格切換
+   不改動既有卡牌、羈絆、圖鑑排序與 NPC 動畫
+========================================================== */
+.modal-sprite-zone[hidden] {
+  display: none !important;
+}
+
+.modal-sprite-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  gap: 4px;
+  position: relative;
+}
+
+.hero-sprite {
+  display: block;
+  flex: none;
+  width: 240px;
+  height: 180px; /* 等比例顯示 900 × 675 的單格，不會露到隔壁幀 */
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: 400% 100%;
+  background-position: 0% 0%;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.36));
+  transition: filter 0.18s ease;
+}
+
+.hero-sprite:focus-visible {
+  outline: 2px solid #d7a858;
+  outline-offset: 3px;
+  border-radius: 5px;
+}
+
+.hero-speech {
+  display: block;
+  width: max-content;
+  max-width: min(100%, 270px);
+  min-height: 0;
+  padding: 8px 12px;
+  border: 1px solid rgba(204, 157, 77, 0.62);
+  border-radius: 10px;
+  background: rgba(22, 16, 12, 0.96);
+  color: #f3d798;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 13px;
+  line-height: 1.55;
+  text-align: center;
+  box-shadow: 0 5px 13px rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(5px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.hero-speech.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* 手機上略縮小，保持左側卡牌下方位置 */
+@media (max-width: 650px) {
+  .hero-sprite {
+    width: 200px;
+    height: 150px;
+  }
+  .hero-speech {
+    max-width: min(100%, 270px);
+    font-size: 12px;
+  }
+}
+
+/* ==========================================================
+   曹操 Q 版 Sprite｜真實三格待機切圖
+   站立 → 微壓 → 回彈 → 微壓 → 站立（JavaScript 控制）
+   不再將整張圖片用 transform / CSS 動畫進行彈跳。
+   圖片實際每格都是 900×675（待機三格；點擊四格）。
+========================================================== */
+.hero-sprite {
+  animation: none !important;
+  transform: none !important;
+  background-repeat: no-repeat;
+}
+
+.hero-sprite.is-playing {
+  animation: none !important;
+  transform: none !important;
+}
+
+
+/* ==========================================================
+   曹操 Sprite 精準比例修正｜每格原圖 900 × 675
+   待機 / 點擊共用 4:3 畫布，人物不會被擠窄或拉長。
+   用真正三格 PNG 微動替代整張圖片的跳躍縮放。
+========================================================== */
+.hero-sprite {
+  width: 260px !important;
+  height: 195px !important;
+  background-repeat: no-repeat !important;
+  animation: none !important;
+  transform: none !important;
+}
+.hero-sprite.is-playing {
+  animation: none !important;
+  transform: none !important;
+}
+@media (max-width: 650px) {
+  .hero-sprite {
+    width: 208px !important;
+    height: 156px !important;
+  }
+}
+
+
+/* ==========================================================
+   人物圖鑑｜整體精修
+   - 圖鑑進度條
+   - 無搜尋結果狀態
+   - 新解鎖「新」印記
+   - 已解鎖卡牌 hover 稀有度微光
+   不改卡牌尺寸、欄數、Q 版人物與 Modal
+========================================================== */
+
+/* ---------- 圖鑑進度 ---------- */
+.codex-progress {
+  min-width: 230px !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+
+  gap: 7px !important;
+
+  padding: 8px 12px !important;
+}
+
+.codex-progress-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.codex-progress-text {
+  color: #f0d49a;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  white-space: nowrap;
+}
+
+.codex-progress-track {
+  width: 100%;
+  height: 5px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255, 235, 192, 0.10);
+
+  box-shadow:
+    inset 0 1px 3px
+    rgba(0, 0, 0, 0.50);
+}
+
+.codex-progress-fill {
+  display: block;
+
+  width: 0;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #9b6825 0%,
+      #d9a64b 55%,
+      #f0cf7b 100%
+    );
+
+  box-shadow:
+    0 0 9px
+    rgba(218, 166, 76, 0.30);
+
+  transition:
+    width 0.28s ease;
+}
+
+
+/* ---------- 無搜尋 / 篩選結果 ---------- */
+.cards-grid.is-empty {
+  display: none !important;
+}
+
+.codex-empty-state[hidden] {
+  display: none !important;
+}
+
+.codex-empty-state {
+  width: 100%;
+
+  margin-top: 4px;
+
+  padding:
+    56px 24px;
+
+  text-align: center;
+
+  border:
+    1px solid
+    rgba(190, 142, 68, 0.34);
+
+  border-radius: 9px;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(157, 101, 36, 0.10),
+      transparent 48%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(20, 17, 15, 0.91),
+      rgba(12, 12, 13, 0.96)
+    );
+
+  box-shadow:
+    0 10px 28px
+    rgba(0, 0, 0, 0.28),
+    inset 0 0 24px
+    rgba(212, 175, 55, 0.025);
+}
+
+.codex-empty-icon {
+  margin-bottom: 10px;
+
+  color: #b8893f;
+
+  font-size: 24px;
+
+  text-shadow:
+    0 0 10px
+    rgba(206, 151, 64, 0.22);
+}
+
+.codex-empty-state h3 {
+  margin:
+    0 0 10px;
+
+  color: #e7c581;
+
+  font-family:
+    'Noto Serif TC',
+    serif;
+
+  font-size: 23px;
+
+  letter-spacing: 2px;
+}
+
+.codex-empty-state p {
+  margin: 0;
+
+  color: #9f8b70;
+
+  font-size: 13px;
+  line-height: 1.8;
+
+  letter-spacing: 0.5px;
+}
+
+
+/* ---------- 已解鎖卡牌 hover 精修 ---------- */
+.hero-card:not(.locked):not(.special-egg-card)
+.hero-image-placeholder img {
+  transition:
+    filter 0.22s ease;
+}
+
+.hero-card:not(.locked):not(.special-egg-card):hover
+.hero-image-placeholder img {
+  filter:
+    brightness(1.045)
+    saturate(1.035);
+}
+
+/* SSR：淡金 */
+.hero-card[data-rarity="ssr"]:not(.locked):not(.special-egg-card):hover {
+  box-shadow:
+    0 18px 34px
+    rgba(0, 0, 0, 0.56),
+    0 0 19px
+    rgba(229, 177, 69, 0.23) !important;
+}
+
+/* SR：冷藍，呼應卡框 */
+.hero-card[data-rarity="sr"]:not(.locked):not(.special-egg-card):hover {
+  box-shadow:
+    0 18px 34px
+    rgba(0, 0, 0, 0.56),
+    0 0 18px
+    rgba(111, 174, 236, 0.22) !important;
+}
+
+/* R：低調暖銅，不搶 SSR / SR */
+.hero-card[data-rarity="r"]:not(.locked):not(.special-egg-card):hover {
+  box-shadow:
+    0 18px 34px
+    rgba(0, 0, 0, 0.54),
+    0 0 14px
+    rgba(184, 127, 68, 0.15) !important;
+}
+
+
+@media (max-width: 650px) {
+  .codex-progress {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .codex-empty-state {
+    padding:
+      42px 18px;
+  }
+
+  .codex-empty-state h3 {
+    font-size: 20px;
+  }
+
+}
+
+/* ==========================================================
+   角色介紹 Modal｜最終視覺精修
+   - 陣營標籤：魏藍 / 蜀綠 / 吳紅 / 群紫
+   - 稀有度標籤：R 暖銅 / SR 冷藍 / SSR 金
+   - 史實 / 演義視覺分流
+   - Q版人物腳底陰影
+   - 黑金 scrollbar
+   - Modal 開啟動畫微調
+   只覆蓋 Modal，不改圖鑑卡牌尺寸、篩選、羈絆資料與 Sprite 邏輯
+========================================================== */
+
+.hero-modal-overlay {
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+}
+
+.hero-modal-content {
+  opacity: 0;
+  transform: translateY(16px) scale(0.985) !important;
+  transition:
+    opacity 0.24s ease,
+    transform 0.24s ease !important;
+}
+
+.hero-modal-overlay.active .hero-modal-content {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+.hero-modal-content {
+  scrollbar-width: thin;
+  scrollbar-color:
+    rgba(211, 164, 82, 0.92)
+    rgba(18, 12, 9, 0.55);
+}
+
+.hero-modal-content::-webkit-scrollbar {
+  width: 9px;
+}
+
+.hero-modal-content::-webkit-scrollbar-track {
+  background: rgba(18, 12, 9, 0.55);
+  border-radius: 999px;
+}
+
+.hero-modal-content::-webkit-scrollbar-thumb {
+  border: 1px solid rgba(255, 226, 166, 0.18);
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    rgba(232, 191, 104, 0.94),
+    rgba(158, 108, 42, 0.94)
+  );
+}
+
+.hero-modal-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(246, 210, 127, 0.98),
+    rgba(181, 127, 49, 0.98)
+  );
+}
+
+.modal-tag.faction-tag[data-faction="wei"] {
+  border-color: rgba(103, 151, 220, 0.62) !important;
+  color: #c9defb !important;
+  background: rgba(27, 49, 84, 0.62) !important;
+  box-shadow:
+    inset 0 0 12px rgba(90, 145, 214, 0.06),
+    0 0 10px rgba(90, 145, 214, 0.05) !important;
+}
+
+.modal-tag.faction-tag[data-faction="shu"] {
+  border-color: rgba(103, 164, 109, 0.62) !important;
+  color: #cee6c8 !important;
+  background: rgba(27, 58, 35, 0.62) !important;
+  box-shadow:
+    inset 0 0 12px rgba(98, 159, 104, 0.06),
+    0 0 10px rgba(98, 159, 104, 0.05) !important;
+}
+
+.modal-tag.faction-tag[data-faction="wu"] {
+  border-color: rgba(191, 88, 74, 0.62) !important;
+  color: #efbeb4 !important;
+  background: rgba(81, 28, 23, 0.62) !important;
+  box-shadow:
+    inset 0 0 12px rgba(190, 88, 74, 0.06),
+    0 0 10px rgba(190, 88, 74, 0.05) !important;
+}
+
+.modal-tag.faction-tag[data-faction="special"] {
+  border-color: rgba(142, 106, 190, 0.62) !important;
+  color: #dbc9f2 !important;
+  background: rgba(57, 39, 81, 0.62) !important;
+  box-shadow:
+    inset 0 0 12px rgba(140, 106, 188, 0.06),
+    0 0 10px rgba(140, 106, 188, 0.05) !important;
+}
+
+.modal-tag.rarity-tag[data-rarity="r"] {
+  border-color: rgba(183, 124, 73, 0.62) !important;
+  color: #e4b98f !important;
+  background: rgba(83, 49, 25, 0.64) !important;
+}
+
+.modal-tag.rarity-tag[data-rarity="sr"] {
+  border-color: rgba(104, 165, 222, 0.64) !important;
+  color: #d6eaff !important;
+  background: rgba(25, 47, 82, 0.64) !important;
+  box-shadow:
+    inset 0 0 12px rgba(107, 168, 226, 0.06),
+    0 0 10px rgba(107, 168, 226, 0.05) !important;
+}
+
+.modal-tag.rarity-tag[data-rarity="ssr"] {
+  border-color: rgba(218, 170, 79, 0.68) !important;
+  color: #f4d38c !important;
+  background: rgba(84, 55, 21, 0.68) !important;
+  box-shadow:
+    inset 0 0 13px rgba(255, 224, 157, 0.06),
+    0 0 13px rgba(224, 169, 70, 0.10) !important;
+}
+
+.history-card {
+  border-left: 3px solid rgba(210, 163, 81, 0.76) !important;
+  background:
+    radial-gradient(
+      circle at 92% 15%,
+      rgba(191, 143, 66, 0.055),
+      transparent 31%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(83, 59, 35, 0.38),
+      rgba(40, 29, 22, 0.72)
+    ) !important;
+}
+
+.history-card .modal-section-icon {
+  color: #ddb15d !important;
+}
+
+.history-card .modal-section-icon::before {
+  border-color: rgba(211, 164, 82, 0.62) !important;
+  background: rgba(65, 45, 27, 0.84) !important;
+}
+
+.history-card .modal-section-title h4 {
+  color: #e0b665 !important;
+}
+
+.history-card .modal-section-title::after {
+  background: linear-gradient(
+    90deg,
+    rgba(211, 164, 82, 0.36),
+    transparent
+  ) !important;
+}
+
+.novel-card {
+  border-left: 3px solid rgba(174, 89, 82, 0.76) !important;
+  background:
+    radial-gradient(
+      circle at 92% 15%,
+      rgba(171, 82, 83, 0.055),
+      transparent 31%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(77, 36, 41, 0.40),
+      rgba(38, 24, 29, 0.74)
+    ) !important;
+}
+
+.novel-card .modal-section-icon {
+  color: #dda09a !important;
+}
+
+.novel-card .modal-section-icon::before {
+  border-color: rgba(183, 94, 89, 0.62) !important;
+  background: rgba(62, 30, 35, 0.84) !important;
+}
+
+.novel-card .modal-section-title h4 {
+  color: #dfa49b !important;
+}
+
+.novel-card .modal-section-title::after {
+  background: linear-gradient(
+    90deg,
+    rgba(183, 94, 89, 0.36),
+    transparent
+  ) !important;
+}
+
+.modal-sprite-zone {
+  position: relative !important;
+}
+
+.modal-sprite-zone::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  width: 120px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.38) 0%,
+    rgba(0, 0, 0, 0.19) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  filter: blur(2px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-sprite,
+.hero-speech {
+  position: relative;
+  z-index: 1;
+}
+
+.modal-relation-card {
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease !important;
+}
+
+.modal-relation-card:not(:disabled):hover {
+  border-color: rgba(218, 169, 80, 0.72) !important;
+  box-shadow:
+    0 9px 20px rgba(0, 0, 0, 0.30),
+    0 0 14px rgba(209, 158, 71, 0.10) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-modal-content {
+    transition: none !important;
+  }
+}
+
+
+/* ==========================================================
+   人物圖鑑｜功能收尾
+   - Modal 開啟時鎖定背景滾動
+   - 圖鑑底部卷冊式收尾
+========================================================== */
+
+body.hero-modal-open {
+  overflow: hidden !important;
+}
+
+.codex-end-mark {
+  width: min(620px, 78%);
+  margin: 2px auto 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  opacity: 0.72;
+  pointer-events: none;
+  user-select: none;
+}
+
+.codex-end-mark > span {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(202, 153, 74, 0.42));
+}
+
+.codex-end-mark > span:last-child {
+  background: linear-gradient(90deg, rgba(202, 153, 74, 0.42), transparent);
+}
+
+.codex-end-mark > b {
+  color: rgba(219, 178, 100, 0.78);
+  font-family: 'Noto Serif TC', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.48);
+}
+
+@media (max-width: 650px) {
+  .codex-end-mark {
+    width: 86%;
+    gap: 10px;
+  }
+
+  .codex-end-mark > b {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+  }
+}
+

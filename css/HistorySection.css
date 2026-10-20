@@ -1,0 +1,1239 @@
+/* ======================================
+   Section Heading
+====================================== */
+
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 25px;
+
+  margin-bottom: 60px;
+
+  /* 新增 */
+  margin-top: 35px;
+}
+
+
+
+.section-number {
+  color: #8f211c;
+
+  font-family: "Noto Serif TC", serif;
+
+  font-size: 72px;
+
+  font-weight: 900;
+
+  line-height: 0.95;
+
+  text-shadow:
+    0 2px 0 rgba(255,255,255,0.15);
+}
+
+
+.section-label {
+  color: #8f2b23;
+
+  font-size: 11px;
+
+  letter-spacing: 6px;
+
+  font-weight: 500;
+
+  opacity: 0.9;
+}
+
+
+.section-heading h2 {
+  margin-top: 5px;
+
+  font-family: "Noto Serif TC", serif;
+
+  font-size: clamp(
+    36px,
+    5vw,
+    58px
+  );
+
+  line-height: 1.4;
+}
+
+.history-stage {
+  padding: 70px 40px;
+
+  background: none;
+}
+
+/* ======================================
+   HISTORY SECTION
+   宣紙背景
+====================================== */
+
+.history-section {
+  position: relative;
+
+  padding: 100px 0 120px;
+
+  text-align: center;
+
+  background-image:
+    linear-gradient(
+      rgba(230, 218, 198, 0.18),
+      rgba(210, 192, 165, 0.18)
+    ),
+    url("../images/history-bg.png");
+
+  background-size: cover;
+
+  background-position: center top;
+
+  background-repeat: no-repeat;
+}
+
+
+/* 背景邊緣稍微壓暗 */
+.history-section::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 40%,
+      rgba(62, 47, 35, 0.08) 100%
+    );
+
+  pointer-events: none;
+}
+
+
+/* 讓內容浮在背景效果上 */
+.history-section .section-container {
+  position: relative;
+
+  z-index: 2;
+}
+
+
+
+/* ======================================
+   SCROLL WRAPPER
+====================================== */
+
+.scroll-wrapper {
+  position: relative;
+
+  max-width: 1040px;
+
+  margin: 0 auto;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+
+/* ======================================
+   卷軸兩側木軸
+====================================== */
+
+.scroll-handle {
+  width: 36px;
+  height: 490px;
+
+  position: relative;
+
+  flex-shrink: 0;
+
+  z-index: 10;
+
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #281307 0%,
+      #563117 22%,
+      #986036 48%,
+      #b37943 52%,
+      #593216 78%,
+      #281307 100%
+    );
+
+  box-shadow:
+    inset 0 0 8px rgba(255,255,255,0.09),
+    0 8px 18px rgba(0,0,0,0.42);
+}
+
+
+/* 卷軸上下端 */
+.scroll-handle::before,
+.scroll-handle::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 52px;
+  height: 24px;
+
+  border-radius: 5px;
+
+  border: 1px solid #8e5d32;
+
+  background:
+    linear-gradient(
+      180deg,
+      #b67a43,
+      #6b3d1c 55%,
+      #3a1d0b
+    );
+
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.35);
+}
+
+
+.scroll-handle::before {
+  top: -14px;
+}
+
+
+.scroll-handle::after {
+  bottom: -14px;
+}
+
+
+
+/* ======================================
+   中央展開古卷
+====================================== */
+
+.history-intro {
+  flex-grow: 1;
+  height: 460px;
+
+  position: relative;
+
+  margin: 0 -7px;
+  padding: 0 32px;
+
+  z-index: 5;
+
+  display: grid;
+  grid-template-columns: 1fr 110px 1fr;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(36, 27, 20, 0.82) 0%,
+      rgba(55, 41, 31, 0.72) 18%,
+      rgba(28, 22, 18, 0.90) 50%,
+      rgba(55, 41, 31, 0.72) 82%,
+      rgba(36, 27, 20, 0.82) 100%
+    );
+
+  border-top: 1px solid rgba(203, 164, 102, 0.22);
+  border-bottom: 1px solid rgba(203, 164, 102, 0.22);
+
+  box-shadow:
+    0 18px 35px rgba(0, 0, 0, 0.35),
+    inset 0 0 55px rgba(0, 0, 0, 0.42);
+}
+
+/* 古卷內框 */
+.history-intro::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 12px;
+
+  border:
+    1px solid
+    rgba(190,155,99,0.08);
+
+  pointer-events: none;
+}
+
+
+
+/* ======================================
+   BOOK 基礎
+====================================== */
+
+.history-book {
+  min-height: 390px;
+
+  position: relative;
+
+  cursor: pointer;
+
+  perspective: 1400px;
+
+  transition:
+    transform 0.35s ease;
+}
+
+
+
+/* 左書微微往左傾 */
+.history-record {
+  transform:
+    rotate(-1.6deg)
+    translateY(4px);
+}
+
+
+/* 右書微微往右傾 */
+.history-romance {
+  transform:
+    rotate(1.6deg)
+    translateY(4px);
+}
+
+
+/* Hover 微微浮起 */
+.history-record:hover {
+  transform:
+    rotate(-0.5deg)
+    translateY(-6px);
+}
+
+
+.history-romance:hover {
+  transform:
+    rotate(0.5deg)
+    translateY(-6px);
+}
+
+
+
+/* ======================================
+   BOOK 3D
+====================================== */
+
+.book-card-inner {
+  position: relative;
+
+  width: 100%;
+  height: 390px;
+
+  text-align: center;
+
+  transition:
+    transform 0.85s
+    cubic-bezier(
+      0.4,
+      0.2,
+      0.2,
+      1
+    );
+
+  transform-style:
+    preserve-3d;
+}
+
+
+/* 翻頁 */
+.history-book.flipped
+.book-card-inner {
+  transform:
+    rotateY(180deg);
+}
+
+
+
+/* ======================================
+   BOOK FRONT / BACK 共用
+====================================== */
+
+.book-front,
+.book-back {
+  position: absolute;
+
+  inset: 0;
+
+  backface-visibility:
+    hidden;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(202,167,104,0.6);
+
+  box-shadow:
+
+    0 18px 32px
+    rgba(0,0,0,0.42),
+
+    inset 0 0 28px
+    rgba(0,0,0,0.32);
+
+  transform-style:
+    preserve-3d;
+}
+
+
+
+/* ======================================
+   左書：三國志
+====================================== */
+
+.history-record .book-front,
+.history-record .book-back {
+  border-radius:
+    4px 11px 11px 4px;
+}
+
+
+/* 藍色封面 */
+.history-record .book-front {
+  background:
+
+    radial-gradient(
+      circle at 45% 30%,
+      rgba(70,112,150,0.22),
+      transparent 45%
+    ),
+
+    repeating-linear-gradient(
+      35deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+
+    linear-gradient(
+      135deg,
+      #162c42,
+      #0d1e30 65%,
+      #07131e
+    );
+
+  color: #e8ded0;
+
+  border-color:
+    #58799a;
+}
+
+
+
+/* 左書書脊在左 */
+.history-record
+.book-front::before,
+
+.history-record
+.book-back::before {
+
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 24px;
+  height: 100%;
+
+  z-index: 3;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,0.6),
+      rgba(255,255,255,0.07),
+      rgba(0,0,0,0.3)
+    );
+
+  border-right:
+    1px solid
+    rgba(210,170,100,0.27);
+}
+
+
+
+/* 左書白頁在右 → 朝中間 */
+.history-record
+.book-front::after,
+
+.history-record
+.book-back::after {
+
+  content: "";
+
+  position: absolute;
+
+  right: -4px;
+  top: 8px;
+
+  width: 8px;
+
+  height:
+    calc(100% - 16px);
+
+  z-index: 2;
+
+  background:
+
+    repeating-linear-gradient(
+      180deg,
+      #eadfc9 0px,
+      #eadfc9 1px,
+      #b6a383 2px,
+      #f1e6d3 3px
+    );
+
+  box-shadow:
+    2px 0 6px
+    rgba(0,0,0,0.35);
+}
+
+
+
+/* ======================================
+   右書：三國演義
+====================================== */
+
+.history-romance .book-front,
+.history-romance .book-back {
+  border-radius:
+    11px 4px 4px 11px;
+}
+
+
+/* 紅色封面 */
+.history-romance .book-front {
+  background:
+
+    radial-gradient(
+      circle at 45% 30%,
+      rgba(180,64,53,0.24),
+      transparent 45%
+    ),
+
+    repeating-linear-gradient(
+      35deg,
+      rgba(255,255,255,0.012) 0px,
+      rgba(255,255,255,0.012) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+
+    linear-gradient(
+      135deg,
+      #711a17,
+      #4d100e 65%,
+      #2b0706
+    );
+
+  color: #eedcc8;
+
+  border-color:
+    #a84638;
+}
+
+
+
+/* 紅書書脊在右 */
+.history-romance
+.book-front::before,
+
+.history-romance
+.book-back::before {
+
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+  left: auto;
+
+  top: 0;
+
+  width: 24px;
+  height: 100%;
+
+  z-index: 3;
+
+  background:
+
+    linear-gradient(
+      270deg,
+      rgba(0,0,0,0.6),
+      rgba(255,255,255,0.07),
+      rgba(0,0,0,0.3)
+    );
+
+  border-left:
+    1px solid
+    rgba(210,170,100,0.27);
+}
+
+
+
+/* 紅書白頁在左 → 朝中間 */
+.history-romance
+.book-front::after,
+
+.history-romance
+.book-back::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: -4px;
+  right: auto;
+
+  top: 8px;
+
+  width: 8px;
+
+  height:
+    calc(100% - 16px);
+
+  z-index: 2;
+
+  background:
+
+    repeating-linear-gradient(
+      180deg,
+      #eadfc9 0px,
+      #eadfc9 1px,
+      #b6a383 2px,
+      #f1e6d3 3px
+    );
+
+  box-shadow:
+    -2px 0 6px
+    rgba(0,0,0,0.35);
+}
+
+
+
+/* ======================================
+   FRONT / BACK
+====================================== */
+
+.book-front {
+  z-index: 2;
+
+  transform:
+    rotateY(0deg);
+}
+
+
+.book-back {
+  transform:
+    rotateY(180deg);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+
+  background:
+
+    linear-gradient(
+      90deg,
+      #b7a17f 0%,
+      #e3d3b7 8%,
+      #eee2cb 50%,
+      #d9c5a6 92%,
+      #a89071 100%
+    );
+
+  color: #392c20;
+}
+
+
+
+/* ======================================
+   BOOK INNER FRAME
+====================================== */
+
+.book-inner {
+  position: relative;
+
+  width:
+    calc(100% - 34px);
+
+  height:
+    calc(100% - 34px);
+
+  margin:
+    17px 17px 17px 30px;
+
+  padding:
+    18px 14px;
+
+  z-index: 2;
+
+  border:
+    1px solid
+    rgba(212,182,131,0.32);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content:
+    space-between;
+}
+
+
+
+/* 紅書因書脊在右，
+   內框也反方向 */
+.history-romance
+.book-inner {
+
+  margin:
+    17px 30px 17px 17px;
+}
+
+
+
+/* 第二層古籍細框 */
+.book-inner::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 8px;
+
+  border:
+    1px solid
+    rgba(210,175,112,0.14);
+
+  pointer-events: none;
+}
+
+
+/* ======================================
+   BOOK TAG
+====================================== */
+
+.book-tag {
+  display: inline-block;
+
+  padding:
+    4px 13px;
+
+  border:
+    1px solid
+    rgba(
+      224,
+      196,
+      140,
+      0.45
+    );
+
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      0.15
+    );
+
+  color:
+    #eadbc0;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    12px;
+
+  letter-spacing:
+    3px;
+
+  box-shadow:
+    inset 0 0 8px
+    rgba(
+      255,
+      220,
+      150,
+      0.05
+    );
+}
+
+
+
+/* ======================================
+   VERTICAL TITLE
+====================================== */
+
+.vertical-title {
+  writing-mode:
+    vertical-rl;
+
+  height:
+    200px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin:
+    0 auto;
+
+  white-space:
+    nowrap;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    42px;
+
+  font-weight:
+    900;
+
+  letter-spacing:
+    3px;
+
+  color:
+    #f2e7d3;
+
+  text-shadow:
+
+    0 2px 4px
+    rgba(0,0,0,0.85),
+
+    0 0 12px
+    rgba(214,178,112,0.12);
+}
+
+
+
+/* ======================================
+   SUBTITLE
+====================================== */
+
+.vertical-subtitle {
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    17px;
+
+  color:
+    var(--gold-light);
+
+  letter-spacing:
+    4px;
+}
+
+
+
+/* ======================================
+   BACK PAGE
+====================================== */
+
+.book-back
+.book-inner {
+
+  background:
+
+    repeating-linear-gradient(
+      0deg,
+      rgba(80,60,38,0.02) 0px,
+      rgba(80,60,38,0.02) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+
+  border-color:
+    rgba(
+      95,
+      70,
+      42,
+      0.22
+    );
+}
+
+
+.book-author {
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    17px;
+
+  font-weight:
+    700;
+
+  color:
+    #78271f;
+
+  margin-bottom:
+    10px;
+
+  letter-spacing:
+    2px;
+}
+
+
+.book-desc {
+  font-size:
+    13px;
+
+  line-height:
+    1.85;
+
+  color:
+    #423528;
+
+  text-align:
+    justify;
+
+  padding:
+    8px;
+}
+
+
+
+/* ======================================
+   FLIP HINT
+====================================== */
+
+.flip-hint {
+  font-size:
+    11px;
+
+  color:
+    #b6945d;
+
+  letter-spacing:
+    2px;
+
+  margin-top:
+    auto;
+
+  opacity:
+    0.82;
+}
+
+
+.book-back
+.flip-hint {
+
+  color:
+    #775b39;
+}
+
+
+
+/* ======================================
+   VS
+   先保留你原本風格
+====================================== */
+
+.history-vs {
+  position: relative;
+
+  height: 100%;
+  left: -10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 4;
+}
+
+.history-vs::before {
+  content: "";
+
+  position: absolute;
+
+  width: 130px;
+  height: 82%;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(12, 9, 7, 0.88) 0%,
+      rgba(18, 13, 10, 0.62) 48%,
+      transparent 78%
+    );
+
+  filter: blur(2px);
+
+  pointer-events: none;
+}
+
+
+.vs-slash {
+  position: relative;
+
+  z-index: 2;
+
+  font-family: "Noto Serif TC", serif;
+
+  font-size: 64px;
+  font-weight: 900;
+  font-style: italic;
+
+  color: #f0c987;
+
+  text-shadow:
+    0 0 8px rgba(240, 201, 135, 0.75),
+    0 0 24px rgba(201, 130, 54, 0.38),
+    3px 4px 0 #3a2211;
+}
+
+
+
+/* ======================================
+   Bottom Text
+====================================== */
+
+.history-bottom-text {
+  margin-top: 55px;
+
+  text-align: center;
+
+  font-family: "Noto Serif TC", serif;
+
+  font-size: 20px;
+
+  font-weight: 600;
+
+  letter-spacing: 7px;
+
+  color: #2d241c;
+
+  opacity: 0.95;
+}
+
+
+
+/* ======================================
+   Quote
+====================================== */
+
+.history-quote {
+  margin-top: 48px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 24px;
+
+  text-align: center;
+}
+
+
+.history-quote p {
+  margin: 0;
+
+  font-family: "Noto Serif TC", serif;
+
+  font-size: 21px;
+
+  font-weight: 500;
+
+  line-height: 2;
+
+  letter-spacing: 2px;
+
+  color: #2e251e;
+}
+
+
+.quote-mark {
+  color: #922820;
+
+  font-family: serif;
+
+  font-size: 52px;
+
+  font-weight: 400;
+
+  line-height: 1;
+
+  opacity: 0.95;
+}
+
+
+/* ======================================
+   RWD
+====================================== */
+
+@media (max-width: 1000px) {
+
+  .scroll-handle {
+    display: none;
+  }
+
+
+  .history-intro {
+    height: auto;
+
+    grid-template-columns:
+      1fr;
+
+    gap:
+      40px;
+
+    padding:
+      40px 25px;
+  }
+
+
+  .history-record,
+  .history-romance {
+
+    transform:
+      none;
+  }
+
+
+  .history-record:hover,
+  .history-romance:hover {
+
+    transform:
+      translateY(-5px);
+  }
+
+
+  .history-vs {
+
+    padding:
+      20px 0;
+  }
+
+}
+
+/* ==========================================================
+   書脊翻頁測試版｜Desktop only
+   保留原本書本外觀與背面內容，只改翻頁方式：
+   - 三國志：以左側書脊為軸，向左掀開
+   - 三國演義：以右側書脊為軸，向右掀開
+   - <= 1000px 維持原本整張 3D 翻面，避免手機橫向溢出
+========================================================== */
+
+@media (min-width: 1001px) {
+
+  /* 原本是整個 book-card-inner 旋轉；
+     桌機測試版改成 inner 固定，讓封面自己旋轉。 */
+  .history-book.flipped .book-card-inner {
+    transform: none;
+  }
+
+
+  .history-book .book-card-inner {
+    transform: none;
+    transition: none;
+  }
+
+
+  /* 背面內容固定留在原位置，作為「翻開後的內頁」。 */
+  .history-book .book-back {
+    z-index: 1;
+    transform: rotateY(0deg);
+  }
+
+
+  /* 封面位於內頁上方。 */
+  .history-book .book-front {
+    z-index: 3;
+
+    transition:
+      transform 0.85s
+        cubic-bezier(
+          0.4,
+          0.2,
+          0.2,
+          1
+        ),
+      box-shadow 0.35s ease,
+      filter 0.35s ease;
+
+    will-change:
+      transform;
+  }
+
+
+  /* 三國志：左邊是書脊。 */
+  .history-record .book-front {
+    transform-origin:
+      left center;
+  }
+
+
+  /* 三國演義：右邊是書脊。 */
+  .history-romance .book-front {
+    transform-origin:
+      right center;
+  }
+
+
+  /* 向畫面外側掀開，避免壓住中間 VS。 */
+  .history-record.flipped .book-front {
+    transform:
+      rotateY(-105deg);
+
+    box-shadow:
+      14px 18px 30px
+      rgba(0, 0, 0, 0.28);
+  }
+
+
+  .history-romance.flipped .book-front {
+    transform:
+      rotateY(105deg);
+
+    box-shadow:
+      -14px 18px 30px
+      rgba(0, 0, 0, 0.28);
+  }
+
+
+  /* 翻開時讓內頁稍微亮一點，
+     只是增加「書被打開」的層次，不改原本配色。 */
+  .history-book.flipped .book-back {
+    box-shadow:
+      0 18px 32px
+      rgba(0, 0, 0, 0.42),
+
+      inset 0 0 22px
+      rgba(0, 0, 0, 0.18);
+  }
+
+}
+

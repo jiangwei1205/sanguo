@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    群雄問答｜參國・史演
+  </title>
+
+
+  <!-- Google Fonts -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+  <link rel="icon" type="image/png" sizes="100x100" href="images/logo1.png">
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700;900&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- 共用樣式 -->
+  <link
+    rel="stylesheet"
+    href="css/HomePage.css"
+  >
+
+
+  <!-- Quiz Page -->
+  <link
+    rel="stylesheet"
+    href="css/QuizPage.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- ======================================
+       NAVBAR
+  ======================================= -->
+
+  <header class="navbar">
+
+    <div class="nav-container">
+
+
+      <!-- Logo -->
+      <a
+        href="HomePage.html"
+        class="logo"
+      >
+
+        <img
+          src="images/1212.png"
+          alt="參國・史演 Logo"
+          class="logo-img"
+        >
+
+      </a>
+
+
+      <!-- Navigation -->
+      <nav class="nav-menu" id="primaryNav">
+
+        <a href="HomePage.html">
+          首頁
+        </a>
+
+        <a href="HomePage.html#history">
+          史實與演義
+        </a>
+
+        <a href="HomePage.html#stories">
+          故事差異
+        </a>
+
+        <a
+          href="QuizEntry.html"
+          class="active"
+        >
+          群雄問答
+        </a>
+        <a href="Card.html">
+          人物圖鑑
+        </a>
+
+        <a href="Pickcard.html">
+          招賢台
+        </a>
+
+        
+
+      </nav>
+
+
+      <button
+        class="mobile-menu-btn"
+        type="button"
+        aria-label="開啟選單"
+        aria-expanded="false"
+        aria-controls="primaryNav"
+      >
+        ☰
+      </button>
+
+
+    </div>
+
+  </header>
+
+
+
+  <!-- ======================================
+       QUIZ PAGE
+  ======================================= -->
+
+  <main>
+
+    <section class="quiz-section">
+
+      <div class="quiz-page-container">
+
+
+        <!-- ======================================
+             整張大型古紙答題卷
+        ======================================= -->
+
+        <div
+          class="quiz-paper"
+          id="quizCardContainer"
+        >
+
+
+          <!-- ======================================
+               TOP HEADER
+          ======================================= -->
+
+          <div class="quiz-main-header">
+
+
+            <!-- 主標 -->
+            <h1 class="quiz-main-title">
+              群雄問答
+            </h1>
+
+
+            <!-- 裝飾線 -->
+            <div class="quiz-title-decoration">
+
+              <span></span>
+
+              <i>◆</i>
+
+              <span></span>
+
+            </div>
+
+
+          </div>
+
+
+
+          <!-- ======================================
+               MAIN TWO COLUMN LAYOUT
+          ======================================= -->
+
+          <div class="quiz-content-layout">
+
+
+            <!-- ======================================
+                 LEFT：題目區
+            ======================================= -->
+
+            <div class="quiz-question-panel">
+
+
+              <!-- 題目進度 -->
+              <div
+                class="quiz-badge"
+                id="badgeTitle"
+              >
+                1 / 11 題
+              </div>
+
+
+              <!-- 題目 -->
+              <h2
+                class="quiz-question"
+                id="questionText"
+              >
+                載入中...
+              </h2>
+
+
+              <!-- 分隔線 -->
+              <div class="quiz-divider"></div>
+
+
+              <!-- 選項 -->
+              <div
+                class="quiz-options"
+                id="optionsContainer"
+              >
+
+                <!--
+                  選項由 JavaScript 動態產生
+                -->
+
+              </div>
+
+
+            </div>
+
+
+
+            <!-- ======================================
+                 RIGHT：生命 / 詳解 / 下一題
+            ======================================= -->
+
+            <aside class="quiz-info-panel">
+
+
+              <!-- ======================================
+                   生命值
+              ======================================= -->
+
+              <div class="quiz-life-section">
+
+
+                <p class="quiz-side-label">
+                  戰意
+                </p>
+
+
+                <div class="life-title-row">
+
+                  <span class="life-title">
+                    剩餘生命
+                  </span>
+
+
+                  <div
+                    class="quiz-hearts-container"
+                    id="heartsContainer"
+                  >
+
+                    <span class="heart active">
+                      ❤️
+                    </span>
+
+                    <span class="heart active">
+                      ❤️
+                    </span>
+
+                    <span class="heart active">
+                      ❤️
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+              </div>
+
+
+
+              <!-- 裝飾線 -->
+              <div class="quiz-side-divider"></div>
+
+
+
+              <!-- ======================================
+                   尚未作答
+              ======================================= -->
+
+              <div
+                class="quiz-waiting-area"
+                id="waitingArea"
+              >
+
+
+                <p class="waiting-title">
+                  軍師候命
+                </p>
+
+
+                <p class="waiting-text">
+                  選擇答案後，
+                  此處將顯示本題詳解。
+                </p>
+
+
+              </div>
+
+
+
+              <!-- ======================================
+                   回答後：詳解區
+              ======================================= -->
+
+              <div
+                class="quiz-feedback-area"
+                id="feedbackArea"
+                style="display: none;"
+              >
+
+
+                <p class="feedback-label">
+                  軍師詳解
+                </p>
+
+
+                <!-- 答對 / 答錯 -->
+                <div
+                  class="feedback-title"
+                  id="feedbackTitle"
+                >
+                </div>
+
+
+                <!-- 詳解文字 -->
+                <p
+                  class="feedback-desc"
+                  id="feedbackDesc"
+                >
+                </p>
+
+
+                <!-- 下一題 -->
+                <button
+                  class="btn btn-primary quiz-next-btn"
+                  id="nextBtn"
+                  type="button"
+                  onclick="proceedNext()"
+                >
+                  下一題
+
+                  <span>
+                    →
+                  </span>
+                </button>
+
+
+              </div>
+
+
+            </aside>
+
+
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- ======================================
+       FOOTER
+  ======================================= -->
+
+  <footer>
+
+    <div class="footer-container">
+
+
+      <div class="footer-logo">
+        參國
+      </div>
+
+
+      <p>
+        一部史書，一部小說，一段被傳說改寫的歷史。
+      </p>
+
+
+      <span>
+        © 2026 參國・史演
+      </span>
+
+
+    </div>
+
+  </footer>
+
+
+
+  <!-- ======================================
+       QUIZ JAVASCRIPT
+  ======================================= -->
+
+  <script>
+
+    /* ======================================
+       題庫資料
+    ======================================= */
+
+    const quizData = [
+
+      {
+        question:
+          "赤壁之戰中，抵抗曹操南下大軍的「孫劉聯軍」是由哪兩個政權或勢力組成的？",
+
+        options: [
+          "(A) 魏與蜀",
+          "(B) 吳與蜀",
+          "(C) 魏與吳",
+          "(D) 晉與漢"
+        ],
+
+        answer: 1,
+
+        analysis:
+          "赤壁之戰是孫權（東吳）與劉備（蜀漢前身）聯合起來，在赤壁共同對抗曹操的大軍。"
+      },
+
+
+      {
+        question:
+          "在《三國演義》開篇著名的「桃園三結義」中，結拜為異姓兄弟的三位主要人物是誰？",
+
+        options: [
+          "(A) 劉備、關羽、張飛",
+          "(B) 曹操、孫權、劉備",
+          "(C) 諸葛亮、周瑜、龐統",
+          "(D) 呂布、董卓、貂蟬"
+        ],
+
+        answer: 0,
+
+        analysis:
+          "這是三國故事中最經典的開場，由劉備、關羽、張飛三人於桃園結義，展開一生的霸業與冒險。"
+      },
+
+
+      {
+        question:
+          "赤壁之戰中，率領大軍南下、企圖一舉統一江南卻遭到慘敗的北方統帥是誰？",
+
+        options: [
+          "(A) 劉備",
+          "(B) 孫權",
+          "(C) 曹操",
+          "(D) 董卓"
+        ],
+
+        answer: 2,
+
+        analysis:
+          "曹操當時已經統一北方，率領大軍與荊州降軍南下長江，是赤壁之戰中孫劉聯軍的主要進攻對象。"
+      },
+
+
+      {
+        question:
+          "在赤壁之戰中，指揮東吳水軍並贏得關鍵勝利的美男子、東吳大都督是誰？",
+
+        options: [
+          "(A) 周瑜",
+          "(B) 魯肅",
+          "(C) 陸遜",
+          "(D) 程普"
+        ],
+
+        answer: 0,
+
+        analysis:
+          "周瑜（字公瑾）文武雙全，是赤壁之戰時東吳的軍事統帥，也是促成孫劉聯盟與火燒赤壁的靈魂人物。"
+      },
+
+
+      {
+        question:
+          "在《三國演義》中，自稱「躬耕於南陽」、後來成為劉備最核心的軍事謀略家、被譽為智慧化身的代表人物是誰？",
+
+        options: [
+          "(A) 司馬懿",
+          "(B) 諸葛亮",
+          "(C) 周瑜",
+          "(D) 郭嘉"
+        ],
+
+        answer: 1,
+
+        analysis:
+          "諸葛亮（字孔明）是小說中蜀漢陣營最具代表性的傳奇軍師，也是許多赤壁計謀（如草船借箭、借東風）的核心人物。"
+      },
+
+
+      {
+        question:
+          "在《三國演義》中，諸葛亮藉著大霧與草船成功向曹軍「借箭」。但在正史《三國志》中，較相似的情節其實發生在哪位東吳領導人身上？",
+
+        options: [
+          "(A) 周瑜",
+          "(B) 孫權",
+          "(C) 魯肅",
+          "(D) 黃蓋"
+        ],
+
+        answer: 1,
+
+        analysis:
+          "《三國志》中並無諸葛亮草船借箭的記載，類似的智謀事跡反而是孫權在濡須口乘船觀察曹軍陣勢時，遭到曹軍亂箭齊射，導致船面傾斜，隨即從容調轉船頭化解危機。"
+      },
+
+
+      {
+        question:
+          "經典的赤壁苦肉計中，老將黃蓋為了取信曹操而受罰。請問在正史《三國志》中，是否有「周瑜當眾杖打黃蓋」的詳細記載？",
+
+        options: [
+          "(A) 有，史書詳細記錄了行刑的過程與杖數",
+          "(B) 有，但打人的是孫權而不是周瑜",
+          "(C) 沒有，史書中完全沒有挨打的苦肉計情節",
+          "(D) 史書記載是黃蓋自己摔傷，被小說改編成挨打"
+        ],
+
+        answer: 2,
+
+        analysis:
+          "《三國志》記載黃蓋確實向周瑜提出火攻之策，並以書信向曹操詐降，但史書中並未記錄挨打的苦肉計細節，這部分主要是小說為了加強戲劇張力而虛構的。"
+      },
+
+
+      {
+        question:
+          "赤壁之戰中，讓曹軍將戰船以鐵索相連、導致後來難以逃生避火的關鍵計謀，在小說中是由誰向曹操獻上的？",
+
+        options: [
+          "(A) 蔣幹",
+          "(B) 龐統",
+          "(C) 賈詡",
+          "(D) 郭嘉"
+        ],
+
+        answer: 1,
+
+        analysis:
+          "《三國志》中雖有曹軍水戰經驗不足、戰船相連的歷史背景，但並沒有明確記載龐統故意向曹操獻上「連環計」的橋段。"
+      },
+
+
+      {
+        question:
+          "在《三國演義》中，黃蓋透過苦肉計後發出詐降信。歷史上曹操對於黃蓋投降信的態度，正史是如何描述的？",
+
+        options: [
+          "(A) 曹操一眼看出破綻，當場將信件撕毀",
+          "(B) 曹操深信不疑，甚至大笑說這是老天要讓他得到東吳",
+          "(C) 曹操半信半疑，派人嚴加拷問黃蓋的信使",
+          "(D) 曹操根本沒有收到黃蓋的信，全靠魯肅穿針引線"
+        ],
+
+        answer: 1,
+
+        analysis:
+          "《三國志·吳書·周瑜傳》記載：「蓋乃往候操書，曰：『蓋受孫氏厚恩，……』操見信，甚鄉（嚮）往，即日受降。」曹操確實相信了黃蓋的詐降。"
+      },
+
+
+      {
+        question:
+          "小說中將赤壁之戰的勝利幾乎歸功於諸葛亮的謀略與東風；但從正史《三國志》的角度來看，真正促成赤壁大火、擊潰曹軍水軍的核心將領是誰？",
+
+        options: [
+          "(A) 諸葛亮與劉備",
+          "(B) 周瑜與黃蓋",
+          "(C) 魯肅與龐統",
+          "(D) 孫權與趙雲"
+        ],
+
+        answer: 1,
+
+        analysis:
+          "《三國志》明確記載，赤壁之戰是由周瑜統領聯軍，並採納黃蓋提出的火攻之策，率領精銳部隊正面衝擊曹軍並縱火，才一舉大破曹操的大軍。"
+      },
+
+
+      {
+        question:
+          "赤壁之戰中，周瑜和大軍正愁無法用火攻時，諸葛亮在南屏山「施法借東風」助燃火勢。以現代氣象與歷史角度來看，這場東風其實是指什麼？",
+
+        options: [
+          "(A) 聖嬰現象帶來的異常氣候",
+          "(B) 長江流域冬季常見的季節性東南風或氣候反常",
+          "(C) 青藏高原高壓南下的冷氣團",
+          "(D) 長江三峽水庫修建前的自然山谷風"
+        ],
+
+        answer: 1,
+
+        analysis:
+          "赤壁之戰發生於冬季（十月），長江下游偶爾會出現短暫的東南風或氣候反常現象，這純屬自然天候，並非透過法術「借」來的。"
+      }
+
+    ];
+
+
+
+    /* ======================================
+       GAME STATE
+    ======================================= */
+
+    let currentIndex = 0;
+
+    let score = 0;
+
+    let wrongCount = 0;
+
+    let answered = false;
+
+
+
+    /* ======================================
+       LOAD QUESTION
+    ======================================= */
+
+    function loadQuestion() {
+
+      answered = false;
+
+
+      const q =
+        quizData[currentIndex];
+
+
+      /* 左側題目進度 */
+      document
+        .getElementById("badgeTitle")
+        .innerText =
+        `${currentIndex + 1} / ${quizData.length} 題`;
+
+
+      /* 題目 */
+      document
+        .getElementById("questionText")
+        .innerHTML =
+        q.question;
+
+
+      /* 詳解關閉 */
+      document
+        .getElementById("feedbackArea")
+        .style.display =
+        "none";
+
+
+      /* 等待提示重新出現 */
+      const waitingArea =
+        document.getElementById("waitingArea");
+
+
+      if (waitingArea) {
+
+        waitingArea.style.display =
+          "block";
+
+      }
+
+
+      /* 更新生命 */
+      updateHeartsUI();
+
+
+      /* 選項 */
+      const optionsContainer =
+        document.getElementById(
+          "optionsContainer"
+        );
+
+
+      optionsContainer.innerHTML =
+        "";
+
+
+      q.options.forEach(
+        (opt, idx) => {
+
+          const btn =
+            document.createElement(
+              "button"
+            );
+
+
+          btn.className =
+            "quiz-option-btn";
+
+
+          btn.type =
+            "button";
+
+
+          btn.innerText =
+            opt;
+
+
+          btn.onclick =
+            () =>
+              selectAnswer(
+                idx,
+                btn
+              );
+
+
+          optionsContainer
+            .appendChild(btn);
+
+        }
+      );
+
+    }
+
+
+
+    /* ======================================
+       LIFE UI
+    ======================================= */
+
+    function updateHeartsUI() {
+
+      const heartsContainer =
+        document.getElementById(
+          "heartsContainer"
+        );
+
+
+      if (!heartsContainer) {
+        return;
+      }
+
+
+      let heartsHTML =
+        "";
+
+
+      const maxLives =
+        3;
+
+
+      const remainingLives =
+        Math.max(
+          0,
+          maxLives - wrongCount
+        );
+
+
+      for (
+        let i = 0;
+        i < maxLives;
+        i++
+      ) {
+
+        if (i < remainingLives) {
+
+          heartsHTML +=
+            `<span class="heart active">❤️</span>`;
+
+        }
+
+        else {
+
+          heartsHTML +=
+            `<span class="heart inactive">🖤</span>`;
+
+        }
+
+      }
+
+
+      heartsContainer.innerHTML =
+        heartsHTML;
+
+    }
+
+
+
+    /* ======================================
+       SELECT ANSWER
+    ======================================= */
+
+    function selectAnswer(
+      selectedIndex,
+      selectedBtn
+    ) {
+
+      if (answered) {
+        return;
+      }
+
+
+      answered =
+        true;
+
+
+      const q =
+        quizData[currentIndex];
+
+
+      const allButtons =
+        document.querySelectorAll(
+          ".quiz-option-btn"
+        );
+
+
+      /*
+        第一次作答後立即鎖定所有選項。
+        不改原本正確 / 錯誤判定，只避免再次點擊與 hover 誤導。
+      */
+      allButtons.forEach(
+        button => {
+
+          button.disabled =
+            true;
+
+        }
+      );
+
+
+      /* 正確 */
+      if (
+        selectedIndex === q.answer
+      ) {
+
+        selectedBtn.classList.add(
+          "correct"
+        );
+
+
+        score++;
+
+
+        document
+          .getElementById(
+            "feedbackTitle"
+          )
+          .innerText =
+          "判斷正確";
+
+
+        document
+          .getElementById(
+            "feedbackTitle"
+          )
+          .style.color =
+          "#315d42";
+
+      }
+
+
+      /* 錯誤 */
+      else {
+
+        selectedBtn.classList.add(
+          "wrong"
+        );
+
+
+        allButtons[
+          q.answer
+        ].classList.add(
+          "correct"
+        );
+
+
+        wrongCount++;
+
+
+        updateHeartsUI();
+
+
+        document
+          .getElementById(
+            "feedbackTitle"
+          )
+          .innerText =
+          "此答有誤・生命 -1";
+
+
+        document
+          .getElementById(
+            "feedbackTitle"
+          )
+          .style.color =
+          "#8b2a20";
+
+      }
+
+
+      /* 詳解 */
+      document
+        .getElementById(
+          "feedbackDesc"
+        )
+        .innerText =
+        q.analysis;
+
+
+      /* 隱藏等待提示 */
+      const waitingArea =
+        document.getElementById(
+          "waitingArea"
+        );
+
+
+      if (waitingArea) {
+
+        waitingArea.style.display =
+          "none";
+
+      }
+
+
+      /* 顯示詳解 */
+      document
+        .getElementById(
+          "feedbackArea"
+        )
+        .style.display =
+        "block";
+
+
+      /* 下一題按鈕 */
+      const nextBtn =
+        document.getElementById(
+          "nextBtn"
+        );
+
+
+      if (
+        wrongCount >= 3
+      ) {
+
+        nextBtn.innerHTML =
+          `
+            血量耗盡，前往結算
+            <span>→</span>
+          `;
+
+      }
+
+      else if (
+        currentIndex ===
+        quizData.length - 1
+      ) {
+
+        nextBtn.innerHTML =
+          `
+            查看冊封戰果
+            <span>→</span>
+          `;
+
+      }
+
+      else {
+
+        nextBtn.innerHTML =
+          `
+            下一題
+            <span>→</span>
+          `;
+
+      }
+
+    }
+
+
+
+    /* ======================================
+       NEXT QUESTION
+    ======================================= */
+
+    function proceedNext() {
+
+      if (
+        wrongCount >= 3
+      ) {
+
+        showResult(
+          "大意失荊州！生命耗盡，提前結束挑戰。"
+        );
+
+        return;
+
+      }
+
+
+      currentIndex++;
+
+
+      if (
+        currentIndex <
+        quizData.length
+      ) {
+
+        loadQuestion();
+
+      }
+
+      else {
+
+        showResult(
+          "恭喜完成群雄問答！"
+        );
+
+      }
+
+    }
+
+
+
+    /* ======================================
+       RESULT
+    ======================================= */
+
+    function showResult(
+      
+      titleMessage
+    ) {
+
+      let tokensHTML =
+        "";
+
+
+      for (
+        let i = 0;
+        i < score;
+        i++
+      ) {
+
+        tokensHTML +=
+          `
+            <div class="reward-token-small">
+              令
+            </div>
+          `;
+
+      }
+
+
+      if (
+        score === 0
+      ) {
+
+        tokensHTML =
+          `
+            <p class="no-token-text">
+              未獲得招賢令，再接再厲！
+            </p>
+          `;
+
+      }
+
+      const currentTokens =
+        parseInt(
+          localStorage.getItem("userTokens")
+          ||
+          "0",
+          10
+        )
+        ||
+        0;
+
+
+      const earnedTokens =
+        score;
+
+
+      const updatedTokens =
+        currentTokens
+        +
+        earnedTokens;
+
+
+      localStorage.setItem(
+        "userTokens",
+        updatedTokens
+      );
+      const container =
+        document.getElementById(
+          "quizCardContainer"
+        );
+
+
+      container.innerHTML =
+        `
+
+          <div class="quiz-result-page">
+
+
+            <div class="quiz-badge">
+              軍功冊封
+            </div>
+
+
+            <h2 class="result-main-title">
+              ${titleMessage}
+            </h2>
+
+
+            <div class="result-divider">
+            </div>
+
+
+            <p class="result-score-text">
+
+              答對題數：
+
+              <span class="highlight-num">
+                ${score}
+              </span>
+
+              /
+
+              ${quizData.length}
+
+              題
+
+            </p>
+
+
+            <div class="result-tokens-wrapper">
+
+
+              <p class="token-section-title">
+                本次獲得招賢令
+                （共 ${score} 枚）
+              </p>
+
+
+              <div class="tokens-container">
+                ${tokensHTML}
+              </div>
+
+
+            </div>
+
+
+            <div class="result-btn-group">
+
+
+              <a
+                href="Pickcard.html"
+                class="btn result-btn home-btn"
+              >
+                前往招募
+              </a>
+
+
+              <a
+                href="QuizPage.html"
+                class="btn btn-primary result-btn retry-btn"
+              >
+                重新挑戰
+              </a>
+
+
+            </div>
+
+
+          </div>
+
+        `;
+
+    }
+
+
+
+    /* ======================================
+       INIT
+    ======================================= */
+
+    window.onload =
+      loadQuestion;
+
+  </script>
+
+
+
+  <!-- 共用 JS -->
+  <script src="js/main.js"></script>
+    <!-- =========================
+     全站 NPC 彩蛋
+========================== -->
+
+<div class="site-npc" id="siteNpc">
+
+  <!-- 對話框 -->
+  <div
+    class="npc-dialogue"
+    id="npcDialogue"
+  >
+
+    <div
+      class="npc-dialogue-name"
+      id="npcName"
+    >
+      曹操
+    </div>
+
+    <p id="npcDialogueText">
+      「天下英雄，誰堪與孤一論？」
+    </p>
+
+    <span class="npc-dialogue-next">
+      ▶
+    </span>
+
+  </div>
+
+
+  <!-- NPC 本體 -->
+  <button
+    class="npc-character"
+    id="npcCharacter"
+    type="button"
+    aria-label="與曹操對話"
+  >
+
+    <!-- 頭上的驚嘆號 -->
+    <span
+      class="npc-alert"
+      id="npcAlert"
+    >
+      !
+    </span>
+
+    <!-- 曹操 Sprite -->
+    <span
+      class="npc-sprite"
+      id="npcSprite"
+    ></span>
+
+  </button>
+
+</div>
+<!-- =====================================================
+     貂蟬跑進來
+===================================================== -->
+
+<div
+  class="dc-runner"
+  id="dcRunner"
+  aria-hidden="true"
+>
+  <span
+    class="dc-sprite"
+    id="dcSprite"
+  ></span>
+</div>
+
+
+<!-- =====================================================
+     呂布 × 貂蟬 親吻停止畫面
+===================================================== -->
+
+<div
+  class="kiss-scene"
+  id="kissScene"
+  aria-hidden="true"
+>
+  <span
+    class="kiss-sprite"
+    id="kissSprite"
+  ></span>
+</div>
+
+</body>
+
+</html>

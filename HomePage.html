@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>參國・史演</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Ma+Shan+Zheng&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700;900&display=swap" rel="stylesheet">
+<!-- 網頁 Favicon 圖標 (JPG 檔) -->
+  <link rel="icon" type="image/png" sizes="100x100" href="images/logo1.png">
+  <link rel="stylesheet" href="css/HomePage.css">
+  <link rel="stylesheet" href="css/HistorySection.css">
+  <link rel="stylesheet" href="css/story.css">
+  <link rel="stylesheet" href="css/QuizEntry.css">
+</head>
+
+
+<body class="home-page">
+
+  <!-- =========================
+       Navigation
+  ========================== -->
+
+  <header class="navbar">
+
+    <div class="nav-container">
+
+      <a href="HomePage.html" class="logo">
+        <img src="images/1212.png" alt="參國・史演 Logo" class="logo-img">
+      </a>
+
+      <nav class="nav-menu" id="primaryNav">
+
+        <a href="#home" class="active">
+          首頁
+        </a>
+
+        <a href="#history">
+          史實與演義
+        </a>
+
+        <a href="#stories">
+          故事差異
+        </a>
+
+        <a href="QuizEntry.html">
+          群雄問答
+        </a>
+
+        <a href="Card.html">
+          人物圖鑑
+        </a>
+
+        <a href="Pickcard.html">
+          招賢台
+        </a>
+
+      </nav>
+
+      <button
+        class="mobile-menu-btn"
+        type="button"
+        aria-label="開啟選單"
+        aria-expanded="false"
+        aria-controls="primaryNav"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </header>
+
+
+
+  <main>
+
+    <!-- =========================
+         Hero
+    ========================== -->
+
+    <section
+      class="hero"
+      id="home"
+    >
+
+      <div class="hero-overlay"></div>
+
+
+      <div class="hero-content">
+
+        <p class="hero-label">
+          HISTORY × LEGEND
+        </p>
+
+<div class="hero-title-image">
+  <img src="images/hero-title.png" alt="參國">
+</div>
+
+        <h2>
+          一部史書，一部小說，<br>
+          一段被傳說改寫的歷史。
+        </h2>
+                                                      
+        <p class="hero-description">
+          赤壁之戰中的草船借箭、苦肉計、連環計等，
+          究竟是真實歷史<br>還是後人筆下的傳奇？
+        </p>
+
+        <div class="hero-buttons">
+
+          <a
+            href="#history"
+            class="btn btn-primary"
+          >
+            開始探索
+            <span>→</span>
+          </a>
+
+          <a
+            href="#stories"
+            class="btn btn-secondary"
+          >
+            查看故事
+          </a>
+
+        </div>
+
+      </div>
+
+
+<div class="hero-side-text">
+
+    <span class="side-item">
+        史書所載
+    </span>
+
+    <span class="dot"></span>
+
+    <span class="side-item">
+        小說所傳
+    </span>
+
+</div>
+
+
+      <div class="scroll-hint">
+        <span>SCROLL</span>
+        <div class="scroll-line"></div>
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         Introduction (3D 翻頁卷軸)
+    ========================== -->
+
+    <section class="history-section" id="history">
+
+  <div class="section-container">
+
+    <!-- =========================
+         區塊標題
+    ========================== -->
+    <div class="section-heading">
+
+      <p class="section-number">
+        壹
+      </p>
+
+      <div>
+
+        <p class="section-label">
+          HISTORY & ROMANCE
+        </p>
+
+        <h2>
+          史實與演義
+        </h2>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         背景舞台
+         背景圖放在 history-stage
+    ========================== -->
+    <div class="history-stage">
+
+
+      <!-- =========================
+           卷軸主體
+      ========================== -->
+      <div class="scroll-wrapper">
+
+
+        <!-- 左側木卷軸 -->
+        <div class="scroll-handle handle-left"></div>
+
+
+        <!-- =========================
+             中間內容
+        ========================== -->
+        <div class="history-intro">
+
+
+          <!-- =========================
+               左側：三國志
+          ========================== -->
+          <div
+            class="history-book history-record"
+            onclick="flipBook(this)"
+          >
+
+            <div class="book-card-inner">
+
+
+              <!-- 正面 -->
+              <div class="book-front">
+
+                <div class="book-inner">
+
+                  <span class="book-tag">
+                    正史
+                  </span>
+
+                  <h3 class="vertical-title">
+                    三國志
+                  </h3>
+
+                  <p class="vertical-subtitle">
+                    （史實）
+                  </p>
+
+                  <p class="flip-hint">
+                    點擊翻頁 ↻
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <!-- 背面 -->
+              <div class="book-back">
+
+                <div class="book-inner">
+
+                  <p class="book-author">
+                    西晉・陳壽
+                  </p>
+
+                  <p class="book-desc">
+                    《三國志》是記載魏、蜀、吳三國歷史的重要史書，
+                    主要以人物傳記的方式記錄當時的政治、軍事與歷史事件。
+                  </p>
+
+                  <p class="flip-hint">
+                    點擊返回 ↺
+                  </p>
+
+                </div>
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+          <!-- =========================
+               中間：VS
+          ========================== -->
+          <div class="history-vs">
+
+            <div class="vs-slash">
+              VS
+            </div>
+
+          </div>
+
+
+          <!-- =========================
+               右側：三國演義
+          ========================== -->
+          <div
+            class="history-book history-romance"
+            onclick="flipBook(this)"
+          >
+
+            <div class="book-card-inner">
+
+
+              <!-- 正面 -->
+              <div class="book-front">
+
+                <div class="book-inner">
+
+                  <span class="book-tag">
+                    小說
+                  </span>
+
+                  <h3 class="vertical-title">
+                    三國演義
+                  </h3>
+
+                  <p class="vertical-subtitle">
+                    （文學）
+                  </p>
+
+                  <p class="flip-hint">
+                    點擊翻頁 ↻
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <!-- 背面 -->
+              <div class="book-back">
+
+                <div class="book-inner">
+
+                  <p class="book-author">
+                    明・羅貫中
+                  </p>
+
+                  <p class="book-desc">
+                    《三國演義》以三國歷史為基礎，
+                    加入大量人物塑造、虛構情節與戲劇化描寫，
+                    成為後世最熟悉的三國故事來源。
+                  </p>
+
+                  <p class="flip-hint">
+                    點擊返回 ↺
+                  </p>
+
+                </div>
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+        </div>
+        <!-- history-intro 結束 -->
+
+
+        <!-- 右側木卷軸 -->
+        <div class="scroll-handle handle-right"></div>
+
+
+      </div>
+      <!-- scroll-wrapper 結束 -->
+
+
+    </div>
+    <!-- history-stage 結束 -->
+
+
+    <!-- =========================
+         底部標語
+    ========================== -->
+    <div class="history-bottom-text">
+
+      看似相同的名字，卻有不同的故事。
+
+    </div>
+
+
+    <!-- =========================
+         引言
+    ========================== -->
+    <div class="history-quote">
+
+      <span class="quote-mark">
+        「
+      </span>
+
+      <p>
+        歷史記錄了發生過什麼，<br>
+        小說塑造了我們如何記住它。
+      </p>
+
+      <span class="quote-mark">
+        」
+      </span>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+    <!-- =========================
+         Stories
+    ========================== -->
+
+<section
+  class="stories-section"
+  id="stories"
+>
+
+  <div class="section-container">
+
+
+    <!-- =========================
+         區塊標題
+    ========================== -->
+
+    <div class="section-heading">
+
+      <p class="section-number">
+        貳
+      </p>
+
+      <div>
+
+        <p class="section-label">
+          TRUE OR LEGEND
+        </p>
+
+        <h2>
+          你熟悉的三國，
+          <br>
+          真的是歷史嗎？
+        </h2>
+
+      </div>
+
+    </div>
+
+
+    <!-- 區塊介紹 -->
+
+    <p class="stories-description">
+      赤壁之戰中許多耳熟能詳的故事，
+      其實並不完全來自史書。
+      從《三國志》與《三國演義》的不同記載中，
+      看見歷史如何一步步成為傳奇。
+    </p>
+
+
+    <!-- =========================
+         STORY LIST
+    ========================== -->
+
+    <div class="story-list">
+
+
+      <!-- =====================================
+           STORY 01
+           草船借箭
+      ====================================== -->
+
+      <article class="story-card">
+
+        <div class="story-image story-image-1">
+
+          <span class="story-badge">
+            諸葛亮
+          </span>
+
+        </div>
+
+
+        <div class="story-content" data-number="01">
+
+          <p class="story-question">
+            STORY 01
+          </p>
+
+          <h3>
+            草船借箭
+          </h3>
+
+
+          <div class="story-compare">
+
+            <div>
+
+              <span class="compare-title history">
+                三國志
+              </span>
+
+              <p>
+                《三國志》中並沒有記載諸葛亮
+                以草船向曹軍「借箭」的故事。
+                歷史記載中，較為相似的情節
+                反而出現在孫權身上。
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <span class="compare-title romance">
+                三國演義
+              </span>
+
+              <p>
+                小說安排諸葛亮利用江上大霧，
+                率領草船逼近曹軍水寨，
+                引誘曹軍放箭，
+                最終取得大量箭矢，
+                展現其神機妙算的形象。
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- 展開按鈕 -->
+          <button
+            class="story-toggle"
+            type="button"
+            onclick="toggleStory(this)"
+          >
+            <span class="toggle-text">
+              查看完整故事
+            </span>
+
+            <span class="toggle-icon">
+              ＋
+            </span>
+          </button>
+
+
+          <!-- 完整故事 -->
+          <div class="story-extra">
+
+            <div class="story-extra-inner">
+
+              <h4>
+                草船借箭的完整故事
+              </h4>
+
+              <p>
+                在《三國演義》中，周瑜為了試探諸葛亮，
+                要求他在短時間內準備大量箭矢。
+                諸葛亮卻表示只需三日便能完成。
+              </p>
+
+              <p>
+                他利用江上濃霧，命人在船上布置草人，
+                並率船靠近曹軍水寨。
+                曹軍因霧氣太濃，不敢貿然出戰，
+                於是命弓弩手向江面大量放箭。
+              </p>
+
+              <p>
+                箭矢紛紛射在船上的草人之上，
+                諸葛亮因此取得大量箭矢，
+                完成周瑜交付的任務。
+              </p>
+
+              <p>
+                然而《三國志》中並沒有記載諸葛亮
+                曾經以這種方式取得箭矢。
+                這段情節主要是小說為了強化
+                諸葛亮神機妙算的形象而塑造。
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+
+      <!-- =====================================
+           STORY 02
+           苦肉計
+      ====================================== -->
+
+      <article class="story-card reverse">
+
+        <div class="story-image story-image-2">
+
+          <span class="story-badge">
+            黃蓋
+          </span>
+
+        </div>
+
+
+        <div class="story-content" data-number="02">
+
+          <p class="story-question">
+            STORY 02
+          </p>
+
+          <h3>
+            苦肉計
+          </h3>
+
+
+          <div class="story-compare">
+
+            <div>
+
+              <span class="compare-title history">
+                三國志
+              </span>
+
+              <p>
+                正史記載黃蓋曾向周瑜提出火攻之策，
+                並以書信向曹操詐降。
+                但史書中並沒有記載
+                周瑜當眾杖打黃蓋的情節。
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <span class="compare-title romance">
+                三國演義
+              </span>
+
+              <p>
+                小說加入「周瑜打黃蓋」的苦肉計，
+                讓黃蓋故意受刑，
+                藉此使曹操更加相信其投降誠意，
+                為後來的火攻埋下伏筆。
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- 展開按鈕 -->
+          <button
+            class="story-toggle"
+            type="button"
+            onclick="toggleStory(this)"
+          >
+            <span class="toggle-text">
+              查看完整故事
+            </span>
+
+            <span class="toggle-icon">
+              ＋
+            </span>
+          </button>
+
+
+          <!-- 完整故事 -->
+          <div class="story-extra">
+
+            <div class="story-extra-inner">
+
+              <h4>
+                苦肉計的完整故事
+              </h4>
+
+              <p>
+                赤壁之戰前，黃蓋向周瑜提出利用火攻
+                對付曹操船隊的想法，
+                並準備以假投降的方式接近曹軍。
+              </p>
+
+              <p>
+                在《三國演義》中，
+                周瑜與黃蓋共同設計苦肉計。
+                黃蓋故意在眾人面前與周瑜發生衝突，
+                隨後遭到杖刑。
+              </p>
+
+              <p>
+                黃蓋再以受到周瑜迫害為理由向曹操投降，
+                使曹操相信他的投降並非詐計。
+                最後黃蓋率裝滿易燃物的船隻接近曹軍，
+                成為赤壁火攻的重要一環。
+              </p>
+
+              <p>
+                正史確實記載黃蓋提出火攻並向曹操詐降，
+                但並沒有「周瑜打黃蓋」這段苦肉情節。
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+
+      <!-- =====================================
+           STORY 03
+           連環計
+      ====================================== -->
+
+      <article class="story-card">
+
+        <div class="story-image story-image-3">
+
+          <span class="story-badge">
+            龐統
+          </span>
+
+        </div>
+
+
+        <div class="story-content" data-number="03">
+
+          <p class="story-question">
+            STORY 03
+          </p>
+
+          <h3>
+            連環計
+          </h3>
+
+
+          <div class="story-compare">
+
+            <div>
+
+              <span class="compare-title history">
+                三國志
+              </span>
+
+              <p>
+                正史中可以看出曹軍水戰經驗不足，
+                戰船相連也具有一定的歷史背景。
+                但並沒有明確記載
+                龐統故意向曹操獻上「連環計」。
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <span class="compare-title romance">
+                三國演義
+              </span>
+
+              <p>
+                小說安排龐統假意投靠曹操，
+                建議將戰船以鐵索相連，
+                讓士兵能在船上平穩行走，
+                卻也使曹軍船隊在火攻時
+                難以迅速分散逃離。
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- 展開按鈕 -->
+          <button
+            class="story-toggle"
+            type="button"
+            onclick="toggleStory(this)"
+          >
+            <span class="toggle-text">
+              查看完整故事
+            </span>
+
+            <span class="toggle-icon">
+              ＋
+            </span>
+          </button>
+
+
+          <!-- 完整故事 -->
+          <div class="story-extra">
+
+            <div class="story-extra-inner">
+
+              <h4>
+                連環計的完整故事
+              </h4>
+
+              <p>
+                《三國演義》中，曹軍多為北方士兵，
+                不習慣長時間在船上作戰，
+                因此容易暈船。
+              </p>
+
+              <p>
+                龐統來到曹營後，
+                向曹操建議將大小戰船以鐵索相連，
+                並在船上鋪設木板，
+                讓士兵可以如履平地。
+              </p>
+
+              <p>
+                曹操接受建議後，
+                大量戰船被連接在一起。
+                這雖然提高了船隊的穩定性，
+                卻也使火勢一旦蔓延，
+                各船難以迅速分離。
+              </p>
+
+              <p>
+                小說因此把「連環船」
+                描寫成赤壁火攻成功的重要伏筆，
+                並將龐統塑造成整個計策中的關鍵人物。
+                但正史沒有明確記載
+                龐統曾向曹操獻上這項計策。
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     Next Section
+========================== -->
+
+<section class="next-section">
+
+  <div>
+
+    <p>
+      下一章
+    </p>
+
+    <h2>
+      天下英雄，
+      <br>
+      誰主沉浮？
+    </h2>
+
+    <p class="next-description">
+      認識魏、蜀、吳的重要人物，
+      看見史書與小說中的不同面貌。
+    </p>
+
+    <a href="Card.html" class="btn btn-primary">
+
+      探索三國人物
+
+      <span>
+        →
+      </span>
+
+    </a>
+
+  </div>
+
+</section>
+
+
+
+
+  </main>
+
+
+
+  <!-- =========================
+       Footer
+  ========================== -->
+
+  <footer>
+
+    <div class="footer-container">
+
+      <div class="footer-logo">
+        參國
+      </div>
+
+      <p>
+        一部史書，一部小說，一段被傳說改寫的歷史。
+      </p>
+
+      <span>
+        © 2026 參國・史演
+      </span>
+
+    </div>
+
+  </footer>
+<!-- =========================
+     全站 NPC 彩蛋
+========================== -->
+
+<div class="site-npc" id="siteNpc">
+
+  <!-- 對話框 -->
+  <div
+    class="npc-dialogue"
+    id="npcDialogue"
+  >
+
+    <div
+      class="npc-dialogue-name"
+      id="npcName"
+    >
+      曹操
+    </div>
+
+    <p id="npcDialogueText">
+      「天下英雄，誰堪與孤一論？」
+    </p>
+
+    <span class="npc-dialogue-next">
+      ▶
+    </span>
+
+  </div>
+
+
+  <!-- NPC 本體 -->
+  <button
+    class="npc-character"
+    id="npcCharacter"
+    type="button"
+    aria-label="與 NPC 互動"
+  >
+
+    <!-- 頭上的驚嘆號 -->
+    <span
+      class="npc-alert"
+      id="npcAlert"
+    >
+      !
+    </span>
+
+    <!-- NPC Sprite -->
+    <span
+      class="npc-sprite"
+      id="npcSprite"
+    ></span>
+
+  </button>
+
+</div>
+
+
+<!-- =====================================================
+     貂蟬跑進來
+===================================================== -->
+
+<div
+  class="dc-runner"
+  id="dcRunner"
+  aria-hidden="true"
+>
+  <span
+    class="dc-sprite"
+    id="dcSprite"
+  ></span>
+</div>
+
+
+<!-- =====================================================
+     呂布 × 貂蟬 親吻停止畫面
+===================================================== -->
+
+<div
+  class="kiss-scene"
+  id="kissScene"
+  aria-hidden="true"
+>
+  <span
+    class="kiss-sprite"
+    id="kissSprite"
+  ></span>
+</div>
+
+
+<script src="js/main.js"></script>
+
+<script>
+  function flipBook(element) {
+    element.classList.toggle('flipped');
+  }
+</script>
+
+</body>
+</html>

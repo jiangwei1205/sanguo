@@ -1,0 +1,927 @@
+/* ======================================
+   STORIES SECTION
+   故事差異
+====================================== */
+
+.stories-section {
+  position: relative;
+
+  padding: 130px 0 150px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 18%,
+      rgba(116, 86, 48, 0.08),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      #181613 0%,
+      #14120f 100%
+    );
+
+  color: var(--text-light);
+}
+
+
+/* 很淡的背景紋理 */
+.stories-section::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0.18;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 35px,
+      rgba(193, 156, 94, 0.025) 36px
+    );
+}
+
+
+.stories-section .section-container {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ======================================
+   SECTION HEADING
+====================================== */
+
+.stories-section .section-number,
+.stories-section .section-label {
+  color: var(--gold);
+}
+
+
+.stories-section .section-number {
+  text-shadow:
+    0 0 24px rgba(190, 145, 75, 0.12);
+}
+
+
+.stories-description {
+  max-width: 720px;
+
+  margin-top: 20px;
+  margin-bottom: 90px;
+
+  color: #aaa08f;
+
+  font-size: 16px;
+  line-height: 2;
+
+  letter-spacing: 1px;
+}
+
+
+
+/* ======================================
+   STORY LIST
+====================================== */
+
+.story-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 130px;
+}
+
+
+
+/* ======================================
+   STORY CARD
+====================================== */
+
+.story-card {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 47%)
+    minmax(0, 53%);
+
+  min-height: 500px;
+
+  isolation: isolate;
+}
+
+
+/* 左右交錯 */
+.story-card.reverse {
+  direction: rtl;
+}
+
+.story-card.reverse > * {
+  direction: ltr;
+}
+
+
+/* 整張卡片微弱外框 */
+.story-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: -1px;
+
+  z-index: -1;
+
+  border:
+    1px solid
+    rgba(181, 145, 87, 0.16);
+
+  pointer-events: none;
+}
+
+
+
+/* ======================================
+   IMAGE
+====================================== */
+
+.story-image {
+  min-height: 500px;
+  height: 100%;
+
+  position: relative;
+
+  background-size: cover;
+  background-position: center;
+}
+
+
+/* 暗化圖片下半部 */
+.story-image::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,0.02) 0%,
+      rgba(0,0,0,0.08) 45%,
+      rgba(0,0,0,0.58) 100%
+    );
+}
+
+
+/* 圖片跟文字交界處加一點暗金線 */
+.story-image::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  width: 1px;
+  height: 100%;
+
+  z-index: 3;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      rgba(195, 156, 92, 0.45),
+      transparent
+    );
+}
+
+.story-card {
+  display: grid;
+
+  grid-template-columns: 48% 52%;
+
+  position: relative;
+
+  align-items: stretch;
+}
+
+.story-card.reverse .story-image::before {
+  right: auto;
+  left: 0;
+}
+
+
+
+/* 圖片來源 */
+.story-image-1 {
+  background-image:
+    url("../images/liang.jpg");
+}
+
+.story-image-2 {
+  background-image:
+    url("../images/gay.jpg");
+}
+
+.story-image-3 {
+  background-image:
+    url("../images/godtone.png");
+}
+
+
+
+/* ======================================
+   IMAGE BADGE
+====================================== */
+
+.story-badge {
+  position: absolute;
+
+  z-index: 4;
+
+  left: 28px;
+  bottom: 28px;
+
+  padding: 7px 16px;
+
+  border:
+    1px solid
+    rgba(201, 164, 98, 0.72);
+
+  background:
+    rgba(114, 30, 25, 0.88);
+
+  backdrop-filter:
+    blur(4px);
+
+  color: #f1dfbd;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size: 12px;
+
+  letter-spacing: 3px;
+
+  box-shadow:
+    0 6px 18px
+    rgba(0,0,0,0.25);
+}
+
+
+
+/* ======================================
+   STORY CONTENT
+====================================== */
+
+.story-content {
+  position: relative;
+
+  padding:
+    52px 64px 50px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #24201b 0%,
+      #1d1a16 100%
+    );
+
+  border:
+    1px solid
+    rgba(182, 148, 93, 0.24);
+
+  box-shadow:
+    inset 0 0 35px rgba(0,0,0,0.12);
+}
+
+
+/* 內框，讓它有古籍面板感 */
+.story-content::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 12px;
+
+  border:
+    1px solid
+    rgba(182, 148, 93, 0.07);
+
+  pointer-events: none;
+}
+
+
+
+/* ======================================
+   STORY NUMBER / LABEL
+====================================== */
+
+.story-question {
+  position: relative;
+
+  z-index: 2;
+
+  color:
+    #c9a66b;
+
+  font-size:
+    11px;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    5px;
+}
+
+
+.story-content h3 {
+  position: relative;
+
+  z-index: 2;
+
+  margin:
+    10px 0 38px;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    clamp(
+      34px,
+      3.2vw,
+      46px
+    );
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    2px;
+
+  color:
+    #f0e5d0;
+
+  line-height:
+    1.35;
+
+  text-shadow:
+    0 3px 12px
+    rgba(0,0,0,0.35);
+}
+
+
+
+/* ======================================
+   HISTORY vs ROMANCE
+====================================== */
+
+.story-compare {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 30px;
+}
+
+
+.story-compare > div {
+  position: relative;
+
+  padding-left:
+    24px;
+
+  border-left:
+    1px solid
+    rgba(180, 157, 118, 0.42);
+}
+
+
+/* 左邊小節點 */
+.story-compare > div::before {
+  content: "";
+
+  position: absolute;
+
+  left: -4px;
+  top: 8px;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background:
+    #8e7a58;
+
+  box-shadow:
+    0 0 8px
+    rgba(180, 146, 88, 0.22);
+}
+
+
+.compare-title {
+  display: block;
+
+  margin-bottom:
+    10px;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    17px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    1px;
+}
+
+
+/* 正史藍 */
+.compare-title.history {
+  color:
+    #8fb7d7;
+}
+
+
+/* 演義紅 */
+.compare-title.romance {
+  color:
+    #d27769;
+}
+
+
+.story-compare p {
+  color:
+    #b6ad9d;
+
+  font-size:
+    15px;
+
+  line-height:
+    1.9;
+
+  letter-spacing:
+    0.5px;
+}
+
+
+
+/* ======================================
+   STORY LINK
+====================================== */
+
+.story-link {
+  position: relative;
+
+  z-index: 2;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  gap:
+    14px;
+
+  margin-top:
+    38px;
+
+  padding-bottom:
+    6px;
+
+  color:
+    var(--gold-light);
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    15px;
+
+  letter-spacing:
+    1px;
+
+  transition:
+    gap .3s ease,
+    color .3s ease;
+}
+
+
+.story-link::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 0;
+  height: 1px;
+
+  background:
+    var(--gold);
+
+  transition:
+    width .3s ease;
+}
+
+
+.story-link:hover {
+  gap: 22px;
+
+  color:
+    #f2d493;
+}
+
+
+.story-link:hover::after {
+  width: 100%;
+}
+
+
+
+/* ======================================
+   GIANT NUMBER
+====================================== */
+
+.story-content {
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* 大型背景編號 */
+.story-content::after {
+  content: attr(data-number);
+
+  position: absolute;
+
+  top: 18px;
+  right: 26px;
+
+  z-index: 0;
+
+  font-family: "Cinzel", serif;
+
+  font-size: 120px;
+  font-weight: 500;
+
+  line-height: 1;
+
+  letter-spacing: -4px;
+
+  color: rgba(182, 148, 93, 0.055);
+
+  pointer-events: none;
+
+  direction: ltr;
+}
+
+
+/* 讓真正內容一定在數字上面 */
+.story-question,
+.story-content h3,
+.story-compare,
+.story-link {
+  position: relative;
+  z-index: 2;
+}
+
+/* ======================================
+   卡片之間的細分隔
+====================================== */
+
+.story-card:not(:last-child)::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: -66px;
+
+  transform:
+    translateX(-50%);
+
+  width:
+    min(420px, 55%);
+
+  height:
+    1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(181, 145, 87, 0.22),
+      transparent
+    );
+}
+
+.story-toggle {
+  margin-top: 35px;
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 14px;
+
+  color: var(--gold-light);
+
+  font-family: "Noto Serif TC", serif;
+  font-size: 15px;
+
+  letter-spacing: 2px;
+
+  cursor: pointer;
+
+  transition: color .3s ease;
+}
+
+
+.story-toggle:hover {
+  color: #f0ce8c;
+}
+
+
+.toggle-icon {
+  display: inline-block;
+
+  font-size: 20px;
+
+  transition: transform .4s ease;
+}
+
+
+/* 完整內容預設收起 */
+.story-extra {
+  display: grid;
+
+  grid-template-rows: 0fr;
+
+  opacity: 0;
+
+  margin-top: 0;
+
+  transition:
+    grid-template-rows .5s ease,
+    opacity .4s ease,
+    margin-top .5s ease;
+}
+
+
+.story-extra-inner {
+  overflow: hidden;
+}
+
+
+/* 展開 */
+.story-content.expanded .story-extra {
+  grid-template-rows: 1fr;
+
+  opacity: 1;
+
+  margin-top: 30px;
+}
+
+
+/* ＋ 旋轉成 × */
+.story-content.expanded .toggle-icon {
+  transform: rotate(45deg);
+}
+
+
+/* 完整故事內容 */
+.story-extra-inner {
+  padding-left: 24px;
+
+  border-left:
+    1px solid rgba(182,148,93,.35);
+}
+
+
+.story-extra h4 {
+  margin: 0 0 18px;
+
+  color: #d6b471;
+
+  font-family: "Noto Serif TC", serif;
+
+  font-size: 19px;
+
+  letter-spacing: 2px;
+}
+
+
+.story-extra p {
+  margin: 0 0 15px;
+
+  color: #aaa08f;
+
+  font-size: 14px;
+
+  line-height: 1.9;
+}
+
+
+/* ======================================
+   NEXT SECTION
+====================================== */
+
+.next-section {
+  min-height:
+    620px;
+
+  position:
+    relative;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  overflow:
+    hidden;
+
+  text-align:
+    center;
+
+  background:
+
+    radial-gradient(
+      circle at center,
+      rgba(127, 87, 45, 0.10),
+      transparent 40%
+    ),
+
+    linear-gradient(
+      rgba(10,9,8,.82),
+      rgba(10,9,8,.92)
+    ),
+
+    url("../images/hero-bg.jpg");
+
+  background-size:
+    cover;
+
+  background-position:
+    center;
+
+  color:
+    white;
+}
+
+
+.next-section > div {
+  max-width:
+    720px;
+
+  position:
+    relative;
+
+  z-index:
+    2;
+}
+
+
+.next-section > div > p:first-child {
+  color:
+    var(--gold);
+
+  font-size:
+    11px;
+
+  letter-spacing:
+    6px;
+}
+
+
+.next-section h2 {
+  margin:
+    18px 0 22px;
+
+  font-family:
+    "Noto Serif TC",
+    serif;
+
+  font-size:
+    clamp(
+      45px,
+      7vw,
+      75px
+    );
+
+  line-height:
+    1.35;
+
+  letter-spacing:
+    2px;
+
+  text-shadow:
+    0 4px 15px
+    rgba(0,0,0,.45);
+}
+
+
+.next-description {
+  margin-bottom:
+    34px;
+
+  color:
+    #aaa08e;
+
+  line-height:
+    1.9;
+}
+
+
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+
+@media (max-width: 900px) {
+
+  .stories-section {
+    padding:
+      100px 0 120px;
+  }
+
+
+  .story-list {
+    gap:
+      90px;
+  }
+
+
+  .story-card,
+  .story-card.reverse {
+    grid-template-columns:
+      1fr;
+
+    direction:
+      ltr;
+
+    min-height:
+      auto;
+  }
+
+
+  .story-image {
+    min-height:
+      360px;
+  }
+
+
+  .story-content {
+    padding:
+      42px 32px;
+  }
+
+
+  .story-number,
+  .story-card.reverse .story-number {
+    top:
+      -55px;
+
+    right:
+      10px;
+
+    left:
+      auto;
+
+    font-size:
+      110px;
+  }
+
+}

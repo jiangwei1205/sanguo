@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>群雄問答｜參國・史演</title>
+
+  <!-- Google Fonts -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@500;600;700;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- 共用樣式：Navbar / Footer / Buttons -->
+  <link
+    rel="stylesheet"
+    href="css/HomePage.css"
+  >
+
+  <!-- 群雄問答入口頁 -->
+  <link
+    rel="stylesheet"
+    href="css/QuizEntry.css"
+  >
+  <link rel="icon" type="image/png" sizes="100x100" href="images/logo1.png">
+</head>
+
+
+<body>
+
+  <!-- =========================
+       Navbar
+  ========================== -->
+  <header class="navbar">
+
+    <div class="nav-container">
+
+      <!-- Logo -->
+      <a
+        href="HomePage.html"
+        class="logo"
+      >
+        <img
+          src="images/1212.png"
+          alt="參國・史演 Logo"
+          class="logo-img"
+        >
+      </a>
+
+
+      <!-- Navigation -->
+      <nav class="nav-menu" id="primaryNav">
+
+        <a href="HomePage.html">
+          首頁
+        </a>
+
+        <a href="HomePage.html#history">
+          史實與演義
+        </a>
+
+        <a href="HomePage.html#stories">
+          故事差異
+        </a>
+
+        <a
+          href="QuizEntry.html"
+          class="active"
+        >
+          群雄問答
+        </a>
+
+        <a href="Card.html">
+          人物圖鑑
+        </a>
+        
+        <a href="Pickcard.html">
+          招賢台
+        </a>
+
+
+      </nav>
+
+
+      <button
+        class="mobile-menu-btn"
+        type="button"
+        aria-label="開啟選單"
+        aria-expanded="false"
+        aria-controls="primaryNav"
+      >
+        ☰
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       Main
+  ========================== -->
+  <main>
+
+    <!-- =========================
+         Quiz Entry
+    ========================== -->
+    <section
+      class="quiz-entry-page"
+      id="quiz-entry"
+    >
+
+      <div class="quiz-entry-container">
+
+
+        <!-- =====================================
+             LEFT
+        ====================================== -->
+        <div class="quiz-entry-left">
+
+          <p class="quiz-entry-label">
+            QUIZ CHALLENGE
+          </p>
+
+
+          <!-- 群雄問答標題圖片 -->
+          <div class="quiz-title-image">
+
+            <img
+              src="images/quiz1.png"
+              alt="群雄問答"
+            >
+
+          </div>
+
+
+          <p class="quiz-entry-subtitle">
+            三國真偽，誰能辨明？
+          </p>
+
+
+          <p class="quiz-entry-description">
+            從史實與演義中辨別真偽，
+            看看你是否真的熟悉<br>那些耳熟能詳的三國故事。
+          </p>
+
+
+          <p class="quiz-entry-quote">
+            「亂世之中，識者為英。」
+          </p>
+
+        </div>
+
+
+        <!-- =====================================
+             RIGHT
+        ====================================== -->
+        <div class="quiz-entry-right">
+
+          <div class="quiz-reward-card">
+
+
+            <p class="reward-label">
+              答題獎勵
+            </p>
+
+
+            <h2 class="reward-title">
+              招賢令
+            </h2>
+
+
+            <p class="reward-description">
+              每答對一題，
+              即可獲得一枚招賢令。
+            </p>
+
+
+            <!-- 招賢令 -->
+            <div class="reward-token">
+
+              <span>
+                令
+              </span>
+
+            </div>
+
+
+            <!-- 開始挑戰 -->
+            <a
+              href="QuizPage.html"
+              class="btn btn-primary quiz-start-btn"
+            >
+              開始挑戰
+
+              <span>
+                →
+              </span>
+            </a>
+
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <section class="next-section">
+
+  <div>
+
+    <p>
+      下一章
+    </p>
+
+    <h2>
+      天下英雄，
+      <br>
+      誰主沉浮？
+    </h2>
+
+    <p class="next-description">
+      認識魏、蜀、吳的重要人物，
+      看見史書與小說中的不同面貌。
+    </p>
+
+    <a href="Card.html" class="btn btn-primary">
+
+      探索三國人物
+
+      <span>
+        →
+      </span>
+
+    </a>
+
+  </div>
+
+</section>
+
+  <!-- =========================
+       Footer
+  ========================== -->
+  <footer>
+
+    <div class="footer-container">
+
+
+      <div class="footer-logo">
+        參國
+      </div>
+
+
+      <p>
+        一部史書，一部小說，一段被傳說改寫的歷史。
+      </p>
+
+
+      <span>
+        © 2026 參國・史演
+      </span>
+
+
+    </div>
+
+  </footer>
+
+
+  <!-- JS -->
+  <script src="js/main.js"></script>
+
+
+</body>
+
+</html>
