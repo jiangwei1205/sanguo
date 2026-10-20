@@ -1125,6 +1125,47 @@
       scene5Image.style.objectPosition = teaser?.imagePosition || defaultPosition;
     }
 
+    // 線上版防殘影：先讓「本次抽中的角色過場圖」在隱藏狀態完成載入／解碼，
+    // 確認圖片真的準備好之後才開啟過場，避免上一抽角色先閃一下才換圖。
+    function prepareSinglePullTeaserVisual(teaser) {
+      const scene5Image = document.getElementById('gachaIntroScene5Image');
+      if (!scene5Image) return Promise.resolve();
+
+      applySinglePullTeaserVisual(teaser);
+
+      const decodeCurrentImage = () => {
+        if (typeof scene5Image.decode === 'function') {
+          return scene5Image.decode().catch(() => {});
+        }
+        return Promise.resolve();
+      };
+
+      if (scene5Image.complete && scene5Image.naturalWidth > 0) {
+        return decodeCurrentImage();
+      }
+
+      return new Promise(resolve => {
+        const cleanup = () => {
+          scene5Image.removeEventListener('load', handleLoad);
+          scene5Image.removeEventListener('error', handleError);
+        };
+
+        const handleLoad = () => {
+          cleanup();
+          decodeCurrentImage().finally(resolve);
+        };
+
+        const handleError = () => {
+          cleanup();
+          // 圖檔若真的不存在，仍讓原本流程繼續，避免整個抽卡被卡死。
+          resolve();
+        };
+
+        scene5Image.addEventListener('load', handleLoad, { once: true });
+        scene5Image.addEventListener('error', handleError, { once: true });
+      });
+    }
+
     function applySinglePullTeaserFlashStyle(teaser) {
       const flash = document.getElementById('gachaIntroFlash');
       if (!flash) return;
@@ -1176,11 +1217,11 @@
 
     function playSinglePullCharacterTeaser(hero, onComplete = null) {
       const teaser = hero ? singlePullTeaserMap[hero.name] : null;
-      applySinglePullTeaserVisual(teaser);
-      applySinglePullTeaserFlashStyle(teaser);
 
-      // 還沒製作專屬過場的武將，先直接進入卡牌出場。
+      // 還沒製作專屬過場的武將，維持原本行為：直接進入卡牌出場。
       if (!teaser) {
+        applySinglePullTeaserVisual(null);
+        applySinglePullTeaserFlashStyle(null);
         if (typeof onComplete === 'function') onComplete();
         return;
       }
@@ -1203,27 +1244,38 @@
         return;
       }
 
+      // 從開始準備圖片就鎖住下一次招募，避免網路較慢時重複點擊造成兩輪過場交錯。
       gachaComicBusy = true;
       gachaComicDone = onComplete;
       gachaComicTimers.forEach(clearTimeout);
       gachaComicTimers = [];
 
-      // 只顯示該角色自己的特徵畫面，不播放十連抽前四格。
+      // 先把上一輪動畫狀態清掉，但此時 overlay 仍然是隱藏的。
       scenes.forEach(s => s.classList.remove('is-current','is-trembling','is-ignited','is-eye-glowing'));
       if (flash) flash.classList.remove('is-firing');
       if (shock) shock.classList.remove('is-bursting');
 
-      void overlay.offsetWidth;
-      document.body.classList.add('gacha-intro-body-lock');
-      overlay.classList.add('is-playing');
-      overlay.setAttribute('aria-hidden', 'false');
-      scene.classList.add('is-current');
+      applySinglePullTeaserFlashStyle(teaser);
 
-      scheduleGachaComic(teaser.eyeGlowDelay, () => scene.classList.add('is-eye-glowing'));
-      scheduleGachaComic(teaser.flashDelay, () => {
-        if (flash) flash.classList.add('is-firing');
+      // 關鍵修正：本次角色圖完成 load + decode 後，才真正打開過場。
+      // GitHub Pages / 手機網路下就不會短暫顯示上一抽的角色。
+      prepareSinglePullTeaserVisual(teaser).then(() => {
+        // 若等待圖片期間玩家用 Escape 跳過，finishGachaComicIntro 會把 busy 關掉；
+        // 這時不再重新打開已被跳過的過場。
+        if (!gachaComicBusy) return;
+
+        void overlay.offsetWidth;
+        document.body.classList.add('gacha-intro-body-lock');
+        overlay.classList.add('is-playing');
+        overlay.setAttribute('aria-hidden', 'false');
+        scene.classList.add('is-current');
+
+        scheduleGachaComic(teaser.eyeGlowDelay, () => scene.classList.add('is-eye-glowing'));
+        scheduleGachaComic(teaser.flashDelay, () => {
+          if (flash) flash.classList.add('is-firing');
+        });
+        scheduleGachaComic(teaser.finishDelay, finishGachaComicIntro);
       });
-      scheduleGachaComic(teaser.finishDelay, finishGachaComicIntro);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
