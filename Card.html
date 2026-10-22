@@ -708,6 +708,644 @@
           document.getElementById(
             'modalBondText'
           );
+
+
+        // ==========================================
+        // 人物圖鑑：開啟角色詳情音效
+        // 檔案：audio/codex-open.mp3
+        // ==========================================
+        const codexOpenSoundUrl =
+          new URL(
+            'audio/codex-open.mp3',
+            document.baseURI
+          ).href;
+
+        const codexOpenSoundTemplate =
+          new Audio(
+            codexOpenSoundUrl
+          );
+
+        codexOpenSoundTemplate.preload =
+          'auto';
+
+        codexOpenSoundTemplate.volume =
+          0.82;
+
+        codexOpenSoundTemplate.addEventListener(
+          'error',
+          () => {
+            console.warn(
+              '人物圖鑑開啟音效載入失敗，請確認檔案存在：',
+              codexOpenSoundUrl
+            );
+          }
+        );
+
+        function playCodexOpenSound() {
+          const sound =
+            codexOpenSoundTemplate.cloneNode(
+              true
+            );
+
+          sound.volume =
+            0.82;
+
+          sound.currentTime =
+            0;
+
+          sound.play().catch(
+            () => {}
+          );
+        }
+
+        // F12 Console 可輸入 testCodexOpenSound() 直接測試
+        window.testCodexOpenSound =
+          playCodexOpenSound;
+
+
+        // ==========================================
+        // Q 版武將：猛將型點擊動作音效
+        // 檔案：audio/q-hero-warrior.mp3
+        // 套用：張飛／趙雲／黃蓋／關羽／關銀屏／夏侯惇／呂布／孫策
+        // ==========================================
+        const warriorSpriteSoundUrl =
+          new URL(
+            'audio/q-hero-warrior.mp3',
+            document.baseURI
+          ).href;
+
+        const warriorSpriteSoundTemplate =
+          new Audio(
+            warriorSpriteSoundUrl
+          );
+
+        warriorSpriteSoundTemplate.preload =
+          'auto';
+
+        warriorSpriteSoundTemplate.volume =
+          0.9;
+
+        warriorSpriteSoundTemplate.addEventListener(
+          'error',
+          () => {
+            console.warn(
+              'Q 版猛將動作音效載入失敗，請確認檔案存在：',
+              warriorSpriteSoundUrl
+            );
+          }
+        );
+
+        const warriorSpriteHeroes =
+          new Set([
+            '張飛',
+            '趙雲',
+            '黃蓋',
+            '關羽',
+            '關銀屏',
+            '夏侯惇',
+            '呂布',
+            '孫策'
+          ]);
+
+        function playWarriorSpriteSound() {
+          const sound =
+            warriorSpriteSoundTemplate.cloneNode(
+              true
+            );
+
+          sound.volume =
+            0.9;
+
+          sound.currentTime =
+            0;
+
+          sound.play().catch(
+            error => {
+              console.warn(
+                'Q 版猛將動作音效播放失敗：',
+                error
+              );
+            }
+          );
+        }
+
+        window.testWarriorSpriteSound =
+          playWarriorSpriteSound;
+
+
+        // ==========================================
+        // Q 版武將：弓箭型點擊動作音效
+        // 檔案：audio/q-hero-archer.mp3
+        // 套用：孫尚香
+        // ==========================================
+        const archerSpriteSoundUrl =
+          new URL(
+            'audio/q-hero-archer.mp3',
+            document.baseURI
+          ).href;
+
+        const archerSpriteSoundTemplate =
+          new Audio(
+            archerSpriteSoundUrl
+          );
+
+        archerSpriteSoundTemplate.preload =
+          'auto';
+
+        archerSpriteSoundTemplate.volume =
+          0.9;
+
+        archerSpriteSoundTemplate.addEventListener(
+          'error',
+          () => {
+            console.warn(
+              'Q 版弓箭型動作音效載入失敗，請確認檔案存在：',
+              archerSpriteSoundUrl
+            );
+          }
+        );
+
+        const archerSpriteHeroes =
+          new Set([
+            '孫尚香'
+          ]);
+
+        function playArcherSpriteSound() {
+          const sound =
+            archerSpriteSoundTemplate.cloneNode(
+              true
+            );
+
+          sound.volume =
+            0.9;
+
+          sound.currentTime =
+            0;
+
+          sound.play().catch(
+            error => {
+              console.warn(
+                'Q 版弓箭型動作音效播放失敗：',
+                error
+              );
+            }
+          );
+        }
+
+        window.testArcherSpriteSound =
+          playArcherSpriteSound;
+
+
+        // ==========================================
+        // Q 版武將：君主拔劍型點擊動作音效
+        // 檔案：audio/q-hero-ruler-sword.mp3
+        // 套用：孫權
+        // ==========================================
+        const rulerSwordSoundUrl =
+          new URL(
+            'audio/q-hero-ruler-sword.mp3',
+            document.baseURI
+          ).href;
+
+        const rulerSwordSoundTemplate =
+          new Audio(
+            rulerSwordSoundUrl
+          );
+
+        rulerSwordSoundTemplate.preload =
+          'auto';
+
+        rulerSwordSoundTemplate.volume =
+          0.9;
+
+        rulerSwordSoundTemplate.addEventListener(
+          'error',
+          () => {
+            console.warn(
+              'Q 版孫權拔劍音效載入失敗，請確認檔案存在：',
+              rulerSwordSoundUrl
+            );
+          }
+        );
+
+        const rulerSwordHeroes =
+          new Set([
+            '孫權'
+          ]);
+
+        function playRulerSwordSound() {
+          const sound =
+            rulerSwordSoundTemplate.cloneNode(
+              true
+            );
+
+          sound.volume =
+            0.9;
+
+          sound.currentTime =
+            0;
+
+          sound.play().catch(
+            error => {
+              console.warn(
+                'Q 版孫權拔劍音效播放失敗：',
+                error
+              );
+            }
+          );
+        }
+
+        window.testRulerSwordSound =
+          playRulerSwordSound;
+
+
+        // ==========================================
+        // Q 版武將：君主衣袍型點擊動作音效
+        // 檔案：audio/q-hero-ruler-robe.mp3
+        // 套用：曹操／劉備
+        // ==========================================
+        const rulerRobeSoundUrl =
+          new URL(
+            'audio/q-hero-ruler-robe.mp3',
+            document.baseURI
+          ).href;
+
+        const rulerRobeSoundTemplate =
+          new Audio(
+            rulerRobeSoundUrl
+          );
+
+        rulerRobeSoundTemplate.preload =
+          'auto';
+
+        rulerRobeSoundTemplate.volume =
+          0.95;
+
+        rulerRobeSoundTemplate.addEventListener(
+          'error',
+          () => {
+            console.warn(
+              'Q 版曹操／劉備衣袍音效載入失敗，請確認檔案存在：',
+              rulerRobeSoundUrl
+            );
+          }
+        );
+
+        const rulerRobeHeroes =
+          new Set([
+            '曹操',
+            '劉備'
+          ]);
+
+        function playRulerRobeSound() {
+          const sound =
+            rulerRobeSoundTemplate.cloneNode(
+              true
+            );
+
+          sound.volume =
+            0.95;
+
+          sound.currentTime =
+            0;
+
+          sound.play().catch(
+            error => {
+              console.warn(
+                'Q 版曹操／劉備衣袍音效播放失敗：',
+                error
+              );
+            }
+          );
+        }
+
+        window.testRulerRobeSound =
+          playRulerRobeSound;
+
+
+        // ==========================================
+        // Q 版武將：軍師揮扇型點擊動作音效
+        // 檔案：audio/q-hero-strategist-fan.mp3
+        // 套用：周瑜／諸葛亮／司馬懿／龐統／郭嘉
+        // ==========================================
+        const strategistFanSoundUrl =
+          new URL(
+            'audio/q-hero-strategist-fan.mp3',
+            document.baseURI
+          ).href;
+
+        const strategistFanSoundTemplate =
+          new Audio(
+            strategistFanSoundUrl
+          );
+
+        strategistFanSoundTemplate.preload =
+          'auto';
+
+        strategistFanSoundTemplate.volume =
+          0.95;
+
+        strategistFanSoundTemplate.addEventListener(
+          'error',
+          () => {
+            console.warn(
+              'Q 版軍師揮扇音效載入失敗，請確認檔案存在：',
+              strategistFanSoundUrl
+            );
+          }
+        );
+
+        const strategistFanHeroes =
+          new Set([
+            '周瑜',
+            '諸葛亮',
+            '司馬懿',
+            '龐統',
+            '郭嘉'
+          ]);
+
+        function playStrategistFanSound() {
+          const sound =
+            strategistFanSoundTemplate.cloneNode(
+              true
+            );
+
+          sound.volume =
+            0.95;
+
+          sound.currentTime =
+            0;
+
+          sound.play().catch(
+            error => {
+              console.warn(
+                'Q 版軍師揮扇音效播放失敗：',
+                error
+              );
+            }
+          );
+        }
+
+        window.testStrategistFanSound =
+          playStrategistFanSound;
+
+
+        // ==========================================
+        // Q 版武將：蔡文姬古琴點擊動作音效
+        // 檔案：audio/q-hero-caiwenji-guqin.mp3
+        // 套用：蔡文姬
+        // 播放時機：動作第 3 格（frame 2）
+        // ==========================================
+        const caiWenJiSoundUrl =
+          new URL(
+            'audio/q-hero-caiwenji-guqin.mp3',
+            document.baseURI
+          ).href;
+
+        const caiWenJiSoundTemplate =
+          new Audio(
+            caiWenJiSoundUrl
+          );
+
+        caiWenJiSoundTemplate.preload =
+          'auto';
+
+        caiWenJiSoundTemplate.volume =
+          1.0;
+
+        caiWenJiSoundTemplate.addEventListener(
+          'error',
+          () => {
+            console.warn(
+              'Q 版蔡文姬古琴音效載入失敗，請確認檔案存在：',
+              caiWenJiSoundUrl
+            );
+          }
+        );
+
+        const caiWenJiHeroes =
+          new Set([
+            '蔡文姬'
+          ]);
+
+        function playCaiWenJiSound() {
+          const sound =
+            caiWenJiSoundTemplate.cloneNode(
+              true
+            );
+
+          sound.volume =
+            1.0;
+
+          sound.currentTime =
+            0;
+
+          sound.play().catch(
+            error => {
+              console.warn(
+                'Q 版蔡文姬古琴音效播放失敗：',
+                error
+              );
+            }
+          );
+        }
+
+        window.testCaiWenJiSound =
+          playCaiWenJiSound;
+
+
+        // ==========================================
+        // Q 版武將：大喬小喬女生可愛輕笑
+        // 檔案：audio/q-hero-daqiao-xiaoqiao-giggle.mp3
+        // 套用：大喬小喬
+        // 播放時機：動作第 3 格（愛心出現）
+        // ==========================================
+        const daQiaoXiaoQiaoSoundUrl =
+          new URL(
+            'audio/q-hero-daqiao-xiaoqiao-giggle.mp3',
+            document.baseURI
+          ).href;
+
+        const daQiaoXiaoQiaoSoundTemplate =
+          new Audio(
+            daQiaoXiaoQiaoSoundUrl
+          );
+
+        daQiaoXiaoQiaoSoundTemplate.preload =
+          'auto';
+
+        daQiaoXiaoQiaoSoundTemplate.volume =
+          1.0;
+
+        daQiaoXiaoQiaoSoundTemplate.addEventListener(
+          'error',
+          () => {
+            console.warn(
+              'Q 版大喬小喬輕笑音效載入失敗，請確認檔案存在：',
+              daQiaoXiaoQiaoSoundUrl
+            );
+          }
+        );
+
+        const daQiaoXiaoQiaoHeroes =
+          new Set([
+            '大喬小喬'
+          ]);
+
+        function playDaQiaoXiaoQiaoSound() {
+          const sound =
+            daQiaoXiaoQiaoSoundTemplate.cloneNode(
+              true
+            );
+
+          sound.volume =
+            1.0;
+
+          sound.currentTime =
+            0;
+
+          sound.play().catch(
+            error => {
+              console.warn(
+                'Q 版大喬小喬輕笑音效播放失敗：',
+                error
+              );
+            }
+          );
+        }
+
+        window.testDaQiaoXiaoQiaoSound =
+          playDaQiaoXiaoQiaoSound;
+
+
+        // ==========================================
+        // Q 版武將：貂蟬短促女生氣音
+        // 檔案：audio/q-hero-diaochan-giggle.mp3
+        // 套用：貂蟬
+        // 播放時機：動作第 3 格（花瓣／姿態最明顯）
+        // ==========================================
+        const diaoChanSoundUrl =
+          new URL(
+            'audio/q-hero-diaochan-giggle.mp3',
+            document.baseURI
+          ).href;
+
+        const diaoChanSoundTemplate =
+          new Audio(
+            diaoChanSoundUrl
+          );
+
+        diaoChanSoundTemplate.preload =
+          'auto';
+
+        diaoChanSoundTemplate.volume =
+          1.0;
+
+        diaoChanSoundTemplate.addEventListener(
+          'error',
+          () => {
+            console.warn(
+              'Q 版貂蟬女生氣音載入失敗，請確認檔案存在：',
+              diaoChanSoundUrl
+            );
+          }
+        );
+
+        const diaoChanHeroes =
+          new Set([
+            '貂蟬'
+          ]);
+
+        function playDiaoChanSound() {
+          const sound =
+            diaoChanSoundTemplate.cloneNode(
+              true
+            );
+
+          sound.volume =
+            1.0;
+
+          sound.currentTime =
+            0;
+
+          sound.play().catch(
+            error => {
+              console.warn(
+                'Q 版貂蟬女生氣音播放失敗：',
+                error
+              );
+            }
+          );
+        }
+
+        window.testDiaoChanSound =
+          playDiaoChanSound;
+
+
+        // ==========================================
+        // Q 版武將：甄姬典雅古風女聲
+        // 檔案：audio/q-hero-zhenji-voice.mp3
+        // 套用：甄姬
+        // 播放時機：動作第 3 格（花瓣／姿態最明顯）
+        // ==========================================
+        const zhenJiSoundUrl =
+          new URL(
+            'audio/q-hero-zhenji-voice.mp3',
+            document.baseURI
+          ).href;
+
+        const zhenJiSoundTemplate =
+          new Audio(
+            zhenJiSoundUrl
+          );
+
+        zhenJiSoundTemplate.preload =
+          'auto';
+
+        zhenJiSoundTemplate.volume =
+          1.0;
+
+        zhenJiSoundTemplate.addEventListener(
+          'error',
+          () => {
+            console.warn(
+              'Q 版甄姬典雅古風女聲載入失敗，請確認檔案存在：',
+              zhenJiSoundUrl
+            );
+          }
+        );
+
+        const zhenJiHeroes =
+          new Set([
+            '甄姬'
+          ]);
+
+        function playZhenJiSound() {
+          const sound =
+            zhenJiSoundTemplate.cloneNode(
+              true
+            );
+
+          sound.volume =
+            1.0;
+
+          sound.currentTime =
+            0;
+
+          sound.play().catch(
+            error => {
+              console.warn(
+                'Q 版甄姬典雅古風女聲播放失敗：',
+                error
+              );
+            }
+          );
+        }
+
+        window.testZhenJiSound =
+          playZhenJiSound;
+
+
         // 人物介紹左下角 Q 版 Sprite（曹操／劉備／張飛／孫權／關羽／司馬懿／呂布）
         const modalSpriteZone = document.getElementById('modalSpriteZone');
         const heroSprite = document.getElementById('heroSprite');
@@ -1030,6 +1668,64 @@
           'specialFishingCaoUnlocked';
         const SPECIAL_CAO_TAP_MAX =
           10;
+
+        // ==========================================
+        // 釣魚版曹操：第 10 下解鎖專屬音效
+        // 檔案：audio/fishing-cao-unlock.mp3
+        // ==========================================
+        const fishingCaoUnlockSoundUrl =
+          new URL(
+            'audio/fishing-cao-unlock.mp3',
+            document.baseURI
+          ).href;
+
+        const fishingCaoUnlockSoundTemplate =
+          new Audio(
+            fishingCaoUnlockSoundUrl
+          );
+
+        fishingCaoUnlockSoundTemplate.preload =
+          'auto';
+
+        fishingCaoUnlockSoundTemplate.volume =
+          0.9;
+
+        fishingCaoUnlockSoundTemplate.addEventListener(
+          'error',
+          () => {
+            console.warn(
+              '釣魚版曹操解鎖音效載入失敗，請確認檔案存在：',
+              fishingCaoUnlockSoundUrl
+            );
+          }
+        );
+
+        function playFishingCaoUnlockSound() {
+          const sound =
+            fishingCaoUnlockSoundTemplate.cloneNode(
+              true
+            );
+
+          sound.volume =
+            0.9;
+
+          sound.currentTime =
+            0;
+
+          sound.play().catch(
+            error => {
+              console.warn(
+                '釣魚版曹操解鎖音效播放失敗：',
+                error
+              );
+            }
+          );
+        }
+
+        // F12 Console 可直接輸入 testFishingCaoUnlockSound()
+        window.testFishingCaoUnlockSound =
+          playFishingCaoUnlockSound;
+
         let specialEggBusy =
           false;
         function getSpecialCaoTapCount() {
@@ -1160,8 +1856,12 @@
           if (specialEggBusy) {
             return;
           }
+
           specialEggBusy =
             true;
+
+          playFishingCaoUnlockSound();
+
           card.classList.add(
             'egg-unlocking'
           );
@@ -1672,6 +2372,7 @@
           }
         };
         let activeSpriteConfig = null;
+        let activeSpriteHeroName = null;
         let spriteIdleTimer = null;
         let spriteFrameTimer = null;
         let spriteSpeechTimer = null;
@@ -1720,6 +2421,7 @@
 
         function setupHeroSprite(hero) {
           stopHeroSprite();
+          activeSpriteHeroName = hero.name;
           activeSpriteConfig = heroSpriteConfig[hero.name] || null;
           modalSpriteZone.hidden = !activeSpriteConfig;
           if (!activeSpriteConfig) {
@@ -1740,6 +2442,39 @@
           spriteIdleTimer = null;
           spriteSpeechTimer = null;
           heroSpeech.classList.remove('show');
+
+          if (
+            warriorSpriteHeroes.has(
+              activeSpriteHeroName
+            )
+          ) {
+            playWarriorSpriteSound();
+          } else if (
+            archerSpriteHeroes.has(
+              activeSpriteHeroName
+            )
+          ) {
+            playArcherSpriteSound();
+          } else if (
+            rulerSwordHeroes.has(
+              activeSpriteHeroName
+            )
+          ) {
+            playRulerSwordSound();
+          } else if (
+            rulerRobeHeroes.has(
+              activeSpriteHeroName
+            )
+          ) {
+            playRulerRobeSound();
+          } else if (
+            strategistFanHeroes.has(
+              activeSpriteHeroName
+            )
+          ) {
+            playStrategistFanSound();
+          }
+
           spritePlaying = true;
           heroSprite.classList.add('is-playing');
           heroSprite.style.backgroundImage = `url("${config.sheet}")`;
@@ -1762,6 +2497,34 @@
             }
             setSpriteFrame(frame, config.frames);
             if (frame === 2) {
+              // 女角音效刻意對齊動作第 3 格，
+              // 讓琴音／女聲落在最明顯的動作節點。
+              if (
+                caiWenJiHeroes.has(
+                  activeSpriteHeroName
+                )
+              ) {
+                playCaiWenJiSound();
+              } else if (
+                daQiaoXiaoQiaoHeroes.has(
+                  activeSpriteHeroName
+                )
+              ) {
+                playDaQiaoXiaoQiaoSound();
+              } else if (
+                diaoChanHeroes.has(
+                  activeSpriteHeroName
+                )
+              ) {
+                playDiaoChanSound();
+              } else if (
+                zhenJiHeroes.has(
+                  activeSpriteHeroName
+                )
+              ) {
+                playZhenJiSound();
+              }
+
               heroSpeech.textContent = config.line;
               heroSpeech.classList.add('show');
             }
@@ -1772,6 +2535,15 @@
         // 開啟角色介紹
         // ==========================================
         function openModal(hero) {
+          const modalWasOpen =
+            modal.classList.contains(
+              "active"
+            );
+
+          if (!modalWasOpen) {
+            playCodexOpenSound();
+          }
+
           modalImg.src = hero.image;
           modalImg.alt = `${hero.name} 卡牌`;
           modalName.textContent = hero.name;

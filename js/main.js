@@ -1,4 +1,572 @@
 /* ======================================
+   全站按鈕點擊音效
+   - 以目前 js/main.js 的位置自動找到 ../audio/ui-click.mp3
+   - 真正按下（pointerdown）才播放，不是 hover
+   - 不更動任何原本按鈕功能
+   - 若音效檔載入失敗，Console 會顯示路徑方便檢查
+====================================== */
+(() => {
+  const currentScriptSrc =
+    document.currentScript && document.currentScript.src
+      ? document.currentScript.src
+      : new URL("js/main.js", document.baseURI).href;
+
+  const uiClickUrl =
+    new URL("../audio/ui-click.mp3", currentScriptSrc).href;
+
+  const uiClickTemplate =
+    new Audio(uiClickUrl);
+
+  uiClickTemplate.preload = "auto";
+  uiClickTemplate.volume = 1.0;
+
+  uiClickTemplate.addEventListener(
+    "error",
+    () => {
+      console.warn(
+        "參國按鈕音效載入失敗，請確認檔案存在：",
+        uiClickUrl
+      );
+    }
+  );
+
+  function playUiClickSound() {
+    const sound = uiClickTemplate.cloneNode(true);
+    sound.volume = 1.0;
+    sound.currentTime = 0;
+
+    sound.play().catch(error => {
+      console.warn(
+        "參國按鈕音效播放失敗：",
+        error
+      );
+    });
+  }
+
+  function getUiControl(target) {
+    if (!(target instanceof Element)) {
+      return null;
+    }
+
+    const control =
+      target.closest(
+        'button, .btn, [role="button"]'
+      );
+
+    if (!control) {
+      return null;
+    }
+
+    /* 群雄問答的答案按鈕使用自己的答對 / 答錯音效，
+       不再疊加全站按鈕聲，避免答錯音被蓋住。 */
+    if (
+      control.matches(".quiz-option-btn")
+    ) {
+      return null;
+    }
+
+    /* NPC 本體與人物圖鑑 Q 版小人物使用專屬音效，
+       不再疊加全站 ui-click */
+    if (
+      control.matches(
+        ".npc-character, .hero-sprite"
+      )
+    ) {
+      return null;
+    }
+
+    if (
+      control.matches(":disabled") ||
+      control.getAttribute("aria-disabled") === "true"
+    ) {
+      return null;
+    }
+
+    // 導覽列的一般文字連結不播放；漢堡按鈕仍會播放。
+    if (
+      control.tagName === "A" &&
+      control.closest(".nav-menu")
+    ) {
+      return null;
+    }
+
+    return control;
+  }
+
+  document.addEventListener(
+    "pointerdown",
+    event => {
+      if (getUiControl(event.target)) {
+        playUiClickSound();
+      }
+    },
+    true
+  );
+
+  // 鍵盤操作按鈕時也能有聲音。
+  document.addEventListener(
+    "keydown",
+    event => {
+      if (
+        (event.key === "Enter" || event.key === " ") &&
+        getUiControl(event.target)
+      ) {
+        playUiClickSound();
+      }
+    },
+    true
+  );
+
+  // 方便測試：在 Console 輸入 testSanguoUiClick() 可直接播放。
+  window.testSanguoUiClick =
+    playUiClickSound;
+})();
+
+
+
+/* ======================================
+   全站背景音樂 + 靜音按鈕
+   - audio/sanguo-bgm.mp3
+   - localStorage 記住開 / 關
+   - sessionStorage 記住換頁前播放位置
+   - 若瀏覽器禁止自動播放，第一次互動後再開始
+====================================== */
+(() => {
+
+  const BGM_ENABLED_KEY =
+    "sanguoBgmEnabled";
+
+  const BGM_TIME_KEY =
+    "sanguoBgmTime";
+
+  const BGM_LEAVE_AT_KEY =
+    "sanguoBgmLeaveAt";
+
+
+  const bgmUrl =
+    new URL(
+      "audio/sanguo-bgm.mp3",
+      document.baseURI
+    ).href;
+
+
+  const bgm =
+    new Audio(
+      bgmUrl
+    );
+
+
+  bgm.preload =
+    "auto";
+
+  bgm.loop =
+    true;
+
+  bgm.volume =
+    0.21;
+
+
+  let bgmEnabled =
+    localStorage.getItem(
+      BGM_ENABLED_KEY
+    )
+    !==
+    "false";
+
+
+  let bgmStarted =
+    false;
+
+
+  const savedTime =
+    parseFloat(
+      sessionStorage.getItem(
+        BGM_TIME_KEY
+      )
+      ||
+      "0"
+    );
+
+
+  const savedLeaveAt =
+    parseInt(
+      sessionStorage.getItem(
+        BGM_LEAVE_AT_KEY
+      )
+      ||
+      "0",
+      10
+    );
+
+
+  bgm.addEventListener(
+    "loadedmetadata",
+    () => {
+
+      let resumeTime =
+        savedTime;
+
+
+      if (
+        Number.isFinite(
+          savedTime
+        )
+        &&
+        savedTime >= 0
+        &&
+        Number.isFinite(
+          savedLeaveAt
+        )
+        &&
+        savedLeaveAt > 0
+      ) {
+
+        const elapsedSeconds =
+          Math.max(
+            0,
+            (
+              Date.now()
+              -
+              savedLeaveAt
+            )
+            /
+            1000
+          );
+
+
+        resumeTime =
+          savedTime
+          +
+          elapsedSeconds;
+
+      }
+
+
+      if (
+        Number.isFinite(
+          resumeTime
+        )
+        &&
+        resumeTime >= 0
+        &&
+        Number.isFinite(
+          bgm.duration
+        )
+        &&
+        bgm.duration > 0
+      ) {
+
+        bgm.currentTime =
+          resumeTime
+          %
+          bgm.duration;
+
+      }
+
+    },
+    {
+      once: true
+    }
+  );
+
+
+  function tryPlayBgm() {
+
+    if (!bgmEnabled) {
+      return;
+    }
+
+
+    const playPromise =
+      bgm.play();
+
+
+    if (playPromise) {
+
+      playPromise
+        .then(
+          () => {
+
+            bgmStarted =
+              true;
+
+          }
+        )
+        .catch(
+          () => {
+
+            bgmStarted =
+              false;
+
+          }
+        );
+
+    }
+
+  }
+
+
+  function updateBgmButton() {
+
+    if (!bgmButton) {
+      return;
+    }
+
+
+    bgmButton.textContent =
+      bgmEnabled
+        ? "♫"
+        : "🔇";
+
+
+    bgmButton.title =
+      bgmEnabled
+        ? "關閉背景音樂"
+        : "開啟背景音樂";
+
+
+    bgmButton.setAttribute(
+      "aria-pressed",
+      bgmEnabled
+        ? "true"
+        : "false"
+    );
+
+  }
+
+
+  function handleFirstInteraction() {
+
+    if (
+      bgmEnabled
+      &&
+      !bgmStarted
+    ) {
+
+      tryPlayBgm();
+
+    }
+
+  }
+
+
+  const bgmButton =
+    document.createElement(
+      "button"
+    );
+
+
+  bgmButton.type =
+    "button";
+
+  bgmButton.className =
+    "sanguo-bgm-toggle";
+
+
+  bgmButton.setAttribute(
+    "aria-label",
+    "背景音樂開關"
+  );
+
+
+  Object.assign(
+    bgmButton.style,
+    {
+
+      position:
+        "fixed",
+
+      left:
+        "18px",
+
+      bottom:
+        "18px",
+
+      width:
+        "42px",
+
+      height:
+        "42px",
+
+      zIndex:
+        "10050",
+
+      border:
+        "1px solid rgba(196,157,92,.65)",
+
+      borderRadius:
+        "50%",
+
+      background:
+        "rgba(18,14,11,.90)",
+
+      color:
+        "#e8d3a6",
+
+      fontSize:
+        "18px",
+
+      fontFamily:
+        "'Noto Serif TC', serif",
+
+      cursor:
+        "pointer",
+
+      boxShadow:
+        "0 5px 16px rgba(0,0,0,.35)",
+
+      backdropFilter:
+        "blur(6px)",
+
+      display:
+        "flex",
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      lineHeight:
+        "1"
+
+    }
+  );
+
+
+  bgmButton.addEventListener(
+    "pointerdown",
+    event => {
+
+      event.stopPropagation();
+
+    }
+  );
+
+
+  bgmButton.addEventListener(
+    "click",
+    event => {
+
+      event.stopPropagation();
+
+
+      bgmEnabled =
+        !bgmEnabled;
+
+
+      localStorage.setItem(
+        BGM_ENABLED_KEY,
+        bgmEnabled
+          ? "true"
+          : "false"
+      );
+
+
+      if (bgmEnabled) {
+
+        tryPlayBgm();
+
+      }
+
+      else {
+
+        bgm.pause();
+
+        bgmStarted =
+          false;
+
+      }
+
+
+      updateBgmButton();
+
+    }
+  );
+
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+      if (
+        !document.body.contains(
+          bgmButton
+        )
+      ) {
+
+        document.body.appendChild(
+          bgmButton
+        );
+
+      }
+
+
+      updateBgmButton();
+
+
+      if (bgmEnabled) {
+
+        tryPlayBgm();
+
+      }
+
+    },
+    {
+      once: true
+    }
+  );
+
+
+  document.addEventListener(
+    "pointerdown",
+    handleFirstInteraction,
+    {
+      passive: true
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    handleFirstInteraction
+  );
+
+
+  window.addEventListener(
+    "beforeunload",
+    () => {
+
+      if (
+        Number.isFinite(
+          bgm.currentTime
+        )
+      ) {
+
+        sessionStorage.setItem(
+          BGM_TIME_KEY,
+          String(
+            bgm.currentTime
+          )
+        );
+
+      }
+
+
+      sessionStorage.setItem(
+        BGM_LEAVE_AT_KEY,
+        String(
+          Date.now()
+        )
+      );
+
+    }
+  );
+
+})();
+
+
+/* ======================================
    Book Flip
 ====================================== */
 
@@ -139,216 +707,6 @@ window.addEventListener(
 
 
 updateActiveNav();
-
-
-/* ======================================
-   Mobile Navbar
-   只控制 <= 1000px 的漢堡選單
-====================================== */
-
-const mobileMenuBtn =
-  document.querySelector(
-    ".mobile-menu-btn"
-  );
-
-
-const mobileNavMenu =
-  document.querySelector(
-    ".nav-menu"
-  );
-
-
-function closeMobileNav() {
-
-  if (
-    !mobileMenuBtn ||
-    !mobileNavMenu
-  ) {
-    return;
-  }
-
-
-  mobileNavMenu.classList.remove(
-    "mobile-open"
-  );
-
-
-  mobileMenuBtn.classList.remove(
-    "mobile-open"
-  );
-
-
-  mobileMenuBtn.setAttribute(
-    "aria-expanded",
-    "false"
-  );
-
-
-  mobileMenuBtn.setAttribute(
-    "aria-label",
-    "開啟選單"
-  );
-
-
-  mobileMenuBtn.textContent =
-    "☰";
-
-}
-
-
-if (
-  mobileMenuBtn &&
-  mobileNavMenu
-) {
-
-  mobileMenuBtn.addEventListener(
-    "click",
-    () => {
-
-      const willOpen =
-        !mobileNavMenu.classList.contains(
-          "mobile-open"
-        );
-
-
-      mobileNavMenu.classList.toggle(
-        "mobile-open",
-        willOpen
-      );
-
-
-      mobileMenuBtn.classList.toggle(
-        "mobile-open",
-        willOpen
-      );
-
-
-      mobileMenuBtn.setAttribute(
-        "aria-expanded",
-        String(willOpen)
-      );
-
-
-      mobileMenuBtn.setAttribute(
-        "aria-label",
-        willOpen
-          ? "關閉選單"
-          : "開啟選單"
-      );
-
-
-      mobileMenuBtn.textContent =
-        willOpen
-          ? "×"
-          : "☰";
-
-    }
-  );
-
-
-  /*
-    點任何導覽連結後收起：
-    - 首頁錨點仍照原本 smooth scroll
-    - Quiz / Card / Pickcard 仍照原本 href 跳頁
-  */
-  mobileNavMenu.addEventListener(
-    "click",
-    event => {
-
-      const link =
-        event.target.closest("a");
-
-
-      if (
-        link &&
-        window.innerWidth <= 1000
-      ) {
-
-        closeMobileNav();
-
-      }
-
-    }
-  );
-
-
-  /*
-    點選單外面時收起。
-    不 stopPropagation，
-    避免影響原本 NPC / 其他 document click 功能。
-  */
-  document.addEventListener(
-    "click",
-    event => {
-
-      if (
-        window.innerWidth > 1000
-        ||
-        !mobileNavMenu.classList.contains(
-          "mobile-open"
-        )
-      ) {
-        return;
-      }
-
-
-      if (
-        mobileNavMenu.contains(
-          event.target
-        )
-        ||
-        mobileMenuBtn.contains(
-          event.target
-        )
-      ) {
-        return;
-      }
-
-
-      closeMobileNav();
-
-    }
-  );
-
-
-  document.addEventListener(
-    "keydown",
-    event => {
-
-      if (
-        event.key === "Escape"
-        &&
-        mobileNavMenu.classList.contains(
-          "mobile-open"
-        )
-      ) {
-
-        closeMobileNav();
-
-        mobileMenuBtn.focus();
-
-      }
-
-    }
-  );
-
-
-  window.addEventListener(
-    "resize",
-    () => {
-
-      if (
-        window.innerWidth > 1000
-      ) {
-
-        closeMobileNav();
-
-      }
-
-    }
-  );
-
-}
 
 
 /* ======================================
@@ -546,6 +904,233 @@ document.addEventListener(
       document.getElementById(
         "npcAlert"
       );
+
+
+
+    /* ======================================================
+       NPC 開啟對話音效
+       檔案位置：audio/npc-dialogue-open.mp3
+
+       這版不用 Web Audio / AudioContext，
+       直接在玩家 click 的同一個使用者手勢內播放，
+       避免瀏覽器自動播放限制造成完全沒聲音。
+
+       同步疊兩個完全相同的聲音，只是把音量推大，
+       不會變成前後兩聲。
+    ====================================================== */
+
+    const npcDialogueSoundUrl =
+      new URL(
+        "audio/npc-dialogue-open.mp3",
+        document.baseURI
+      ).href;
+
+
+    const npcDialogueSoundTemplate =
+      new Audio(
+        npcDialogueSoundUrl
+      );
+
+
+    npcDialogueSoundTemplate.preload =
+      "auto";
+
+
+    npcDialogueSoundTemplate.volume =
+      1.0;
+
+
+    npcDialogueSoundTemplate.addEventListener(
+      "error",
+      () => {
+
+        console.warn(
+          "NPC 對話音效載入失敗，請確認檔案存在：",
+          npcDialogueSoundUrl
+        );
+
+      }
+    );
+
+
+    function playNpcDialogueOpenSound() {
+
+      const soundA =
+        npcDialogueSoundTemplate.cloneNode(
+          true
+        );
+
+
+      const soundB =
+        npcDialogueSoundTemplate.cloneNode(
+          true
+        );
+
+
+      soundA.volume =
+        0.68;
+
+
+      soundB.volume =
+        0.38;
+
+
+      soundA.currentTime =
+        0;
+
+
+      soundB.currentTime =
+        0;
+
+
+      const playA =
+        soundA.play();
+
+
+      const playB =
+        soundB.play();
+
+
+      if (playA) {
+
+        playA.catch(
+          error => {
+
+            console.warn(
+              "NPC 對話音效播放失敗：",
+              error
+            );
+
+          }
+        );
+
+      }
+
+
+      if (playB) {
+
+        playB.catch(
+          () => {}
+        );
+
+      }
+
+    }
+
+
+    /* F12 Console 可直接輸入 testNpcDialogueSound() 測試 */
+    window.testNpcDialogueSound =
+      playNpcDialogueOpenSound;
+
+
+
+    /* ======================================================
+       呂布 × 貂蟬 彩蛋音效
+       - 貂蟬跑步：audio/npc-diaochan-run.mp3
+       - 羈絆畫面：audio/npc-lubu-diaochan-bond.mp3
+    ====================================================== */
+
+    const diaochanRunSoundUrl =
+      new URL(
+        "audio/npc-diaochan-run.mp3",
+        document.baseURI
+      ).href;
+
+
+    const diaochanRunSoundTemplate =
+      new Audio(
+        diaochanRunSoundUrl
+      );
+
+
+    diaochanRunSoundTemplate.preload =
+      "auto";
+
+
+    diaochanRunSoundTemplate.volume =
+      1.0;
+
+
+    function playDiaochanRunSound() {
+
+      const sound =
+        diaochanRunSoundTemplate.cloneNode(
+          true
+        );
+
+
+      sound.volume =
+        1.0;
+
+
+      sound.currentTime =
+        0;
+
+
+      sound.play().catch(
+        error => {
+
+          console.warn(
+            "貂蟬跑步音效播放失敗：",
+            error
+          );
+
+        }
+      );
+
+    }
+
+
+
+    const lubuDiaochanBondSoundUrl =
+      new URL(
+        "audio/npc-lubu-diaochan-bond.mp3",
+        document.baseURI
+      ).href;
+
+
+    const lubuDiaochanBondSoundTemplate =
+      new Audio(
+        lubuDiaochanBondSoundUrl
+      );
+
+
+    lubuDiaochanBondSoundTemplate.preload =
+      "auto";
+
+
+    lubuDiaochanBondSoundTemplate.volume =
+      1.0;
+
+
+    function playLubuDiaochanBondSound() {
+
+      const sound =
+        lubuDiaochanBondSoundTemplate.cloneNode(
+          true
+        );
+
+
+      sound.volume =
+        1.0;
+
+
+      sound.currentTime =
+        0;
+
+
+      sound.play().catch(
+        error => {
+
+          console.warn(
+            "呂布 × 貂蟬羈絆音效播放失敗：",
+            error
+          );
+
+        }
+      );
+
+    }
 
 
 
@@ -948,7 +1533,7 @@ document.addEventListener(
       if (
         !isTalking &&
         !isEventPlaying
-              ) {
+      ) {
 
         npcOffset +=
           speed
@@ -1248,6 +1833,81 @@ document.addEventListener(
       return changed;
 
     }
+
+
+
+    /* ======================================================
+       飛將現世：呂布第一次解鎖專屬音效
+       檔案：audio/lubu-unlock.mp3
+    ====================================================== */
+
+    const lubuUnlockSoundUrl =
+      new URL(
+        "audio/lubu-unlock.mp3",
+        document.baseURI
+      ).href;
+
+
+    const lubuUnlockSoundTemplate =
+      new Audio(
+        lubuUnlockSoundUrl
+      );
+
+
+    lubuUnlockSoundTemplate.preload =
+      "auto";
+
+
+    lubuUnlockSoundTemplate.volume =
+      1.0;
+
+
+    lubuUnlockSoundTemplate.addEventListener(
+      "error",
+      () => {
+
+        console.warn(
+          "飛將現世音效載入失敗，請確認檔案存在：",
+          lubuUnlockSoundUrl
+        );
+
+      }
+    );
+
+
+    function playLubuUnlockSound() {
+
+      const sound =
+        lubuUnlockSoundTemplate.cloneNode(
+          true
+        );
+
+
+      sound.volume =
+        1.0;
+
+
+      sound.currentTime =
+        0;
+
+
+      sound.play().catch(
+        error => {
+
+          console.warn(
+            "飛將現世音效播放失敗：",
+            error
+          );
+
+        }
+      );
+
+    }
+
+
+    /* F12 Console 可直接輸入 testLubuUnlockSound() 測試 */
+    window.testLubuUnlockSound =
+      playLubuUnlockSound;
 
 
 
@@ -1898,7 +2558,9 @@ document.addEventListener(
 
 
       clearLubuSearchTimers();
-            isTalking =
+
+
+      isTalking =
         true;
 
 
@@ -2180,6 +2842,8 @@ document.addEventListener(
          貂蟬跑向呂布
       ========================== */
 
+      playDiaochanRunSound();
+
       await moveDiaochan(
         startX,
         targetX,
@@ -2265,6 +2929,9 @@ document.addEventListener(
       );
 
 
+      playLubuDiaochanBondSound();
+
+
       await wait(
         1000
       );
@@ -2295,6 +2962,9 @@ document.addEventListener(
         npcDialogue.classList.add(
           "show"
         );
+
+
+        playNpcDialogueOpenSound();
 
 
         await wait(
@@ -2359,6 +3029,9 @@ document.addEventListener(
         100;
 
 
+      playDiaochanRunSound();
+
+
       await moveDiaochan(
         targetX,
         exitX,
@@ -2414,6 +3087,8 @@ document.addEventListener(
 
 
         if (lubuJustUnlocked) {
+
+          playLubuUnlockSound();
 
           showLubuUnlockNotice();
 
@@ -2613,6 +3288,13 @@ document.addEventListener(
           ) {
 
 
+            if (!isTalking) {
+
+              playNpcDialogueOpenSound();
+
+            }
+
+
             showLubuSearchDialogue(
               true
             );
@@ -2645,6 +3327,8 @@ document.addEventListener(
         ========================== */
 
         if (!isTalking) {
+
+          playNpcDialogueOpenSound();
 
           openDialogue();
 

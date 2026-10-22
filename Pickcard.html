@@ -78,6 +78,17 @@
 
   <!-- 曹操漫畫抽卡前場（獨立樣式） -->
   <link rel="stylesheet" href="css/GachaIntro.css">
+  <!-- 抽卡音效：僅預載，不改動既有抽卡流程 -->
+  <link rel="preload" href="audio/card-flip.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="audio/ssr-reveal.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="audio/gacha-card-drop.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="audio/gacha-single-charge.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="audio/gacha-intro-page.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="audio/gacha-intro-glow.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="audio/gacha-intro-eye.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="audio/gacha-intro-rumble.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="audio/gacha-intro-burst.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="audio/gacha-intro-flash.mp3" as="audio" type="audio/mpeg">
 
 
 
@@ -867,6 +878,253 @@
     let gachaComicTimers = [];
     let gachaComicDone = null;
 
+    // ==========================================
+    // SSR 揭曉音效（只在 SSR 卡真正翻開時播放）
+    // 音檔位置：audio/ssr-reveal.mp3
+    // ==========================================
+    // 卡牌翻牌音效：R / SR / SSR 每張真正翻開時都播放。
+    // SSR 會在同一個翻牌瞬間再疊加下方的古戰場揭曉音效。
+    const CARD_FLIP_SOUND_SRC = 'audio/card-flip.mp3';
+    const cardFlipSoundTemplate = new Audio(CARD_FLIP_SOUND_SRC);
+    cardFlipSoundTemplate.preload = 'auto';
+    cardFlipSoundTemplate.volume = 0.70;
+
+    const SSR_REVEAL_SOUND_SRC = 'audio/ssr-reveal.mp3';
+    const ssrRevealSoundTemplate = new Audio(SSR_REVEAL_SOUND_SRC);
+    ssrRevealSoundTemplate.preload = 'auto';
+    ssrRevealSoundTemplate.volume = 1.00;
+
+    function primeSSRRevealSound() {
+      // 第一次使用者互動時先喚醒／載入音效，降低手機與線上版首次播放延遲。
+      const probe = ssrRevealSoundTemplate.cloneNode(true);
+      probe.muted = true;
+      probe.volume = 0;
+
+      const playPromise = probe.play();
+      if (playPromise && typeof playPromise.then === 'function') {
+        playPromise
+          .then(() => {
+            probe.pause();
+            probe.currentTime = 0;
+          })
+          .catch(() => {});
+      }
+    }
+
+    function primeCardFlipSound() {
+      // 與 SSR 音效相同：第一次使用者互動時先靜音喚醒，降低首次翻牌延遲。
+      const probe = cardFlipSoundTemplate.cloneNode(true);
+      probe.muted = true;
+      probe.volume = 0;
+
+      const playPromise = probe.play();
+      if (playPromise && typeof playPromise.then === 'function') {
+        playPromise
+          .then(() => {
+            probe.pause();
+            probe.currentTime = 0;
+          })
+          .catch(() => {});
+      }
+    }
+
+    document.addEventListener('pointerdown', primeCardFlipSound, { once: true, passive: true });
+    document.addEventListener('pointerdown', primeSSRRevealSound, { once: true, passive: true });
+
+    function playCardFlipSound() {
+      // 十連每 235ms 可能連續翻牌，因此每張卡使用獨立播放器，避免前一張被截斷。
+      const sound = cardFlipSoundTemplate.cloneNode(true);
+      sound.volume = cardFlipSoundTemplate.volume;
+      sound.currentTime = 0;
+      sound.play().catch(() => {});
+    }
+
+    function playSSRRevealSoundForCard(card) {
+      if (!card || !card.classList.contains('rarity-ssr')) return;
+
+      // 每次揭曉都複製一個播放器，避免十連中連續 SSR 互相截斷。
+      const sound = ssrRevealSoundTemplate.cloneNode(true);
+      sound.volume = ssrRevealSoundTemplate.volume;
+      sound.currentTime = 0;
+      sound.play().catch(() => {});
+    }
+
+
+    // ==========================================
+    // 抽卡新增音效（正式 audio 檔；不改動既有翻牌 / SSR 音效函式）
+    // 1) 卡背旋轉落下：單抽 1 次；十抽依 90ms 落牌節奏逐張播放。
+    // 2) 單抽揭曉前：使用古風重戰鼓，壓進 460ms 蓄力段。
+    // ==========================================
+    const GACHA_CARD_DROP_SOUND_SRC = 'audio/gacha-card-drop.mp3';
+    const gachaCardDropSoundTemplate = new Audio(GACHA_CARD_DROP_SOUND_SRC);
+    gachaCardDropSoundTemplate.preload = 'auto';
+    gachaCardDropSoundTemplate.volume = 0.82;
+
+    const GACHA_SINGLE_CHARGE_SOUND_SRC = 'audio/gacha-single-charge.mp3';
+    const gachaSingleChargeSoundTemplate = new Audio(GACHA_SINGLE_CHARGE_SOUND_SRC);
+    gachaSingleChargeSoundTemplate.preload = 'auto';
+    gachaSingleChargeSoundTemplate.volume = 1.0;
+
+    function primeExtraGachaSounds() {
+      [gachaCardDropSoundTemplate, gachaSingleChargeSoundTemplate].forEach(template => {
+        const probe = template.cloneNode(true);
+        probe.muted = true;
+        probe.volume = 0;
+        const playPromise = probe.play();
+        if (playPromise && typeof playPromise.then === 'function') {
+          playPromise
+            .then(() => {
+              probe.pause();
+              probe.currentTime = 0;
+            })
+            .catch(() => {});
+        }
+      });
+    }
+
+    document.addEventListener('pointerdown', primeExtraGachaSounds, { once: true, passive: true });
+
+    function playGachaCardDropSound(isTenPull = false) {
+      const sound = gachaCardDropSoundTemplate.cloneNode(true);
+      sound.volume = isTenPull ? 0.30 : 0.82;
+      sound.currentTime = 0;
+      sound.play().catch(() => {});
+    }
+
+    function playGachaSingleChargeSound() {
+      const sound = gachaSingleChargeSoundTemplate.cloneNode(true);
+      sound.volume = 1.0;
+      sound.playbackRate = 1.76;
+      sound.currentTime = 0;
+      sound.play().catch(() => {});
+    }
+
+    // ==========================================
+    // 漫畫 / 單抽角色特寫過場音效
+    // 需要放在 audio 資料夾：
+    // gacha-intro-rumble.mp3  史書震動
+    // gacha-intro-burst.mp3   金光爆發
+    // gacha-intro-flash.mp3   最後爆閃 / 單抽爆閃
+    // ==========================================
+    const GACHA_INTRO_PAGE_SOUND_SRC = 'audio/gacha-intro-page.mp3';
+    const GACHA_INTRO_GLOW_SOUND_SRC = 'audio/gacha-intro-glow.mp3';
+    const GACHA_INTRO_EYE_SOUND_SRC = 'audio/gacha-intro-eye.mp3';
+    const GACHA_INTRO_RUMBLE_SOUND_SRC = 'audio/gacha-intro-rumble.mp3';
+    const GACHA_INTRO_BURST_SOUND_SRC = 'audio/gacha-intro-burst.mp3';
+    const GACHA_INTRO_FLASH_SOUND_SRC = 'audio/gacha-intro-flash.mp3';
+
+    const gachaIntroPageSoundTemplate = new Audio(GACHA_INTRO_PAGE_SOUND_SRC);
+    const gachaIntroGlowSoundTemplate = new Audio(GACHA_INTRO_GLOW_SOUND_SRC);
+    const gachaIntroEyeSoundTemplate = new Audio(GACHA_INTRO_EYE_SOUND_SRC);
+    const gachaIntroRumbleSoundTemplate = new Audio(GACHA_INTRO_RUMBLE_SOUND_SRC);
+    const gachaIntroBurstSoundTemplate = new Audio(GACHA_INTRO_BURST_SOUND_SRC);
+    const gachaIntroFlashSoundTemplate = new Audio(GACHA_INTRO_FLASH_SOUND_SRC);
+
+    gachaIntroPageSoundTemplate.preload = 'auto';
+    gachaIntroGlowSoundTemplate.preload = 'auto';
+    gachaIntroEyeSoundTemplate.preload = 'auto';
+    gachaIntroRumbleSoundTemplate.preload = 'auto';
+    gachaIntroBurstSoundTemplate.preload = 'auto';
+    gachaIntroFlashSoundTemplate.preload = 'auto';
+
+    gachaIntroPageSoundTemplate.volume = 0.78;
+    gachaIntroGlowSoundTemplate.volume = 0.86;
+    gachaIntroEyeSoundTemplate.volume = 1.00;
+    gachaIntroRumbleSoundTemplate.volume = 1.00;
+    gachaIntroBurstSoundTemplate.volume = 1.00;
+    gachaIntroFlashSoundTemplate.volume = 1.00;
+
+    const activeGachaIntroSounds = new Set();
+
+    function primeGachaIntroSounds() {
+      [
+        gachaIntroPageSoundTemplate,
+        gachaIntroGlowSoundTemplate,
+        gachaIntroEyeSoundTemplate,
+        gachaIntroRumbleSoundTemplate,
+        gachaIntroBurstSoundTemplate,
+        gachaIntroFlashSoundTemplate
+      ].forEach(template => {
+        const probe = template.cloneNode(true);
+        probe.muted = true;
+        probe.volume = 0;
+        const playPromise = probe.play();
+        if (playPromise && typeof playPromise.then === 'function') {
+          playPromise
+            .then(() => {
+              probe.pause();
+              probe.currentTime = 0;
+            })
+            .catch(() => {});
+        }
+      });
+    }
+
+    document.addEventListener('pointerdown', primeGachaIntroSounds, { once: true, passive: true });
+
+    function playGachaIntroSound(template, volume = null) {
+      if (!template) return;
+
+      const sound = template.cloneNode(true);
+      sound.volume = volume === null ? template.volume : volume;
+      sound.currentTime = 0;
+
+      activeGachaIntroSounds.add(sound);
+
+      const cleanup = () => {
+        activeGachaIntroSounds.delete(sound);
+        sound.removeEventListener('ended', cleanup);
+        sound.removeEventListener('error', cleanup);
+      };
+
+      sound.addEventListener('ended', cleanup);
+      sound.addEventListener('error', cleanup);
+      sound.play().catch(cleanup);
+    }
+
+    function stopGachaIntroSounds() {
+      activeGachaIntroSounds.forEach(sound => {
+        try {
+          sound.pause();
+          sound.currentTime = 0;
+        } catch (_) {}
+      });
+      activeGachaIntroSounds.clear();
+    }
+
+    function playGachaIntroPageSound() {
+      playGachaIntroSound(gachaIntroPageSoundTemplate);
+    }
+
+    function playGachaIntroGlowSound() {
+      playGachaIntroSound(gachaIntroGlowSoundTemplate);
+    }
+
+    function playGachaIntroEyeSound() {
+      playGachaIntroSound(gachaIntroEyeSoundTemplate);
+    }
+
+    function playGachaIntroRumbleSound() {
+      playGachaIntroSound(gachaIntroRumbleSoundTemplate);
+    }
+
+    function playGachaIntroBurstSound() {
+      playGachaIntroSound(gachaIntroBurstSoundTemplate);
+    }
+
+    function playGachaIntroFlashSound() {
+      playGachaIntroSound(gachaIntroFlashSoundTemplate);
+    }
+
+    window.testGachaCardDropSound = () => playGachaCardDropSound(false);
+    window.testGachaSingleChargeSound = playGachaSingleChargeSound;
+    window.testGachaIntroPageSound = playGachaIntroPageSound;
+    window.testGachaIntroGlowSound = playGachaIntroGlowSound;
+    window.testGachaIntroEyeSound = playGachaIntroEyeSound;
+    window.testGachaIntroRumbleSound = playGachaIntroRumbleSound;
+    window.testGachaIntroBurstSound = playGachaIntroBurstSound;
+    window.testGachaIntroFlashSound = playGachaIntroFlashSound;
+
     function scheduleGachaComic(ms, callback) {
       gachaComicTimers.push(setTimeout(callback, ms));
     }
@@ -917,14 +1175,31 @@
         scenes.forEach((scene, i) => scene.classList.toggle('is-current', i === index));
       }
       [160, 1330, 2480, 3750, 5000].forEach((ms, i) => scheduleGachaComic(ms, () => showScene(i)));
-      scheduleGachaComic(2700, () => scenes[2].classList.add('is-trembling'));
+
+      // 第 1 格：曹操閱史，畫面出現後補一個很輕的翻書／木桌細響。
+      scheduleGachaComic(220, () => playGachaIntroPageSound());
+
+      // 第 2 格：史書開始泛金光，以低沉能量聚集聲承接到第 3 格震動。
+      scheduleGachaComic(1330, () => playGachaIntroGlowSound());
+
+      scheduleGachaComic(2700, () => {
+        scenes[2].classList.add('is-trembling');
+        playGachaIntroRumbleSound();
+      });
       scheduleGachaComic(3750, () => scenes[2].classList.remove('is-trembling'));
       scheduleGachaComic(4020, () => {
         scenes[3].classList.add('is-ignited');
         if (shock) shock.classList.add('is-bursting');
+        playGachaIntroBurstSound();
       });
-      scheduleGachaComic(5450, () => scenes[4].classList.add('is-eye-glowing'));
-      scheduleGachaComic(6070, () => flash.classList.add('is-firing'));
+      scheduleGachaComic(5450, () => {
+        scenes[4].classList.add('is-eye-glowing');
+        playGachaIntroEyeSound();
+      });
+      scheduleGachaComic(6070, () => {
+        flash.classList.add('is-firing');
+        playGachaIntroFlashSound();
+      });
       scheduleGachaComic(6490, finishGachaComicIntro);
     }
 
@@ -1270,9 +1545,13 @@
         overlay.setAttribute('aria-hidden', 'false');
         scene.classList.add('is-current');
 
-        scheduleGachaComic(teaser.eyeGlowDelay, () => scene.classList.add('is-eye-glowing'));
+        scheduleGachaComic(teaser.eyeGlowDelay, () => {
+          scene.classList.add('is-eye-glowing');
+          playGachaIntroEyeSound();
+        });
         scheduleGachaComic(teaser.flashDelay, () => {
           if (flash) flash.classList.add('is-firing');
+          playGachaIntroFlashSound();
         });
         scheduleGachaComic(teaser.finishDelay, finishGachaComicIntro);
       });
@@ -1280,7 +1559,12 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       const skip = document.getElementById('gachaIntroSkip');
-      if (skip) skip.addEventListener('click', finishGachaComicIntro);
+      if (skip) {
+        skip.addEventListener('click', () => {
+          stopGachaIntroSounds();
+          finishGachaComicIntro();
+        });
+      }
     });
 
     // 測試用：在招賢台按 Shift+P 預覽，不扣招賢令、不影響圖鑑。
@@ -1297,7 +1581,10 @@
           playGachaComicIntro(() => showGachaResults(sample, 10));
         }
       }
-      if (event.key === 'Escape' && gachaComicBusy) finishGachaComicIntro();
+      if (event.key === 'Escape' && gachaComicBusy) {
+        stopGachaIntroSounds();
+        finishGachaComicIntro();
+      }
     });
 
 
@@ -3216,12 +3503,15 @@
       const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const spacing = reduced ? 0 : 90;
       const duration = reduced ? 150 : 850;
+      const dropSoundTimers = [];
+      const isTenPull = cardItems.length > 1;
       let finished = false;
       let timeoutId = null;
       function dispose() {
         if (finished) return;
         finished = true;
         if (timeoutId !== null) clearTimeout(timeoutId);
+        dropSoundTimers.forEach(clearTimeout);
         modal.classList.remove('v5-ten-pull-active');
         cardItems.forEach(card => card.classList.remove('v5-card-dropping'));
         if (window.stopV5TenPull === dispose) window.stopV5TenPull = null;
@@ -3231,6 +3521,13 @@
       cardItems.forEach((card, i) => {
         card.style.setProperty('--v5-order', i);
         card.classList.add('v5-card-dropping');
+
+        // 與原本落牌的 90ms 間隔同步；只加聲音，不改動畫。
+        if (!reduced || i === 0) {
+          dropSoundTimers.push(
+            setTimeout(() => playGachaCardDropSound(isTenPull), i * spacing)
+          );
+        }
       });
       timeoutId = setTimeout(() => {
         dispose();
@@ -3674,6 +3971,8 @@
           laterGacha(firstFlipAt + index * flipSpacing, () => {
             card.classList.remove('shaking');
             card.classList.add('flipped');
+            playCardFlipSound();
+            playSSRRevealSoundForCard(card);
 
             // 十連抽蓄力後的邊緣光會陪著這張卡完成整段 3D 翻牌，
             // 不會在翻牌剛開始時突然消失。
@@ -3705,11 +4004,14 @@
           card.classList.remove('shaking');
           void card.offsetWidth;
           card.classList.add('shaking');
+          playGachaSingleChargeSound();
         });
 
         laterGacha(flipAt, () => {
           card.classList.remove('shaking');
           card.classList.add('flipped');
+          playCardFlipSound();
+          playSSRRevealSoundForCard(card);
           finishResultAfterLastFlip();
         });
       }
@@ -3743,6 +4045,9 @@
         // 同一個 frame 讓十張一起開始蓄力。
         if (cardItems[0]) void cardItems[0].offsetWidth;
         cardItems.forEach(card => card.classList.add('shaking'));
+
+        // 十連抽整組只播放一次蓄力音效，不會十張各自重疊播放。
+        playGachaSingleChargeSound();
 
         laterGacha(groupChargeDuration, () => {
           cardItems.forEach(card => {

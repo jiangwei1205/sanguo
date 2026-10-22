@@ -635,6 +635,58 @@
     let answered = false;
 
 
+    /* ======================================
+       QUIZ ANSWER SOUND
+       只在玩家第一次作答時播放
+    ======================================= */
+
+    const quizCorrectSound =
+      new Audio("audio/quiz-correct.mp3");
+
+    const quizWrongSound =
+      new Audio("audio/quiz-wrong.mp3");
+
+    const quizTokenRewardSound =
+      new Audio("audio/quiz-token-reward.mp3");
+
+    quizCorrectSound.preload = "auto";
+    quizWrongSound.preload = "auto";
+    quizTokenRewardSound.preload = "auto";
+
+    quizCorrectSound.volume = 1.0;
+    quizWrongSound.volume = 1.0;
+    quizTokenRewardSound.volume = 1.0;
+
+
+    function playQuizAnswerSound(
+      type
+    ) {
+
+      const template =
+        type === "correct"
+          ? quizCorrectSound
+          : quizWrongSound;
+
+
+      const sound =
+        template.cloneNode(true);
+
+
+      sound.volume =
+        template.volume;
+
+
+      sound.currentTime =
+        0;
+
+
+      sound.play().catch(
+        () => {}
+      );
+
+    }
+
+
 
     /* ======================================
        LOAD QUESTION
@@ -854,6 +906,11 @@
         score++;
 
 
+        playQuizAnswerSound(
+          "correct"
+        );
+
+
         document
           .getElementById(
             "feedbackTitle"
@@ -888,6 +945,11 @@
 
 
         wrongCount++;
+
+
+        playQuizAnswerSound(
+          "wrong"
+        );
 
 
         updateHeartsUI();
@@ -1088,6 +1150,33 @@
 
       const earnedTokens =
         score;
+
+
+      /* 有獲得招賢令時才播放。
+         稍微延遲，避免被剛剛按下結算按鈕的 UI click 蓋住。 */
+      if (earnedTokens > 0) {
+
+        setTimeout(
+          () => {
+
+            const rewardSound =
+              quizTokenRewardSound.cloneNode(true);
+
+            rewardSound.volume =
+              1.0;
+
+            rewardSound.currentTime =
+              0;
+
+            rewardSound.play().catch(
+              () => {}
+            );
+
+          },
+          220
+        );
+
+      }
 
 
       const updatedTokens =
