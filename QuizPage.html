@@ -46,6 +46,8 @@
     href="css/QuizPage.css"
   >
 
+  <link rel="preload" href="audio/quiz-bgm.mp3" as="audio" type="audio/mpeg">
+
 </head>
 
 
@@ -658,6 +660,400 @@
     quizTokenRewardSound.volume = 1.0;
 
 
+    /* ======================================
+       QUIZ MODE BGM
+       軍師推演風；不受全站 BGM 開關影響
+    ======================================= */
+
+    const quizBgm =
+      new Audio("audio/quiz-bgm.mp3");
+
+    quizBgm.preload =
+      "auto";
+
+    quizBgm.loop =
+      true;
+
+    quizBgm.volume =
+      0.29;
+
+    let quizBgmStarted =
+      false;
+
+    let quizBgmFadeTimer =
+      null;
+
+    let quizBgmEndedForResult =
+      false;
+
+    let quizBgmPausedByLubuEvent =
+      false;
+
+
+    function tryStartQuizBgm() {
+
+      if (
+        quizBgmStarted
+        ||
+        quizBgmEndedForResult
+      ) {
+        return;
+      }
+
+      const playPromise =
+        quizBgm.play();
+
+      if (
+        playPromise
+        &&
+        typeof playPromise.then
+        ===
+        "function"
+      ) {
+
+        playPromise
+          .then(
+            () => {
+
+              quizBgmStarted =
+                true;
+
+            }
+          )
+          .catch(
+            () => {
+
+              quizBgmStarted =
+                false;
+
+            }
+          );
+
+      }
+
+    }
+
+
+    function stopQuizBgmForResult() {
+
+      if (quizBgmEndedForResult) {
+        return;
+      }
+
+      quizBgmEndedForResult =
+        true;
+
+      if (quizBgmFadeTimer) {
+        clearInterval(quizBgmFadeTimer);
+        quizBgmFadeTimer = null;
+      }
+
+      const startVolume =
+        quizBgm.volume;
+
+      const startedAt =
+        performance.now();
+
+      const fadeMs =
+        480;
+
+      quizBgmFadeTimer =
+        setInterval(
+          () => {
+
+            const progress =
+              Math.min(
+                1,
+                (
+                  performance.now()
+                  -
+                  startedAt
+                )
+                /
+                fadeMs
+              );
+
+            quizBgm.volume =
+              startVolume
+              *
+              (
+                1
+                -
+                progress
+              );
+
+            if (progress >= 1) {
+
+              clearInterval(
+                quizBgmFadeTimer
+              );
+
+              quizBgmFadeTimer =
+                null;
+
+              quizBgm.pause();
+
+              quizBgm.currentTime =
+                0;
+
+              quizBgmStarted =
+                false;
+
+              quizBgm.volume =
+                0.29;
+
+              setTimeout(
+                () => {
+
+                  window.dispatchEvent(
+                    new CustomEvent(
+                      "sanguo:quiz-bgm-end"
+                    )
+                  );
+
+                },
+                360
+              );
+
+            }
+
+          },
+          16
+        );
+
+    }
+
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+
+        window.dispatchEvent(
+          new CustomEvent(
+            "sanguo:quiz-bgm-start"
+          )
+        );
+
+        tryStartQuizBgm();
+
+      },
+      {
+        once: true
+      }
+    );
+
+
+    document.addEventListener(
+      "pointerdown",
+      tryStartQuizBgm,
+      {
+        passive: true
+      }
+    );
+
+
+    document.addEventListener(
+      "keydown",
+      tryStartQuizBgm
+    );
+
+
+
+
+    /*
+      QuizPage 也有右下角 NPC。
+      若呂布 × 貂蟬彩蛋在答題途中觸發，
+      先暫停問答 BGM，彩蛋結束後再從原位置接回，
+      避免兩首專屬音樂同時播放。
+    */
+    window.addEventListener(
+      "sanguo:lubu-event-bgm-start",
+      () => {
+
+        if (
+          quizBgmEndedForResult
+          ||
+          quizBgm.paused
+        ) {
+          return;
+        }
+
+        quizBgmPausedByLubuEvent =
+          true;
+
+        if (quizBgmFadeTimer) {
+          clearInterval(
+            quizBgmFadeTimer
+          );
+          quizBgmFadeTimer =
+            null;
+        }
+
+        const startVolume =
+          quizBgm.volume;
+
+        const startedAt =
+          performance.now();
+
+        quizBgmFadeTimer =
+          setInterval(
+            () => {
+
+              const progress =
+                Math.min(
+                  1,
+                  (
+                    performance.now()
+                    -
+                    startedAt
+                  )
+                  /
+                  180
+                );
+
+              quizBgm.volume =
+                startVolume
+                *
+                (
+                  1
+                  -
+                  progress
+                );
+
+              if (progress >= 1) {
+
+                clearInterval(
+                  quizBgmFadeTimer
+                );
+
+                quizBgmFadeTimer =
+                  null;
+
+                quizBgm.pause();
+
+                quizBgmStarted =
+                  false;
+
+                quizBgm.volume =
+                  0.29;
+
+              }
+
+            },
+            16
+          );
+
+      }
+    );
+
+
+    window.addEventListener(
+      "sanguo:lubu-event-bgm-end",
+      () => {
+
+        if (
+          !quizBgmPausedByLubuEvent
+        ) {
+          return;
+        }
+
+        quizBgmPausedByLubuEvent =
+          false;
+
+        if (
+          quizBgmEndedForResult
+        ) {
+          return;
+        }
+
+        quizBgm.volume =
+          0;
+
+        const playPromise =
+          quizBgm.play();
+
+        if (
+          playPromise
+          &&
+          typeof playPromise.then
+          ===
+          "function"
+        ) {
+
+          playPromise
+            .then(
+              () => {
+
+                quizBgmStarted =
+                  true;
+
+                const startedAt =
+                  performance.now();
+
+                if (quizBgmFadeTimer) {
+                  clearInterval(
+                    quizBgmFadeTimer
+                  );
+                }
+
+                quizBgmFadeTimer =
+                  setInterval(
+                    () => {
+
+                      const progress =
+                        Math.min(
+                          1,
+                          (
+                            performance.now()
+                            -
+                            startedAt
+                          )
+                          /
+                          220
+                        );
+
+                      quizBgm.volume =
+                        0.29
+                        *
+                        progress;
+
+                      if (
+                        progress >= 1
+                      ) {
+
+                        clearInterval(
+                          quizBgmFadeTimer
+                        );
+
+                        quizBgmFadeTimer =
+                          null;
+
+                      }
+
+                    },
+                    16
+                  );
+
+              }
+            )
+            .catch(
+              () => {
+
+                quizBgm.volume =
+                  0.29;
+
+                quizBgmStarted =
+                  false;
+
+              }
+            );
+
+        }
+
+      }
+    );
+
+
     function playQuizAnswerSound(
       type
     ) {
@@ -1104,7 +1500,11 @@
       titleMessage
     ) {
 
-      let tokensHTML =
+      
+      // 結算開始：問答 BGM 淡出，稍後恢復全站 BGM。
+      stopQuizBgmForResult();
+
+let tokensHTML =
         "";
 
 

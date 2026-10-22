@@ -12,6 +12,9 @@
   <link rel="stylesheet" href="css/HomePage.css">
   <!-- 引入人物圖鑑專屬 CSS -->
   <link rel="stylesheet" href="css/Card.css">
+  <link rel="preload" href="audio/codex-ssr-bgm.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="audio/codex-sr-bgm.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="audio/codex-r-bgm.mp3" as="audio" type="audio/mpeg">
   <link rel="icon" type="image/png" sizes="100x100" href="images/logo1.png">
 </head>
 <body>
@@ -761,6 +764,483 @@
         // F12 Console 可輸入 testCodexOpenSound() 直接測試
         window.testCodexOpenSound =
           playCodexOpenSound;
+
+
+        // ==========================================
+        // 人物圖鑑：稀有度專屬展示 BGM
+        // SSR：audio/codex-ssr-bgm.mp3
+        // SR ：audio/codex-sr-bgm.mp3
+        // R  ：audio/codex-r-bgm.mp3（女角柔雅展示曲）
+        // ==========================================
+        const codexSsrBgm =
+          new Audio(
+            'audio/codex-ssr-bgm.mp3'
+          );
+
+        const codexSrBgm =
+          new Audio(
+            'audio/codex-sr-bgm.mp3'
+          );
+
+        const codexRBgm =
+          new Audio(
+            'audio/codex-r-bgm.mp3'
+          );
+
+        const codexBgmConfig = {
+          ssr: {
+            audio: codexSsrBgm,
+            volume: 0.34
+          },
+          sr: {
+            audio: codexSrBgm,
+            volume: 0.31
+          },
+          r: {
+            audio: codexRBgm,
+            volume: 0.29
+          }
+        };
+
+        Object.values(
+          codexBgmConfig
+        ).forEach(
+          item => {
+            item.audio.preload = 'auto';
+            item.audio.loop = true;
+            item.audio.volume = item.volume;
+          }
+        );
+
+        let activeCodexBgmKind =
+          null;
+
+        let codexSiteBgmSuppressed =
+          false;
+
+        let codexBgmTransitionId =
+          0;
+
+        const codexBgmFadeTimers =
+          new Map();
+
+
+        function clearCodexBgmFade(
+          audio
+        ) {
+
+          const timer =
+            codexBgmFadeTimers.get(
+              audio
+            );
+
+          if (timer) {
+            clearInterval(timer);
+            codexBgmFadeTimers.delete(
+              audio
+            );
+          }
+
+        }
+
+
+        function fadeCodexAudio(
+          audio,
+          targetVolume,
+          duration,
+          onComplete = null
+        ) {
+
+          clearCodexBgmFade(
+            audio
+          );
+
+          const startVolume =
+            audio.volume;
+
+          const startedAt =
+            performance.now();
+
+          const timer =
+            setInterval(
+              () => {
+
+                const progress =
+                  Math.min(
+                    1,
+                    (
+                      performance.now()
+                      -
+                      startedAt
+                    )
+                    /
+                    Math.max(
+                      1,
+                      duration
+                    )
+                  );
+
+                audio.volume =
+                  startVolume
+                  +
+                  (
+                    targetVolume
+                    -
+                    startVolume
+                  )
+                  *
+                  progress;
+
+                if (progress >= 1) {
+
+                  clearInterval(
+                    timer
+                  );
+
+                  codexBgmFadeTimers.delete(
+                    audio
+                  );
+
+                  if (
+                    typeof onComplete
+                    ===
+                    'function'
+                  ) {
+                    onComplete();
+                  }
+
+                }
+
+              },
+              16
+            );
+
+          codexBgmFadeTimers.set(
+            audio,
+            timer
+          );
+
+        }
+
+
+        function suppressSiteBgmForCodex() {
+
+          if (
+            codexSiteBgmSuppressed
+          ) {
+            return;
+          }
+
+          codexSiteBgmSuppressed =
+            true;
+
+          window.dispatchEvent(
+            new CustomEvent(
+              'sanguo:codex-bgm-start'
+            )
+          );
+
+        }
+
+
+        function releaseSiteBgmFromCodex() {
+
+          if (
+            !codexSiteBgmSuppressed
+          ) {
+            return;
+          }
+
+          codexSiteBgmSuppressed =
+            false;
+
+          window.dispatchEvent(
+            new CustomEvent(
+              'sanguo:codex-bgm-end'
+            )
+          );
+
+        }
+
+
+        function startCodexRarityBgm(
+          kind
+        ) {
+
+          const target =
+            codexBgmConfig[kind];
+
+          if (!target) {
+            return;
+          }
+
+          suppressSiteBgmForCodex();
+
+          /*
+            同稀有度切換武將時不重播，
+            讓展示音樂保持連續。
+          */
+          if (
+            activeCodexBgmKind
+            ===
+            kind
+          ) {
+
+            if (
+              target.audio.paused
+            ) {
+
+              target.audio.volume =
+                target.volume;
+
+              target.audio
+                .play()
+                .catch(
+                  () => {}
+                );
+
+            }
+
+            return;
+          }
+
+
+          const transitionId =
+            ++codexBgmTransitionId;
+
+          const oldKind =
+            activeCodexBgmKind;
+
+          const oldItem =
+            oldKind
+            ?
+            codexBgmConfig[
+              oldKind
+            ]
+            :
+            null;
+
+          activeCodexBgmKind =
+            kind;
+
+
+          clearCodexBgmFade(
+            target.audio
+          );
+
+          target.audio.pause();
+          target.audio.currentTime = 0;
+          target.audio.volume = 0;
+
+          target.audio
+            .play()
+            .then(
+              () => {
+
+                fadeCodexAudio(
+                  target.audio,
+                  target.volume,
+                  260
+                );
+
+              }
+            )
+            .catch(
+              () => {
+
+                target.audio.volume =
+                  target.volume;
+
+              }
+            );
+
+
+          if (
+            oldItem
+            &&
+            oldItem.audio
+            !==
+            target.audio
+          ) {
+
+            fadeCodexAudio(
+              oldItem.audio,
+              0,
+              240,
+              () => {
+
+                if (
+                  transitionId
+                  <=
+                  codexBgmTransitionId
+                ) {
+
+                  oldItem.audio.pause();
+                  oldItem.audio.currentTime = 0;
+                  oldItem.audio.volume =
+                    oldItem.volume;
+
+                }
+
+              }
+            );
+
+          }
+
+        }
+
+
+        function stopAllCodexBgm(
+          fadeMs = 280
+        ) {
+
+          if (
+            !activeCodexBgmKind
+          ) {
+
+            releaseSiteBgmFromCodex();
+            return;
+
+          }
+
+          const stoppingKind =
+            activeCodexBgmKind;
+
+          const stoppingItem =
+            codexBgmConfig[
+              stoppingKind
+            ];
+
+          activeCodexBgmKind =
+            null;
+
+          ++codexBgmTransitionId;
+
+          if (
+            !stoppingItem
+          ) {
+
+            releaseSiteBgmFromCodex();
+            return;
+
+          }
+
+          fadeCodexAudio(
+            stoppingItem.audio,
+            0,
+            fadeMs,
+            () => {
+
+              stoppingItem.audio.pause();
+              stoppingItem.audio.currentTime = 0;
+              stoppingItem.audio.volume =
+                stoppingItem.volume;
+
+              /*
+                若淡出期間沒有切到另一個
+                SSR / SR，才恢復全站 BGM。
+              */
+              if (
+                !activeCodexBgmKind
+              ) {
+
+                releaseSiteBgmFromCodex();
+
+              }
+
+            }
+          );
+
+        }
+
+
+        function syncCodexModalBgm(hero) {
+
+          const rarity =
+            (
+              hero
+              &&
+              hero.rarity
+              ?
+              hero.rarity
+              :
+              ''
+            ).toLowerCase();
+
+          if (
+            rarity === 'ssr'
+            ||
+            rarity === 'sr'
+            ||
+            rarity === 'r'
+          ) {
+
+            startCodexRarityBgm(
+              rarity
+            );
+
+          }
+
+          else {
+
+            stopAllCodexBgm(
+              220
+            );
+
+          }
+
+        }
+
+
+        window.testCodexSsrBgm =
+          () => {
+
+            startCodexRarityBgm(
+              'ssr'
+            );
+
+            setTimeout(
+              () => {
+                stopAllCodexBgm(280);
+              },
+              5000
+            );
+
+          };
+
+
+        window.testCodexSrBgm =
+          () => {
+
+            startCodexRarityBgm(
+              'sr'
+            );
+
+            setTimeout(
+              () => {
+                stopAllCodexBgm(280);
+              },
+              5000
+            );
+
+          };
+
+
+        window.testCodexRBgm =
+          () => {
+
+            startCodexRarityBgm(
+              'r'
+            );
+
+            setTimeout(
+              () => {
+                stopAllCodexBgm(280);
+              },
+              5000
+            );
+
+          };
 
 
         // ==========================================
@@ -2544,6 +3024,10 @@
             playCodexOpenSound();
           }
 
+          syncCodexModalBgm(
+            hero
+          );
+
           modalImg.src = hero.image;
           modalImg.alt = `${hero.name} 卡牌`;
           modalName.textContent = hero.name;
@@ -2619,6 +3103,11 @@
         // 關閉 Modal
         // ==========================================
         function closeHeroModal() {
+
+          stopAllCodexBgm(
+            280
+          );
+
           modal.classList.remove(
             "active"
           );

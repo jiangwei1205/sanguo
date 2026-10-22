@@ -89,6 +89,7 @@
   <link rel="preload" href="audio/gacha-intro-rumble.mp3" as="audio" type="audio/mpeg">
   <link rel="preload" href="audio/gacha-intro-burst.mp3" as="audio" type="audio/mpeg">
   <link rel="preload" href="audio/gacha-intro-flash.mp3" as="audio" type="audio/mpeg">
+  <link rel="preload" href="audio/gacha-ten-bgm.mp3" as="audio" type="audio/mpeg">
 
 
 
@@ -1116,6 +1117,156 @@
       playGachaIntroSound(gachaIntroFlashSoundTemplate);
     }
 
+
+    // ==========================================
+    // 十連抽專屬 BGM
+    // - 只在十抽使用；單抽不播放
+    // - 開始時通知 main.js 暫停全站 BGM
+    // - 十張揭曉完成後淡出，再通知 main.js 接回全站 BGM
+    // ==========================================
+    const GACHA_TEN_BGM_SRC = 'audio/gacha-ten-bgm.mp3';
+    const gachaTenBgmTemplate = new Audio(GACHA_TEN_BGM_SRC);
+    gachaTenBgmTemplate.preload = 'auto';
+    gachaTenBgmTemplate.volume = 0.58;
+
+    let activeTenPullBgm = null;
+    let tenPullBgmFadeTimer = null;
+
+    function primeTenPullBgm() {
+      const probe = gachaTenBgmTemplate.cloneNode(true);
+      probe.muted = true;
+      probe.volume = 0;
+
+      const playPromise = probe.play();
+      if (playPromise && typeof playPromise.then === 'function') {
+        playPromise
+          .then(() => {
+            probe.pause();
+            probe.currentTime = 0;
+          })
+          .catch(() => {});
+      }
+    }
+
+    document.addEventListener(
+      'pointerdown',
+      primeTenPullBgm,
+      { once: true, passive: true }
+    );
+
+    function startTenPullBgm() {
+      // 十抽專屬 BGM 屬於抽卡演出音樂，
+      // 即使玩家關閉全站背景 BGM，也仍然照常播放。
+      if (tenPullBgmFadeTimer) {
+        clearInterval(tenPullBgmFadeTimer);
+        tenPullBgmFadeTimer = null;
+      }
+
+      if (activeTenPullBgm) {
+        try {
+          activeTenPullBgm.pause();
+          activeTenPullBgm.currentTime = 0;
+        } catch (_) {}
+      }
+
+      window.dispatchEvent(
+        new CustomEvent('sanguo:gacha-bgm-start')
+      );
+
+      const music = gachaTenBgmTemplate.cloneNode(true);
+      activeTenPullBgm = music;
+      music.currentTime = 0;
+      music.loop = false;
+      music.volume = 0;
+
+      const targetVolume = 0.58;
+      const startedAt = performance.now();
+
+      const playPromise = music.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          if (activeTenPullBgm === music) activeTenPullBgm = null;
+          window.dispatchEvent(
+            new CustomEvent('sanguo:gacha-bgm-end')
+          );
+        });
+      }
+
+      tenPullBgmFadeTimer = setInterval(() => {
+        const progress = Math.min(
+          1,
+          (performance.now() - startedAt) / 260
+        );
+
+        music.volume = targetVolume * progress;
+
+        if (progress >= 1) {
+          clearInterval(tenPullBgmFadeTimer);
+          tenPullBgmFadeTimer = null;
+        }
+      }, 16);
+    }
+
+    function stopTenPullBgm({
+      fadeMs = 520,
+      resumeSiteBgm = true
+    } = {}) {
+      const music = activeTenPullBgm;
+
+      if (tenPullBgmFadeTimer) {
+        clearInterval(tenPullBgmFadeTimer);
+        tenPullBgmFadeTimer = null;
+      }
+
+      const finish = () => {
+        if (music) {
+          try {
+            music.pause();
+            music.currentTime = 0;
+          } catch (_) {}
+        }
+
+        if (activeTenPullBgm === music) {
+          activeTenPullBgm = null;
+        }
+
+        if (resumeSiteBgm) {
+          window.dispatchEvent(
+            new CustomEvent('sanguo:gacha-bgm-end')
+          );
+        }
+      };
+
+      if (!music || music.paused || fadeMs <= 0) {
+        finish();
+        return;
+      }
+
+      const startVolume = music.volume;
+      const startedAt = performance.now();
+
+      tenPullBgmFadeTimer = setInterval(() => {
+        const progress = Math.min(
+          1,
+          (performance.now() - startedAt) / fadeMs
+        );
+
+        music.volume =
+          startVolume * (1 - progress);
+
+        if (progress >= 1) {
+          clearInterval(tenPullBgmFadeTimer);
+          tenPullBgmFadeTimer = null;
+          finish();
+        }
+      }, 16);
+    }
+
+    window.testTenPullBgm = () => {
+      startTenPullBgm();
+      setTimeout(() => stopTenPullBgm(), 6000);
+    };
+
     window.testGachaCardDropSound = () => playGachaCardDropSound(false);
     window.testGachaSingleChargeSound = playGachaSingleChargeSound;
     window.testGachaIntroPageSound = playGachaIntroPageSound;
@@ -1140,7 +1291,12 @@
       overlay.classList.remove('is-playing');
       overlay.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('gacha-intro-body-lock');
-      if (typeof callback === 'function') callback();
+
+      if (typeof callback === 'function') {
+        callback();
+      } else if (activeTenPullBgm) {
+        stopTenPullBgm();
+      }
     }
 
     function playGachaComicIntro(onComplete = null) {
@@ -1169,6 +1325,9 @@
       document.body.classList.add('gacha-intro-body-lock');
       overlay.classList.add('is-playing');
       overlay.setAttribute('aria-hidden','false');
+
+      // 十抽漫畫一開始就切換到專屬古風戰爭 BGM。
+      startTenPullBgm();
 
       // v5 真實時間軸 + v6 分格定位；換格時前一格就消失
       function showScene(index) {
@@ -3961,6 +4120,16 @@
             quote.classList.remove('gacha-quote-hidden');
             quote.classList.add('gacha-quote-fadein');
           }
+
+          // 十連最後一張完成翻面後，專屬 BGM 才淡出；
+          // 單抽沒有啟動 ten-pull BGM，因此完全不受影響。
+          if (count === 10 && activeTenPullBgm) {
+            stopTenPullBgm({
+              fadeMs: 520,
+              resumeSiteBgm: true
+            });
+          }
+
           btnGroup.style.opacity = '1';
           btnGroup.style.pointerEvents = 'auto';
         });
@@ -4089,6 +4258,14 @@
 
 
     function closeGachaModal() {
+      // 保險：若玩家在特殊情況下關閉結果，十抽專屬 BGM 也要收乾淨。
+      if (activeTenPullBgm) {
+        stopTenPullBgm({
+          fadeMs: 220,
+          resumeSiteBgm: true
+        });
+      }
+
       // 先停止所有尚未完成的抽卡計時器，避免關閉後仍有翻牌／亮光 callback 執行。
       if (window.gachaStageTimers) {
         window.gachaStageTimers.forEach(clearTimeout);

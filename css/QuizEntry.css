@@ -918,9 +918,7 @@
     linear-gradient(
       rgba(10,9,8,.82),
       rgba(10,9,8,.92)
-    ),
-
-    url("../images/hero-bg.jpg");
+    );
 
   background-size:
     cover;

@@ -65,11 +65,11 @@
       return null;
     }
 
-    /* NPC 本體與人物圖鑑 Q 版小人物使用專屬音效，
-       不再疊加全站 ui-click */
+    /* NPC 本體、人物圖鑑 Q 版小人物、BGM 開關都有自己的聲音／功能，
+       不再疊加全站 ui-click。 */
     if (
       control.matches(
-        ".npc-character, .hero-sprite"
+        ".npc-character, .hero-sprite, .sanguo-bgm-toggle"
       )
     ) {
       return null;
@@ -177,6 +177,24 @@
   let bgmStarted =
     false;
 
+  let bgmSuppressedByGacha =
+    false;
+
+  let bgmShouldResumeAfterGacha =
+    false;
+
+  let bgmSuppressedByQuiz =
+    false;
+
+  let bgmSuppressedByLubuEvent =
+    false;
+
+  let bgmSuppressedByCodex =
+    false;
+
+  let bgmFadeTimer =
+    null;
+
 
   const savedTime =
     parseFloat(
@@ -272,7 +290,17 @@
 
   function tryPlayBgm() {
 
-    if (!bgmEnabled) {
+    if (
+      !bgmEnabled
+      ||
+      bgmSuppressedByGacha
+      ||
+      bgmSuppressedByQuiz
+      ||
+      bgmSuppressedByLubuEvent
+      ||
+      bgmSuppressedByCodex
+    ) {
       return;
     }
 
@@ -304,6 +332,512 @@
     }
 
   }
+
+
+
+  function fadeSiteBgmTo(
+    targetVolume,
+    duration = 320,
+    onComplete = null
+  ) {
+
+    if (bgmFadeTimer) {
+      clearInterval(bgmFadeTimer);
+      bgmFadeTimer = null;
+    }
+
+    const startVolume =
+      bgm.volume;
+
+    const startedAt =
+      performance.now();
+
+    bgmFadeTimer =
+      setInterval(
+        () => {
+
+          const progress =
+            Math.min(
+              1,
+              (
+                performance.now()
+                -
+                startedAt
+              )
+              /
+              Math.max(1, duration)
+            );
+
+          bgm.volume =
+            startVolume
+            +
+            (
+              targetVolume
+              -
+              startVolume
+            )
+            *
+            progress;
+
+          if (progress >= 1) {
+
+            clearInterval(
+              bgmFadeTimer
+            );
+
+            bgmFadeTimer =
+              null;
+
+            if (
+              typeof onComplete
+              ===
+              "function"
+            ) {
+
+              onComplete();
+
+            }
+
+          }
+
+        },
+        16
+      );
+
+  }
+
+
+  window.addEventListener(
+    "sanguo:gacha-bgm-start",
+    () => {
+
+      if (
+        bgmSuppressedByGacha
+      ) {
+        return;
+      }
+
+      bgmSuppressedByGacha =
+        true;
+
+      bgmShouldResumeAfterGacha =
+        bgmEnabled
+        &&
+        !bgm.paused;
+
+      if (
+        !bgm.paused
+      ) {
+
+        fadeSiteBgmTo(
+          0,
+          320,
+          () => {
+
+            bgm.pause();
+
+            bgmStarted =
+              false;
+
+            bgm.volume =
+              0.21;
+
+          }
+        );
+
+      }
+
+    }
+  );
+
+
+  window.addEventListener(
+    "sanguo:gacha-bgm-end",
+    () => {
+
+      const shouldResume =
+        bgmShouldResumeAfterGacha;
+
+      bgmShouldResumeAfterGacha =
+        false;
+
+      bgmSuppressedByGacha =
+        false;
+
+      if (
+        shouldResume
+        &&
+        bgmEnabled
+        &&
+        !bgmSuppressedByQuiz
+        &&
+        !bgmSuppressedByLubuEvent
+        &&
+        !bgmSuppressedByCodex
+      ) {
+
+        bgm.volume =
+          0;
+
+        const playPromise =
+          bgm.play();
+
+        if (playPromise) {
+
+          playPromise
+            .then(
+              () => {
+
+                bgmStarted =
+                  true;
+
+                fadeSiteBgmTo(
+                  0.21,
+                  420
+                );
+
+              }
+            )
+            .catch(
+              () => {
+
+                bgm.volume =
+                  0.21;
+
+                bgmStarted =
+                  false;
+
+              }
+            );
+
+        }
+
+      }
+
+      else {
+
+        bgm.volume =
+          0.21;
+
+      }
+
+    }
+  );
+
+
+
+  window.addEventListener(
+    "sanguo:quiz-bgm-start",
+    () => {
+
+      if (bgmSuppressedByQuiz) {
+        return;
+      }
+
+      bgmSuppressedByQuiz =
+        true;
+
+      if (!bgm.paused) {
+
+        fadeSiteBgmTo(
+          0,
+          300,
+          () => {
+
+            bgm.pause();
+
+            bgmStarted =
+              false;
+
+            bgm.volume =
+              0.21;
+
+          }
+        );
+
+      }
+
+    }
+  );
+
+
+  window.addEventListener(
+    "sanguo:quiz-bgm-end",
+    () => {
+
+      bgmSuppressedByQuiz =
+        false;
+
+      if (
+        bgmEnabled
+        &&
+        !bgmSuppressedByGacha
+        &&
+        !bgmSuppressedByLubuEvent
+        &&
+        !bgmSuppressedByCodex
+      ) {
+
+        bgm.volume =
+          0;
+
+        const playPromise =
+          bgm.play();
+
+        if (playPromise) {
+
+          playPromise
+            .then(
+              () => {
+
+                bgmStarted =
+                  true;
+
+                fadeSiteBgmTo(
+                  0.21,
+                  420
+                );
+
+              }
+            )
+            .catch(
+              () => {
+
+                bgm.volume =
+                  0.21;
+
+                bgmStarted =
+                  false;
+
+              }
+            );
+
+        }
+
+      }
+
+      else {
+
+        bgm.volume =
+          0.21;
+
+      }
+
+    }
+  );
+
+
+
+  window.addEventListener(
+    "sanguo:lubu-event-bgm-start",
+    () => {
+
+      if (
+        bgmSuppressedByLubuEvent
+      ) {
+        return;
+      }
+
+      bgmSuppressedByLubuEvent =
+        true;
+
+      if (
+        !bgm.paused
+      ) {
+
+        fadeSiteBgmTo(
+          0,
+          260,
+          () => {
+
+            bgm.pause();
+
+            bgmStarted =
+              false;
+
+            bgm.volume =
+              0.21;
+
+          }
+        );
+
+      }
+
+    }
+  );
+
+
+  window.addEventListener(
+    "sanguo:lubu-event-bgm-end",
+    () => {
+
+      bgmSuppressedByLubuEvent =
+        false;
+
+      /*
+        彩蛋配樂屬於劇情演出：
+        - 即使玩家關閉全站 BGM，彩蛋音樂仍可播放。
+        - 彩蛋結束後只有在全站 BGM 原本開啟時才恢復。
+      */
+      if (
+        bgmEnabled
+        &&
+        !bgmSuppressedByGacha
+        &&
+        !bgmSuppressedByQuiz
+        &&
+        !bgmSuppressedByCodex
+      ) {
+
+        bgm.volume =
+          0;
+
+        const playPromise =
+          bgm.play();
+
+        if (playPromise) {
+
+          playPromise
+            .then(
+              () => {
+
+                bgmStarted =
+                  true;
+
+                fadeSiteBgmTo(
+                  0.21,
+                  380
+                );
+
+              }
+            )
+            .catch(
+              () => {
+
+                bgm.volume =
+                  0.21;
+
+                bgmStarted =
+                  false;
+
+              }
+            );
+
+        }
+
+      }
+
+      else {
+
+        bgm.volume =
+          0.21;
+
+      }
+
+    }
+  );
+
+
+
+  window.addEventListener(
+    "sanguo:codex-bgm-start",
+    () => {
+
+      if (bgmSuppressedByCodex) {
+        return;
+      }
+
+      bgmSuppressedByCodex =
+        true;
+
+      if (!bgm.paused) {
+
+        fadeSiteBgmTo(
+          0,
+          260,
+          () => {
+
+            bgm.pause();
+
+            bgmStarted =
+              false;
+
+            bgm.volume =
+              0.21;
+
+          }
+        );
+
+      }
+
+    }
+  );
+
+
+  window.addEventListener(
+    "sanguo:codex-bgm-end",
+    () => {
+
+      bgmSuppressedByCodex =
+        false;
+
+      if (
+        bgmEnabled
+        &&
+        !bgmSuppressedByGacha
+        &&
+        !bgmSuppressedByQuiz
+        &&
+        !bgmSuppressedByLubuEvent
+      ) {
+
+        bgm.volume =
+          0;
+
+        const playPromise =
+          bgm.play();
+
+        if (playPromise) {
+
+          playPromise
+            .then(
+              () => {
+
+                bgmStarted =
+                  true;
+
+                fadeSiteBgmTo(
+                  0.21,
+                  360
+                );
+
+              }
+            )
+            .catch(
+              () => {
+
+                bgm.volume =
+                  0.21;
+
+                bgmStarted =
+                  false;
+
+              }
+            );
+
+        }
+
+      }
+
+      else {
+
+        bgm.volume =
+          0.21;
+
+      }
+
+    }
+  );
 
 
   function updateBgmButton() {
@@ -1131,6 +1665,209 @@ document.addEventListener(
       );
 
     }
+
+
+
+    /* ======================================================
+       呂布 × 貂蟬短劇情配樂
+       - audio/npc-lubu-diaochan-scene-bgm.mp3
+       - 不循環，只服務 4.5 秒左右的彩蛋演出
+       - 不受全站 BGM 開關影響
+    ====================================================== */
+
+    const lubuDiaochanSceneBgmUrl =
+      new URL(
+        "audio/npc-lubu-diaochan-scene-bgm.mp3",
+        document.baseURI
+      ).href;
+
+
+    const lubuDiaochanSceneBgm =
+      new Audio(
+        lubuDiaochanSceneBgmUrl
+      );
+
+
+    lubuDiaochanSceneBgm.preload =
+      "auto";
+
+
+    lubuDiaochanSceneBgm.loop =
+      false;
+
+
+    lubuDiaochanSceneBgm.volume =
+      0.46;
+
+
+    let lubuSceneBgmFadeTimer =
+      null;
+
+
+    function startLubuDiaochanSceneBgm() {
+
+      if (lubuSceneBgmFadeTimer) {
+
+        clearInterval(
+          lubuSceneBgmFadeTimer
+        );
+
+        lubuSceneBgmFadeTimer =
+          null;
+
+      }
+
+
+      window.dispatchEvent(
+        new CustomEvent(
+          "sanguo:lubu-event-bgm-start"
+        )
+      );
+
+
+      lubuDiaochanSceneBgm.pause();
+
+      lubuDiaochanSceneBgm.currentTime =
+        0;
+
+      lubuDiaochanSceneBgm.volume =
+        0.46;
+
+
+      lubuDiaochanSceneBgm
+        .play()
+        .catch(
+          error => {
+
+            console.warn(
+              "呂布 × 貂蟬劇情配樂播放失敗：",
+              error
+            );
+
+          }
+        );
+
+    }
+
+
+    function stopLubuDiaochanSceneBgm(
+      fadeMs = 260
+    ) {
+
+      if (lubuSceneBgmFadeTimer) {
+
+        clearInterval(
+          lubuSceneBgmFadeTimer
+        );
+
+        lubuSceneBgmFadeTimer =
+          null;
+
+      }
+
+
+      if (
+        lubuDiaochanSceneBgm.paused
+      ) {
+
+        window.dispatchEvent(
+          new CustomEvent(
+            "sanguo:lubu-event-bgm-end"
+          )
+        );
+
+        return;
+
+      }
+
+
+      const startVolume =
+        lubuDiaochanSceneBgm.volume;
+
+      const startedAt =
+        performance.now();
+
+
+      lubuSceneBgmFadeTimer =
+        setInterval(
+          () => {
+
+            const progress =
+              Math.min(
+                1,
+                (
+                  performance.now()
+                  -
+                  startedAt
+                )
+                /
+                Math.max(
+                  1,
+                  fadeMs
+                )
+              );
+
+
+            lubuDiaochanSceneBgm.volume =
+              startVolume
+              *
+              (
+                1
+                -
+                progress
+              );
+
+
+            if (
+              progress >= 1
+            ) {
+
+              clearInterval(
+                lubuSceneBgmFadeTimer
+              );
+
+              lubuSceneBgmFadeTimer =
+                null;
+
+
+              lubuDiaochanSceneBgm.pause();
+
+              lubuDiaochanSceneBgm.currentTime =
+                0;
+
+              lubuDiaochanSceneBgm.volume =
+                0.46;
+
+
+              window.dispatchEvent(
+                new CustomEvent(
+                  "sanguo:lubu-event-bgm-end"
+                )
+              );
+
+            }
+
+          },
+          16
+        );
+
+    }
+
+
+    /* F12 測試：testLubuDiaochanSceneBgm() */
+    window.testLubuDiaochanSceneBgm =
+      () => {
+
+        startLubuDiaochanSceneBgm();
+
+        setTimeout(
+          () => {
+            stopLubuDiaochanSceneBgm(260);
+          },
+          4600
+        );
+
+      };
 
 
 
@@ -2755,6 +3492,9 @@ document.addEventListener(
         true;
 
 
+      startLubuDiaochanSceneBgm();
+
+
       isTalking =
         false;
 
@@ -3059,6 +3799,15 @@ document.addEventListener(
         false;
 
 
+      /*
+        貂蟬離開後收掉劇情配樂。
+        第一次解鎖時，後面的「飛將現世」音效會單獨接上。
+      */
+      stopLubuDiaochanSceneBgm(
+        240
+      );
+
+
       if (npcAlert) {
 
         npcAlert.style.display =
@@ -3254,6 +4003,23 @@ document.addEventListener(
 
         event.stopPropagation();
 
+
+        /*
+           招賢台過場／抽卡結果開啟時，
+           不讓右下角 NPC 插入對話或呂布彩蛋，
+           避免專屬音效 / BGM 與抽卡演出互相疊加。
+        */
+        if (
+          document.body.classList.contains(
+            "gacha-intro-body-lock"
+          )
+          ||
+          document.body.classList.contains(
+            "gacha-result-open"
+          )
+        ) {
+          return;
+        }
 
 
         if (isEventPlaying) {
