@@ -368,3 +368,374 @@ body.gacha-intro-body-lock {overflow:hidden}
   .gacha-result-layer .gacha-hero-card.v5-card-dropping {animation-duration:.15s !important;animation-delay:0s !important}
   .gacha-intro__scene--3.is-current.is-trembling .gacha-intro__frame img{animation:none !important}
 }
+
+/* ==========================================================
+   十抽漫畫｜手機滿版漫畫格 V3
+   桌機原始 v6 / v9 完全保留。
+   手機每幕就是一整個 viewport 的漫畫格：
+   01 → 02 → 03 → 04 → 05
+   不再疊第二張背景、不再縮成小圖。
+========================================================== */
+@media (max-width: 760px) {
+
+  .gacha-intro,
+  .gacha-intro__scene {
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+  }
+
+  .gacha-intro {
+    background: #050405 !important;
+  }
+
+  .gacha-intro__shade {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(0,0,0,.10) 0%,
+        rgba(0,0,0,.02) 50%,
+        rgba(0,0,0,.14) 100%
+      ) !important;
+  }
+
+  /*
+    1~4 每一幕都直接吃滿整個手機畫面。
+    只留 2~4% 的斜邊，保有桌機漫畫切格感，
+    不會再露出巨大黑三角。
+  */
+  .gacha-intro__scene--1 .gacha-intro__frame,
+  .gacha-intro__scene--2 .gacha-intro__frame,
+  .gacha-intro__scene--3 .gacha-intro__frame,
+  .gacha-intro__scene--4 .gacha-intro__frame {
+    position: absolute !important;
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+
+    overflow: hidden !important;
+
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+
+    background: #050405 !important;
+
+    transform-origin: center center !important;
+  }
+
+  .gacha-intro__scene--1 .gacha-intro__frame {
+    clip-path:
+      polygon(
+        0 0,
+        100% 0,
+        100% 96%,
+        0 100%
+      ) !important;
+  }
+
+  .gacha-intro__scene--2 .gacha-intro__frame {
+    clip-path:
+      polygon(
+        0 4%,
+        100% 0,
+        100% 100%,
+        0 96%
+      ) !important;
+  }
+
+  .gacha-intro__scene--3 .gacha-intro__frame {
+    clip-path:
+      polygon(
+        0 0,
+        100% 3%,
+        100% 100%,
+        0 97%
+      ) !important;
+  }
+
+  .gacha-intro__scene--4 .gacha-intro__frame {
+    clip-path:
+      polygon(
+        0 3%,
+        100% 0,
+        100% 97%,
+        0 100%
+      ) !important;
+  }
+
+  /*
+    關鍵：只有原圖本體。
+    cover 直接鋪滿手機；每幕用不同 object-position
+    對準曹操＋史書主體。
+  */
+  .gacha-intro__scene--1 .gacha-intro__frame > img,
+  .gacha-intro__scene--2 .gacha-intro__frame > img,
+  .gacha-intro__scene--3 .gacha-intro__frame > img,
+  .gacha-intro__scene--4 .gacha-intro__frame > img {
+    position: absolute !important;
+    inset: 0 !important;
+
+    z-index: 1 !important;
+
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    opacity: 1 !important;
+
+    object-fit: cover !important;
+
+    transform: scale(1.001) !important;
+
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+
+    background: transparent !important;
+  }
+
+  .gacha-intro__scene--1 .gacha-intro__frame > img {
+    object-position: 52% 50% !important;
+  }
+
+  .gacha-intro__scene--2 .gacha-intro__frame > img {
+    object-position: 49% 50% !important;
+  }
+
+  .gacha-intro__scene--3 .gacha-intro__frame > img {
+    object-position: 46% 50% !important;
+  }
+
+  .gacha-intro__scene--4 .gacha-intro__frame > img {
+    object-position: 43% 50% !important;
+  }
+
+  /* 手機不再另外產生 frame 背景／模糊副本 */
+  .gacha-intro__scene--1 .gacha-intro__frame::before,
+  .gacha-intro__scene--2 .gacha-intro__frame::before,
+  .gacha-intro__scene--3 .gacha-intro__frame::before,
+  .gacha-intro__scene--4 .gacha-intro__frame::before {
+    content: none !important;
+  }
+
+  /* 掃光保留但收斂 */
+  .gacha-intro__scene.is-current
+  .gacha-intro__frame::after {
+    opacity: .22 !important;
+  }
+
+  /* 每幕從不同方向「整頁切進來」 */
+  .gacha-intro__scene--1.is-current .gacha-intro__frame {
+    animation:
+      mobileFullPanelLeft
+      .48s
+      cubic-bezier(.16,.82,.22,1)
+      both !important;
+  }
+
+  .gacha-intro__scene--2.is-current .gacha-intro__frame {
+    animation:
+      mobileFullPanelRight
+      .48s
+      cubic-bezier(.16,.82,.22,1)
+      both !important;
+  }
+
+  .gacha-intro__scene--3.is-current .gacha-intro__frame {
+    animation:
+      mobileFullPanelBottom
+      .48s
+      cubic-bezier(.16,.82,.22,1)
+      both !important;
+  }
+
+  .gacha-intro__scene--4.is-current .gacha-intro__frame {
+    animation:
+      mobileFullPanelBurst
+      .48s
+      cubic-bezier(.14,.80,.20,1)
+      both !important;
+  }
+
+  @keyframes mobileFullPanelLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-12%) scale(1.04);
+      filter: brightness(.72) blur(4px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      filter: none;
+    }
+  }
+
+  @keyframes mobileFullPanelRight {
+    0% {
+      opacity: 0;
+      transform: translateX(12%) scale(1.04);
+      filter: brightness(.72) blur(4px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      filter: none;
+    }
+  }
+
+  @keyframes mobileFullPanelBottom {
+    0% {
+      opacity: 0;
+      transform: translateY(10%) scale(1.035);
+      filter: brightness(.74) blur(4px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: none;
+    }
+  }
+
+  @keyframes mobileFullPanelBurst {
+    0% {
+      opacity: 0;
+      transform: scale(.90);
+      filter: brightness(.62) blur(7px);
+    }
+
+    68% {
+      opacity: 1;
+      transform: scale(1.025);
+      filter: brightness(1.12);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
+      filter: none;
+    }
+  }
+
+  /* 第三幕：仍保留史書震動 */
+  .gacha-intro__scene--3.is-current.is-trembling
+  .gacha-intro__frame > img {
+    animation:
+      mobileFullImageTremble
+      .095s
+      steps(2,end)
+      infinite alternate !important;
+  }
+
+  @keyframes mobileFullImageTremble {
+    0% {
+      transform:
+        translate(-1px,.5px)
+        scale(1.005) !important;
+    }
+
+    100% {
+      transform:
+        translate(1px,-.5px)
+        scale(1.005) !important;
+    }
+  }
+
+  /* 第四幕保留爆光，但取消會遮畫面的大片 surge */
+  .gacha-intro__scene--4
+  .gacha-intro__surge {
+    display: none !important;
+  }
+
+  .gacha-intro__scene--4
+  .gacha-intro__pageblast {
+    z-index: 3;
+    inset: -8% !important;
+  }
+
+  /*
+    第五幕也占滿整個 viewport。
+    用「從眼睛橫縫展開到全畫面」取代桌機窄橫條，
+    還是保留最後揭曉高潮。
+  */
+  .gacha-intro__scene--5 .gacha-intro__frame {
+    position: absolute !important;
+    inset: 0 !important;
+
+    left: 0 !important;
+    top: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+
+    overflow: hidden !important;
+
+    border: 0 !important;
+    box-shadow: none !important;
+
+    background: #050405 !important;
+
+    transform: none !important;
+  }
+
+  .gacha-intro__scene--5 .gacha-intro__frame > img {
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+    object-position: 50% 48% !important;
+
+    transform: scale(1.001) !important;
+  }
+
+  .gacha-intro__scene--5.is-current .gacha-intro__frame {
+    animation:
+      mobileEyePanelUnfold
+      .76s
+      cubic-bezier(.16,.85,.2,1.03)
+      both !important;
+  }
+
+  @keyframes mobileEyePanelUnfold {
+    0% {
+      opacity: 0;
+      clip-path: inset(48% 0 48% 0);
+      filter: brightness(.46);
+    }
+
+    36% {
+      opacity: 1;
+      clip-path: inset(39% 0 39% 0);
+      filter: brightness(.88);
+    }
+
+    100% {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+      filter: none;
+    }
+  }
+
+  .gacha-intro__eye-line {
+    width: 94vw !important;
+    height: 2px !important;
+
+    z-index: 8 !important;
+  }
+
+  .gacha-intro__skip {
+    right: 12px !important;
+    bottom: 16px !important;
+
+    padding: 8px 13px !important;
+
+    font-size: 12px !important;
+  }
+}
+

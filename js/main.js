@@ -1141,6 +1141,104 @@ function toggleStory(button) {
 
 
 /* ======================================
+   手機導覽選單
+   - 補回漢堡按鈕實際開 / 關功能
+   - 同步 aria-expanded / aria-label
+   - 點選連結、點外部、Esc 都會關閉
+   - 展開時鎖住頁面捲動，避免背景跟著滑
+====================================== */
+(() => {
+  const menuButton = document.querySelector(".mobile-menu-btn");
+  const primaryNav = document.getElementById("primaryNav");
+
+  if (!menuButton || !primaryNav) {
+    return;
+  }
+
+  /* 手機選單標題依目前頁面自動顯示，不再固定寫「參國 · 導覽」。 */
+  const currentFile =
+    decodeURIComponent(window.location.pathname.split("/").pop() || "")
+      .toLowerCase();
+
+  let currentPageName = "首頁";
+
+  if (currentFile === "card.html") {
+    currentPageName = "人物圖鑑";
+  }
+  else if (currentFile === "pickcard.html") {
+    currentPageName = "招賢台";
+  }
+  else if (currentFile === "quizentry.html" || currentFile === "quizpage.html") {
+    currentPageName = "群雄問答";
+  }
+  else if (currentFile === "homepage.html" || currentFile === "index.html" || currentFile === "") {
+    currentPageName = "首頁";
+  }
+
+  primaryNav.dataset.mobileTitle = `目前所在 · ${currentPageName}`;
+
+  function setMobileMenu(open) {
+    const shouldOpen = Boolean(open) && window.innerWidth <= 1000;
+
+    primaryNav.classList.toggle("mobile-open", shouldOpen);
+    document.body.classList.toggle("mobile-nav-open", shouldOpen);
+
+    menuButton.setAttribute(
+      "aria-expanded",
+      shouldOpen ? "true" : "false"
+    );
+    menuButton.setAttribute(
+      "aria-label",
+      shouldOpen ? "關閉選單" : "開啟選單"
+    );
+
+    menuButton.textContent = shouldOpen ? "×" : "☰";
+  }
+
+  menuButton.addEventListener("click", event => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    setMobileMenu(
+      !primaryNav.classList.contains("mobile-open")
+    );
+  });
+
+  primaryNav.addEventListener("click", event => {
+    const link = event.target.closest("a");
+    if (link) {
+      setMobileMenu(false);
+    }
+  });
+
+  document.addEventListener("click", event => {
+    if (!primaryNav.classList.contains("mobile-open")) {
+      return;
+    }
+
+    if (
+      !primaryNav.contains(event.target) &&
+      !menuButton.contains(event.target)
+    ) {
+      setMobileMenu(false);
+    }
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      setMobileMenu(false);
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 1000) {
+      setMobileMenu(false);
+    }
+  });
+})();
+
+
+/* ======================================
    Navbar Active Section
 ====================================== */
 

@@ -2725,3 +2725,524 @@ body.gacha-result-open {
   }
 }
 
+/* ==========================================================
+   招賢台｜手機版 V6
+   目標：像桌機一樣「背景就是舞台、控制直接疊在舞台下半部」。
+   僅改手機；桌機與既有抽卡樣式完整保留。
+========================================================== */
+@media (max-width: 600px) {
+
+  html,
+  body {
+    min-height: 100%;
+    background: #0e0d0b !important;
+  }
+
+  body {
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+  }
+
+  /*
+    一個完整主舞台。
+    Navbar 約 62px，Footer 約 140px，
+    主舞台填滿中間剩餘空間，頁面不再出現大塊無意義黑洞。
+  */
+  .pickcard-main {
+    position: relative !important;
+
+    width: 100% !important;
+    height: calc(100dvh - 202px) !important;
+    min-height: 570px !important;
+    max-height: 650px !important;
+
+    margin: 62px 0 0 !important;
+    padding: 0 !important;
+
+    overflow: hidden !important;
+
+    background: #0b0806 !important;
+  }
+
+  /*
+    同一張招賢台背景直接鋪滿整個手機主舞台。
+    這個裁法會保留中央招賢台、廣納天下英豪與地面龍紋，
+    視覺上最接近桌機版。
+  */
+  .pickcard-bg {
+    position: absolute !important;
+    inset: 0 !important;
+
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    object-fit: cover !important;
+    object-position: 50% 45% !important;
+
+    transform: none !important;
+
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+
+    pointer-events: none !important;
+    user-select: none !important;
+  }
+
+  /*
+    下半部加暗，只為了讓操作按鈕可讀，
+    仍然看得到地板與龍紋，不再變成純黑操作區。
+  */
+  .pickcard-main::after {
+    content: "" !important;
+
+    position: absolute !important;
+    inset: 0 !important;
+
+    z-index: 1 !important;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(5,4,3,0) 0%,
+        rgba(5,4,3,0) 48%,
+        rgba(7,5,4,.18) 59%,
+        rgba(7,5,4,.66) 73%,
+        rgba(7,5,4,.90) 100%
+      ) !important;
+
+    pointer-events: none !important;
+  }
+
+  /* 操作直接疊在主舞台底部，回到桌機邏輯 */
+  .pickcard-container {
+    position: absolute !important;
+    inset: 0 !important;
+
+    z-index: 2 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 16px 23px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+
+    gap: 10px !important;
+
+    background: transparent !important;
+
+    pointer-events: none !important;
+  }
+
+  /* 取消先前額外的大聚焦塊 */
+  .pickcard-container::before {
+    content: "" !important;
+
+    position: absolute !important;
+
+    left: 50% !important;
+    bottom: 2px !important;
+    top: auto !important;
+
+    width: min(390px, 100vw) !important;
+    height: 245px !important;
+
+    transform: translateX(-50%) !important;
+
+    z-index: 0 !important;
+
+    background:
+      radial-gradient(
+        ellipse at 50% 54%,
+        rgba(14,8,5,.58) 0%,
+        rgba(14,8,5,.30) 42%,
+        rgba(14,8,5,.05) 74%,
+        transparent 90%
+      ) !important;
+
+    filter: none !important;
+
+    pointer-events: none !important;
+  }
+
+  .recruit-token-panel,
+  .pickcard-actions,
+  .pickcard-reset-btn {
+    position: relative !important;
+
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+
+    transform: none !important;
+
+    z-index: 2 !important;
+  }
+
+  .recruit-token-panel {
+    margin: 0 0 1px !important;
+
+    gap: 7px !important;
+
+    pointer-events: auto !important;
+  }
+
+  .recruit-token {
+    width: 36px !important;
+    height: 52px !important;
+  }
+
+  .recruit-token-word {
+    font-size: 19px !important;
+  }
+
+  .recruit-token-count {
+    font-size: 14px !important;
+  }
+
+  .recruit-token-times {
+    font-size: 11px !important;
+  }
+
+  .pickcard-actions {
+    width: min(350px, 100%) !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+
+    gap: 10px !important;
+
+    pointer-events: auto !important;
+  }
+
+  .pick-btn-secondary,
+  .pick-btn-primary {
+    flex: 1 1 0 !important;
+
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 50px !important;
+
+    padding: 10px 8px !important;
+
+    font-size: 14px !important;
+    letter-spacing: 1px !important;
+  }
+
+  .pickcard-reset-btn {
+    margin-top: 1px !important;
+
+    max-width: calc(100% - 24px) !important;
+
+    padding: 7px 11px !important;
+
+    font-size: 11px !important;
+    white-space: nowrap !important;
+
+    pointer-events: auto !important;
+  }
+
+  /* Footer 維持其他頁的手機規格 */
+  footer {
+    position: relative !important;
+
+    z-index: 100 !important;
+
+    width: 100% !important;
+
+    margin: 0 !important;
+    padding: 28px 18px 26px !important;
+
+    background: #0e0d0b !important;
+  }
+
+  footer .footer-container {
+    width: 100% !important;
+    margin: 0 auto !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 7px !important;
+
+    text-align: center !important;
+  }
+
+  footer .footer-logo {
+    margin: 0 !important;
+
+    font-size: 22px !important;
+    line-height: 1.25 !important;
+  }
+
+  footer .footer-container > p {
+    max-width: 310px !important;
+
+    margin: 0 !important;
+
+    font-size: 12.5px !important;
+    line-height: 1.7 !important;
+  }
+
+  footer .footer-container > span {
+    margin: 0 !important;
+
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* NPC 手機尺寸維持統一 */
+  .site-npc {
+    right: 7px !important;
+    bottom: 5px !important;
+
+    z-index: 900 !important;
+
+    width: 56px !important;
+    height: 111px !important;
+  }
+
+  .npc-character,
+  .npc-sprite {
+    width: 56px !important;
+    height: 111px !important;
+  }
+
+  .npc-alert {
+    top: 0 !important;
+
+    width: 21px !important;
+    height: 21px !important;
+
+    font-size: 12px !important;
+  }
+
+  .npc-dialogue {
+    right: 64px !important;
+    bottom: 42px !important;
+
+    width: min(205px, calc(100vw - 88px)) !important;
+
+    padding: 12px 14px 16px !important;
+
+    font-size: 11.5px !important;
+    line-height: 1.65 !important;
+  }
+
+  .npc-dialogue-name {
+    margin-bottom: 4px !important;
+
+    font-size: 12px !important;
+    letter-spacing: 2px !important;
+  }
+
+  /* 只有曹操 talking 才用拔劍圖 */
+  .site-npc:not(.npc-lubu).talking .npc-sprite {
+    position: absolute !important;
+
+    left: 50% !important;
+    bottom: -3px !important;
+
+    width: 154px !important;
+    height: 111px !important;
+
+    margin: 0 !important;
+
+    background-image:
+      url("../images/npc-cao-stop.png") !important;
+
+    background-repeat: no-repeat !important;
+    background-size: auto 106px !important;
+    background-position: center bottom !important;
+
+    animation: none !important;
+
+    transform-origin: center bottom !important;
+  }
+
+  .site-npc:not(.npc-lubu).talking.walk-right .npc-sprite {
+    transform: translateX(-50%) scaleX(1) !important;
+  }
+
+  .site-npc:not(.npc-lubu).talking.walk-left .npc-sprite {
+    transform: translateX(-50%) scaleX(-1) !important;
+  }
+
+  /* 呂布永遠使用自己的 sprite */
+  .site-npc.npc-lubu .npc-character,
+  .site-npc.npc-lubu .npc-sprite,
+  .site-npc.npc-lubu.talking .npc-sprite,
+  .site-npc.npc-lubu.eventing .npc-sprite {
+    width: 56px !important;
+    height: 111px !important;
+  }
+
+  .site-npc.npc-lubu .npc-sprite,
+  .site-npc.npc-lubu.talking .npc-sprite,
+  .site-npc.npc-lubu.eventing .npc-sprite {
+    position: static !important;
+
+    left: auto !important;
+    bottom: auto !important;
+
+    margin: 0 !important;
+
+    background-image:
+      url("../images/npc-lubu-walk.png") !important;
+
+    background-repeat: no-repeat !important;
+    background-size: 400% 100% !important;
+
+    transform-origin: center bottom !important;
+  }
+
+  .site-npc.npc-lubu.walk-left .npc-sprite,
+  .site-npc.npc-lubu.talking.walk-left .npc-sprite,
+  .site-npc.npc-lubu.eventing.walk-left .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(-1.04)
+      scaleY(.88) !important;
+  }
+
+  .site-npc.npc-lubu.walk-right .npc-sprite,
+  .site-npc.npc-lubu.talking.walk-right .npc-sprite,
+  .site-npc.npc-lubu.eventing.walk-right .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(1.04)
+      scaleY(.88) !important;
+  }
+
+  /* 十抽結果維持 3 + 3 + 3 + 1 */
+  .gacha-result-layer {
+    background: #080607 !important;
+
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .gacha-result-stage.wide-modal {
+    position: relative !important;
+    inset: auto !important;
+
+    width: 100% !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    height: auto !important;
+
+    padding: 46px 10px 20px !important;
+
+    justify-content: flex-start !important;
+
+    background:
+      radial-gradient(
+        ellipse at 50% 12%,
+        rgba(163,104,45,.14) 0%,
+        rgba(32,20,15,.16) 28%,
+        transparent 52%
+      ) !important;
+
+    overflow: visible !important;
+  }
+
+  .gacha-result-stage.wide-modal .gacha-title {
+    margin: 0 0 13px !important;
+
+    font-size: 19px !important;
+    letter-spacing: 4px !important;
+    text-indent: 4px !important;
+  }
+
+  .gacha-result-stage.wide-modal .gacha-cards-grid {
+    width: min(100%, 360px) !important;
+
+    display: grid !important;
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr)) !important;
+
+    justify-items: center !important;
+    align-items: center !important;
+
+    column-gap: 8px !important;
+    row-gap: 10px !important;
+
+    margin: 0 auto !important;
+    padding: 4px 8px 8px !important;
+
+    box-sizing: border-box !important;
+
+    overflow: visible !important;
+  }
+
+  .gacha-result-stage.wide-modal
+  .gacha-cards-grid
+  .gacha-hero-card {
+    width: min(24vw, 92px) !important;
+    max-width: 92px !important;
+
+    height: auto !important;
+
+    aspect-ratio: 2 / 3 !important;
+  }
+
+  .gacha-result-stage.wide-modal
+  .gacha-cards-grid
+  .gacha-hero-card:nth-child(10) {
+    grid-column: 2 !important;
+  }
+
+  .gacha-result-stage.wide-modal .gacha-btn-group {
+    width: min(100%, 330px) !important;
+
+    margin-top: 13px !important;
+
+    gap: 8px !important;
+  }
+
+  .gacha-result-stage.wide-modal
+  .gacha-btn-group
+  .btn {
+    min-height: 45px !important;
+
+    padding: 8px !important;
+
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 370px) {
+
+  .pickcard-main {
+    height: calc(100dvh - 196px) !important;
+    min-height: 548px !important;
+  }
+
+  .pickcard-actions {
+    gap: 8px !important;
+  }
+
+  .gacha-result-stage.wide-modal
+  .gacha-cards-grid
+  .gacha-hero-card {
+    width: min(23.5vw, 84px) !important;
+    max-width: 84px !important;
+  }
+}
+

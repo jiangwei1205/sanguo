@@ -8470,3 +8470,184 @@ body.hero-modal-open {
   }
 }
 
+/* ==========================================================
+   人物圖鑑｜手機版安全微調
+   基準：使用者提供的 Card(3).css
+   原則：
+   - 只在手機寬度追加 override
+   - 不改桌機版
+   - 不改 Modal / 羈絆 / Q版人物 / 彩蛋 / 動畫 / 功能
+   - 只整理上方控制列、卡片間距與 Footer
+========================================================== */
+@media (max-width: 600px) {
+
+  /* ---------- 圖鑑主區：只增加手機版呼吸感 ---------- */
+  .codex-container {
+    gap: 18px !important;
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+    padding-bottom: 34px !important;
+  }
+
+  /* ---------- 第一層：陣營 + 解鎖進度 ---------- */
+  .codex-faction-bar {
+    min-height: 0 !important;
+    padding: 11px 13px 12px !important;
+    gap: 10px !important;
+    align-items: stretch !important;
+  }
+
+  .faction-menu {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+    overflow: visible !important;
+  }
+
+  .faction-tab {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 10px 2px 11px !important;
+    font-size: 14px !important;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .faction-tab.active::after {
+    left: 18% !important;
+    right: 18% !important;
+    bottom: 5px !important;
+  }
+
+  .codex-progress {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 1px 0 0 !important;
+    padding: 9px 2px 0 !important;
+    gap: 6px !important;
+    border-top: 1px solid rgba(202, 153, 74, 0.14);
+  }
+
+  .codex-progress-top {
+    justify-content: flex-end !important;
+  }
+
+  .codex-progress-text {
+    font-size: 13px !important;
+  }
+
+  .codex-progress-track {
+    height: 4px !important;
+  }
+
+  /* ---------- 第二層：稀有度 + 搜尋 ---------- */
+  .codex-panel {
+    min-height: 0 !important;
+    padding: 11px 13px 13px !important;
+  }
+
+  .codex-sub-bar {
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  .rarity-filters {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+    overflow: visible !important;
+  }
+
+  .rarity-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 9px 2px 10px !important;
+    font-size: 13px !important;
+    text-align: center;
+  }
+
+  .rarity-btn.active::after {
+    left: 16% !important;
+    right: 16% !important;
+    bottom: 5px !important;
+  }
+
+  .search-box {
+    width: 100% !important;
+    margin-top: 1px;
+  }
+
+  .search-input,
+  .search-input:focus {
+    width: 100% !important;
+    height: 40px !important;
+  }
+
+  /* ---------- 卡牌區：仍維持原本 2 欄，只加呼吸感 ---------- */
+  .cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 20px 16px !important;
+    padding: 3px 3px 38px !important;
+  }
+
+  .hero-name {
+    min-height: 34px !important;
+    padding: 7px 3px !important;
+    font-size: 12.5px !important;
+  }
+
+  /* ---------- Footer：與首頁手機版統一 ---------- */
+  footer {
+    padding: 32px 0 30px !important;
+  }
+
+  footer .footer-container {
+    width: min(90%, var(--container)) !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-align: center !important;
+  }
+
+  footer .footer-logo {
+    margin: 0 !important;
+    font-size: 22px !important;
+    line-height: 1.25 !important;
+  }
+
+  footer .footer-container > p {
+    margin: 0 !important;
+    font-size: 12.5px !important;
+    line-height: 1.7 !important;
+  }
+
+  footer .footer-container > span {
+    margin: 0 !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+}
+
+@media (max-width: 370px) {
+  .codex-container {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .faction-tab {
+    font-size: 13px !important;
+  }
+
+  .cards-grid {
+    gap: 18px 12px !important;
+  }
+}
+

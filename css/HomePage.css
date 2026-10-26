@@ -2557,3 +2557,1068 @@ footer {
   }
 }
 
+
+/* ==========================================================
+   手機首頁重製｜2026-10
+   不是縮小桌機版：重新配置首屏層級、CTA、導覽與固定元件。
+========================================================== */
+@media (max-width: 700px) {
+  .navbar {
+    height: 62px;
+    background: rgba(14, 12, 10, 0.96);
+    border-bottom-color: rgba(182, 148, 93, 0.20);
+    backdrop-filter: blur(14px);
+  }
+
+  .nav-container {
+    width: calc(100% - 24px);
+  }
+
+  .logo {
+    width: 118px;
+    height: 48px;
+  }
+
+  .logo img {
+    filter:
+      brightness(1.08)
+      contrast(1.08)
+      drop-shadow(0 2px 5px rgba(0,0,0,.65));
+  }
+
+  .mobile-menu-btn {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid rgba(196,157,92,.48);
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(54,39,25,.72), rgba(24,18,14,.88));
+    color: #e7c98f;
+    font-size: 23px;
+    box-shadow: inset 0 0 12px rgba(212,175,55,.035);
+  }
+
+  .nav-menu.mobile-open {
+    position: fixed;
+    top: 62px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: calc(100svh - 62px);
+    overflow-y: auto;
+    padding: 18px 18px 24px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    border: 0;
+    border-bottom: 1px solid rgba(196,157,92,.42);
+    border-radius: 0;
+    background:
+      linear-gradient(180deg, rgba(20,16,13,.995), rgba(10,8,7,.99));
+    box-shadow: 0 18px 35px rgba(0,0,0,.48);
+  }
+
+  .nav-menu.mobile-open::before {
+    content: attr(data-mobile-title);
+    grid-column: 1 / -1;
+    padding: 0 2px 6px;
+    color: #b99761;
+    font-family: "Noto Serif TC", serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+  }
+
+  .nav-menu.mobile-open a {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 8px;
+    border: 1px solid rgba(196,157,92,.16);
+    border-radius: 4px;
+    background: rgba(255,255,255,.025);
+    color: #d8cbb5;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  .nav-menu.mobile-open a:last-child {
+    border-bottom: 1px solid rgba(196,157,92,.16);
+  }
+
+  .nav-menu.mobile-open a.active {
+    border-color: rgba(174,69,54,.70);
+    background: linear-gradient(180deg, rgba(117,34,27,.45), rgba(71,23,18,.35));
+    color: #f0dfbf;
+  }
+
+  .nav-menu.mobile-open a::after {
+    display: none;
+  }
+
+  .hero {
+    height: auto;
+    min-height: 100svh;
+    padding: 62px 0 34px;
+    align-items: center;
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(8,6,5,.93) 0%,
+        rgba(8,6,5,.82) 42%,
+        rgba(8,6,5,.44) 70%,
+        rgba(8,6,5,.14) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(5,4,3,.14) 0%,
+        rgba(5,4,3,.06) 52%,
+        rgba(12,10,8,.76) 100%
+      ),
+      url("../images/home-hero.png");
+    background-position: 62% center;
+    background-size: cover;
+  }
+
+  .hero::before {
+    background:
+      radial-gradient(circle at 30% 34%, rgba(153,98,51,.10), transparent 34%),
+      linear-gradient(90deg, rgba(7,5,4,.42), rgba(7,5,4,.08) 78%, transparent);
+  }
+
+  .hero-overlay {
+    background: linear-gradient(180deg, transparent 58%, rgba(15,12,10,.80) 100%);
+  }
+
+  .hero-content {
+    width: calc(100% - 42px);
+    max-width: 430px;
+    margin: 0 auto;
+    padding-top: 10px;
+    padding-bottom: 22px;
+  }
+
+  .hero-content > * {
+    max-width: 100%;
+  }
+
+  .hero-label {
+    margin-bottom: 10px;
+    color: #d0ad72;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 4.5px;
+  }
+
+  .hero-title-image {
+    width: min(54vw, 205px);
+    margin: 4px 0 16px;
+  }
+
+  .hero-title-image img {
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,.58));
+  }
+
+  .hero h2 {
+    max-width: 330px;
+    margin-bottom: 13px;
+    color: #f0e5d2;
+    font-size: clamp(21px, 5.8vw, 25px);
+    font-weight: 650;
+    line-height: 1.55;
+    letter-spacing: .7px;
+    text-shadow: 0 2px 8px rgba(0,0,0,.72);
+  }
+
+  .hero-description {
+    max-width: 325px;
+    color: #c8baa3;
+    font-size: 14px;
+    line-height: 1.8;
+    letter-spacing: .25px;
+    text-shadow: 0 2px 8px rgba(0,0,0,.72);
+  }
+
+  .hero-description br {
+    display: none;
+  }
+
+  .hero-buttons {
+    width: min(100%, 320px);
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1.12fr .88fr;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .hero-buttons .btn {
+    min-width: 0;
+    min-height: 48px;
+    width: 100%;
+    padding: 10px 12px;
+    gap: 8px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+  }
+
+  .hero-buttons .btn-primary {
+    border-color: rgba(196,126,76,.82);
+    background: linear-gradient(180deg, #9b2c24, #741d18);
+  }
+
+  .hero-buttons .btn-secondary {
+    background: rgba(20,16,13,.48);
+    border-color: rgba(211,186,136,.30);
+    color: #d8cbb7;
+  }
+
+  .scroll-hint {
+    display: none;
+  }
+
+  .hero-side-text {
+    display: none;
+  }
+
+  .home-page .site-npc {
+    right: 4px;
+    bottom: -6px;
+    width: 58px;
+    height: 115px;
+  }
+
+  .home-page .npc-character,
+  .home-page .npc-sprite {
+    width: 58px;
+    height: 115px;
+  }
+
+  .home-page .npc-alert {
+    top: 0;
+    width: 21px;
+    height: 21px;
+    font-size: 12px;
+  }
+
+  .home-page .site-npc.npc-caocao.talking .npc-sprite {
+    width: 160px;
+    height: 115px;
+    background-size: auto 108px;
+  }
+
+  .home-page .npc-dialogue {
+    right: 68px;
+    bottom: 48px;
+    width: min(235px, calc(100vw - 92px));
+    padding: 14px 17px 17px;
+    font-size: 12px;
+  }
+
+  .sanguo-bgm-toggle {
+    left: 12px !important;
+    bottom: 12px !important;
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 15px !important;
+  }
+}
+
+@media (max-width: 370px) {
+  .hero-content {
+    width: calc(100% - 32px);
+  }
+
+  .hero-title-image {
+    width: 185px;
+  }
+
+  .hero h2 {
+    font-size: 20px;
+  }
+
+  .hero-description {
+    font-size: 13.5px;
+  }
+
+  .hero-buttons {
+    width: 100%;
+  }
+
+  .hero-buttons .btn {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 1000px) {
+  body.mobile-nav-open {
+    overflow: hidden;
+  }
+}
+
+/* ==========================================================
+   首頁手機版第二階段重製｜2026-10
+   目標：手機不是桌機直向堆疊，而是重新安排資訊密度與視覺節奏。
+   只影響 <= 700px；桌機版完全不變。
+========================================================== */
+@media (max-width: 700px) {
+  .home-page {
+    overflow-x: hidden;
+  }
+
+  .home-page section {
+    scroll-margin-top: 62px;
+  }
+
+  /* ---------- 史實與演義 ---------- */
+  .home-page .history-section {
+    padding: 58px 0 68px;
+    text-align: left;
+    background-position: center top;
+  }
+
+  .home-page .history-section .section-container {
+    width: calc(100% - 28px);
+  }
+
+  .home-page .history-section .section-heading {
+    margin: 0 0 28px;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .home-page .history-section .section-number {
+    flex: 0 0 auto;
+    font-size: 46px;
+    line-height: .9;
+  }
+
+  .home-page .history-section .section-label {
+    margin-top: 1px;
+    font-size: 9px;
+    letter-spacing: 3.5px;
+  }
+
+  .home-page .history-section .section-heading h2 {
+    margin-top: 3px;
+    font-size: 29px;
+    line-height: 1.25;
+    letter-spacing: 1px;
+  }
+
+  .home-page .history-stage {
+    padding: 0;
+  }
+
+  .home-page .scroll-wrapper {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  /* 手機改成：三國志 | VS | 三國演義，同屏比較 */
+  .home-page .history-intro {
+    width: 100%;
+    height: auto;
+    min-height: 276px;
+    margin: 0;
+    padding: 14px 10px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 38px minmax(0, 1fr);
+    gap: 8px;
+    align-items: center;
+    border: 1px solid rgba(157, 119, 70, .28);
+    background:
+      radial-gradient(circle at 50% 48%, rgba(150, 99, 47, .13), transparent 30%),
+      linear-gradient(90deg, rgba(31,24,19,.95), rgba(18,14,11,.98) 50%, rgba(31,24,19,.95));
+    box-shadow:
+      0 14px 30px rgba(48, 31, 18, .22),
+      inset 0 0 32px rgba(0,0,0,.38);
+  }
+
+  .home-page .history-intro::before {
+    inset: 7px;
+  }
+
+  .home-page .history-book {
+    width: 100%;
+    min-width: 0;
+    min-height: 246px;
+    transform: none;
+  }
+
+  .home-page .history-record,
+  .home-page .history-romance,
+  .home-page .history-record:hover,
+  .home-page .history-romance:hover {
+    transform: none;
+  }
+
+  .home-page .book-card-inner {
+    width: 100%;
+    height: 246px;
+  }
+
+  .home-page .book-front,
+  .home-page .book-back {
+    box-shadow:
+      0 10px 20px rgba(0,0,0,.34),
+      inset 0 0 18px rgba(0,0,0,.26);
+  }
+
+  .home-page .history-record .book-front::before,
+  .home-page .history-record .book-back::before,
+  .home-page .history-romance .book-front::before,
+  .home-page .history-romance .book-back::before {
+    width: 13px;
+  }
+
+  .home-page .history-record .book-front::after,
+  .home-page .history-record .book-back::after,
+  .home-page .history-romance .book-front::after,
+  .home-page .history-romance .book-back::after {
+    width: 5px;
+    top: 6px;
+    height: calc(100% - 12px);
+  }
+
+  .home-page .book-inner {
+    width: calc(100% - 19px);
+    height: calc(100% - 18px);
+    margin: 9px 7px 9px 12px;
+    padding: 10px 5px;
+  }
+
+  .home-page .history-romance .book-inner {
+    margin: 9px 12px 9px 7px;
+  }
+
+  .home-page .book-inner::before {
+    inset: 5px;
+  }
+
+  .home-page .book-tag {
+    padding: 3px 6px;
+    font-size: 8.5px;
+    letter-spacing: 1px;
+  }
+
+  .home-page .vertical-title {
+    height: 132px;
+    font-size: 28px;
+    letter-spacing: 1px;
+  }
+
+  .home-page .vertical-subtitle {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .home-page .flip-hint {
+    font-size: 7.5px;
+    letter-spacing: .2px;
+  }
+
+  .home-page .book-author {
+    margin-bottom: 3px;
+    font-size: 10px;
+    letter-spacing: .5px;
+  }
+
+  .home-page .book-desc {
+    padding: 2px;
+    font-size: 9px;
+    line-height: 1.45;
+    letter-spacing: 0;
+    text-align: left;
+  }
+
+  .home-page .history-vs {
+    left: 0;
+    width: 38px;
+    height: 246px;
+    padding: 0;
+  }
+
+  .home-page .history-vs::before {
+    width: 55px;
+    height: 70%;
+  }
+
+  .home-page .vs-slash {
+    font-size: 25px;
+    letter-spacing: -1px;
+    text-shadow:
+      0 0 7px rgba(240,201,135,.55),
+      2px 2px 0 #3a2211;
+  }
+
+  .home-page .history-bottom-text {
+    margin-top: 23px;
+    padding: 0 10px;
+    font-size: 13px;
+    line-height: 1.7;
+    letter-spacing: 2px;
+  }
+
+  /* 原本很空的一大段，收成真正的引用卡 */
+  .home-page .history-quote {
+    position: relative;
+    margin-top: 18px;
+    padding: 18px 22px;
+    gap: 6px;
+    border-top: 1px solid rgba(118, 77, 43, .24);
+    border-bottom: 1px solid rgba(118, 77, 43, .24);
+    background: rgba(255, 248, 232, .20);
+    box-shadow: inset 0 0 24px rgba(100, 73, 44, .04);
+  }
+
+  .home-page .history-quote p {
+    font-size: 14px;
+    line-height: 1.75;
+    letter-spacing: .4px;
+  }
+
+  .home-page .history-quote .quote-mark {
+    font-size: 28px;
+  }
+
+  /* ---------- TRUE OR LEGEND / 故事區 ---------- */
+  .home-page .stories-section {
+    padding: 62px 0 72px;
+  }
+
+  .home-page .stories-section .section-container {
+    width: calc(100% - 28px);
+  }
+
+  .home-page .stories-section .section-heading {
+    margin: 0 0 18px;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .home-page .stories-section .section-number {
+    flex: 0 0 auto;
+    font-size: 46px;
+    line-height: .9;
+  }
+
+  .home-page .stories-section .section-label {
+    margin-top: 2px;
+    font-size: 9px;
+    letter-spacing: 3.5px;
+  }
+
+  .home-page .stories-section .section-heading h2 {
+    margin-top: 3px;
+    font-size: 28px;
+    line-height: 1.35;
+    letter-spacing: .5px;
+  }
+
+  .home-page .stories-description {
+    max-width: none;
+    margin: 0 0 30px;
+    padding: 0 2px;
+    color: #b7aa95;
+    font-size: 14px;
+    line-height: 1.78;
+    letter-spacing: .2px;
+  }
+
+  .home-page .story-list {
+    gap: 38px;
+  }
+
+  .home-page .story-card,
+  .home-page .story-card.reverse {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    direction: ltr;
+    overflow: hidden;
+    border: 1px solid rgba(181,145,87,.18);
+    box-shadow: 0 14px 28px rgba(0,0,0,.16);
+  }
+
+  .home-page .story-card::before {
+    display: none;
+  }
+
+  .home-page .story-image {
+    width: 100%;
+    height: clamp(238px, 69vw, 286px);
+    min-height: 0;
+    background-size: cover;
+    background-position: center 22%;
+  }
+
+  .home-page .story-image-1 {
+    background-position: center 18%;
+  }
+
+  .home-page .story-image-2 {
+    background-position: center 22%;
+  }
+
+  .home-page .story-image-3 {
+    background-position: center 18%;
+  }
+
+  .home-page .story-image::before,
+  .home-page .story-card.reverse .story-image::before {
+    top: auto;
+    right: auto;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(195,156,92,.48), transparent);
+  }
+
+  .home-page .story-image::after {
+    background: linear-gradient(180deg, transparent 45%, rgba(0,0,0,.58) 100%);
+  }
+
+  .home-page .story-badge {
+    left: 14px;
+    bottom: 14px;
+    padding: 5px 11px;
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .home-page .story-content {
+    padding: 24px 20px 25px;
+  }
+
+  .home-page .story-content::before {
+    inset: 8px;
+  }
+
+  .home-page .story-question {
+    font-size: 9px;
+    letter-spacing: 3px;
+  }
+
+  .home-page .story-content h3 {
+    margin: 5px 0 20px;
+    font-size: 28px;
+    line-height: 1.3;
+    letter-spacing: 1px;
+  }
+
+  .home-page .story-content::after {
+    top: 12px;
+    right: 12px;
+    font-size: 78px;
+    letter-spacing: -3px;
+    color: rgba(182,148,93,.045);
+  }
+
+  .home-page .story-compare {
+    gap: 18px;
+  }
+
+  .home-page .story-compare > div {
+    padding-left: 15px;
+  }
+
+  .home-page .story-compare > div::before {
+    left: -3px;
+    top: 7px;
+    width: 6px;
+    height: 6px;
+  }
+
+  .home-page .compare-title {
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  .home-page .story-compare p {
+    font-size: 13px;
+    line-height: 1.72;
+    letter-spacing: .1px;
+  }
+
+  .home-page .story-toggle {
+    margin-top: 21px;
+    gap: 9px;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  .home-page .toggle-icon {
+    font-size: 18px;
+  }
+
+  .home-page .story-content.expanded .story-extra {
+    margin-top: 20px;
+  }
+
+  .home-page .story-extra-inner {
+    padding-left: 14px;
+  }
+
+  .home-page .story-extra h4 {
+    margin-bottom: 12px;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  .home-page .story-extra p {
+    margin-bottom: 11px;
+    font-size: 12.5px;
+    line-height: 1.75;
+  }
+
+  .home-page .story-card:not(:last-child)::after {
+    bottom: -20px;
+    width: 44%;
+  }
+
+  /* ---------- 下一章：不再獨占一整個手機螢幕 ---------- */
+  .home-page .next-section {
+    min-height: 0;
+    padding: 64px 22px 68px;
+  }
+
+  .home-page .next-section > div {
+    width: min(100%, 360px);
+  }
+
+  .home-page .next-section > div > p:first-child {
+    font-size: 9px;
+    letter-spacing: 5px;
+  }
+
+  .home-page .next-section h2 {
+    margin: 12px 0 15px;
+    font-size: clamp(36px, 10vw, 42px);
+    line-height: 1.35;
+    letter-spacing: 1px;
+  }
+
+  .home-page .next-description {
+    max-width: 310px;
+    margin: 0 auto 24px;
+    padding: 0 4px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .home-page .next-section .btn {
+    min-width: 196px;
+    min-height: 48px;
+    padding: 11px 22px;
+    font-size: 14px;
+  }
+
+  /* ---------- Footer ---------- */
+  .home-page footer {
+    padding: 32px 18px 38px;
+  }
+
+  .home-page .footer-container {
+    width: 100%;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .home-page .footer-logo {
+    font-size: 22px;
+  }
+
+  .home-page footer p {
+    max-width: 310px;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+
+  .home-page footer span {
+    font-size: 12px;
+  }
+
+  /* ---------- NPC：保留彩蛋，但降低遮擋 ---------- */
+  .home-page .site-npc {
+    right: 2px;
+    bottom: -8px;
+    width: 52px;
+    height: 102px;
+  }
+
+  .home-page .npc-character,
+  .home-page .npc-sprite,
+  .home-page .site-npc.npc-lubu .npc-sprite {
+    width: 52px;
+    height: 102px;
+  }
+
+  .home-page .npc-alert {
+    top: 0;
+    width: 19px;
+    height: 19px;
+    font-size: 11px;
+  }
+
+  .home-page .npc-dialogue,
+  .home-page .site-npc.npc-lubu.eventing .npc-dialogue {
+    right: 59px;
+    bottom: 50px;
+    width: min(205px, calc(100vw - 78px));
+    padding: 12px 14px 15px;
+    font-size: 11.5px;
+    line-height: 1.65;
+  }
+
+  .home-page .site-npc.npc-caocao.talking .npc-sprite {
+    width: 142px;
+    height: 102px;
+    background-size: auto 96px;
+  }
+
+  .home-page .npc-dialogue-name {
+    margin-bottom: 4px;
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+}
+
+@media (max-width: 370px) {
+  .home-page .history-section .section-container,
+  .home-page .stories-section .section-container {
+    width: calc(100% - 22px);
+  }
+
+  .home-page .history-intro {
+    grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr);
+    gap: 5px;
+    padding: 12px 8px;
+  }
+
+  .home-page .history-vs {
+    width: 32px;
+  }
+
+  .home-page .vs-slash {
+    font-size: 21px;
+  }
+
+  .home-page .vertical-title {
+    font-size: 25px;
+  }
+
+  .home-page .book-desc {
+    font-size: 8.5px;
+  }
+
+  .home-page .story-content {
+    padding: 22px 18px 23px;
+  }
+}
+
+
+/* ==========================================================
+   手機首頁 V3｜首屏高度收斂
+   - 不再用 100svh 硬撐整屏
+   - 保留主視覺上方空氣感，但砍掉內容後方的大段黑空白
+========================================================== */
+@media (max-width: 700px) {
+  .home-page .hero {
+    height: auto;
+    min-height: 0;
+    padding: clamp(178px, 24svh, 205px) 0 72px;
+    align-items: flex-start;
+    background-position: 62% 42%;
+  }
+
+  .home-page .hero-content {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .home-page .hero-overlay {
+    background: linear-gradient(180deg, transparent 52%, rgba(15,12,10,.84) 100%);
+  }
+}
+
+@media (max-width: 370px) {
+  .home-page .hero {
+    padding-top: 164px;
+    padding-bottom: 62px;
+  }
+}
+
+/* ==========================================================
+   手機首頁 V4｜Hero 背景構圖一致化
+   只改手機 Hero 的背景裁切，不動 HTML / JS / 功能。
+   目的：
+   - 不再用 cover 把桌機主視覺左右裁掉太多
+   - 手機保留更多黑甲、紅甲人物與魏 / 蜀 / 吳地圖資訊
+   - 下方自然融入黑底，維持文字可讀性
+========================================================== */
+@media (max-width: 700px) {
+  .home-page .hero {
+    background-color: #0d0b09;
+
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(7,5,4,.78) 0%,
+        rgba(7,5,4,.52) 34%,
+        rgba(7,5,4,.16) 70%,
+        rgba(7,5,4,.04) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(5,4,3,.05) 0%,
+        rgba(5,4,3,.08) 48%,
+        rgba(10,8,7,.58) 70%,
+        #0d0b09 100%
+      ),
+      url("../images/home-hero.png");
+
+    /* 前兩層漸層鋪滿；原圖縮成較寬的手機構圖 */
+    background-size:
+      100% 100%,
+      100% 100%,
+      165% auto;
+
+    background-position:
+      center,
+      center,
+      68% 62px;
+
+    background-repeat:
+      no-repeat,
+      no-repeat,
+      no-repeat;
+  }
+
+  .home-page .hero::before {
+    background:
+      radial-gradient(
+        circle at 29% 34%,
+        rgba(153,98,51,.08),
+        transparent 32%
+      ),
+      linear-gradient(
+        90deg,
+        rgba(7,5,4,.34),
+        rgba(7,5,4,.05) 78%,
+        transparent
+      );
+  }
+
+  .home-page .hero-overlay {
+    background:
+      linear-gradient(
+        180deg,
+        transparent 46%,
+        rgba(15,12,10,.18) 58%,
+        rgba(13,11,9,.72) 78%,
+        #0d0b09 100%
+      );
+  }
+}
+
+/* 超窄手機再微調，避免右側地圖被切太多 */
+@media (max-width: 370px) {
+  .home-page .hero {
+    background-size:
+      100% 100%,
+      100% 100%,
+      172% auto;
+
+    background-position:
+      center,
+      center,
+      68% 60px;
+  }
+}
+
+/* ==========================================================
+   手機版｜呂布 × 貂蟬事件尺寸校正
+   只調整手機上的貂蟬跑入 / 跑出與親吻畫面。
+   不修改事件 JS、觸發條件、BGM、音效或桌機版。
+========================================================== */
+@media (max-width: 600px) {
+
+  /* 貂蟬跑步：比呂布略小，腳底維持同一地面線 */
+  .dc-runner {
+    bottom: -10px !important;
+    width: 58px !important;
+    height: 91px !important;
+  }
+
+  .dc-sprite {
+    width: 58px !important;
+    height: 91px !important;
+    background-size: 400% 100% !important;
+    transform-origin: center bottom !important;
+  }
+
+  /* 跑向呂布時稍微往內貼，避免停在人物外側 */
+  .dc-runner.running-left .dc-sprite {
+    transform:
+      translateX(-13px)
+      scaleX(-1) !important;
+  }
+
+  /* 離開時恢復向右，保持相同人物比例 */
+  .dc-runner.running-right .dc-sprite {
+    transform:
+      translateX(0)
+      scaleX(1) !important;
+  }
+
+  /* 親吻合體圖同步縮小，不要突然比兩個 NPC 大很多 */
+  .kiss-scene {
+    bottom: 2px !important;
+    width: 104px !important;
+    height: 83px !important;
+  }
+
+  .kiss-sprite {
+    width: 104px !important;
+    height: 83px !important;
+    background-size: contain !important;
+    background-position: center bottom !important;
+  }
+}
+
+/* 超窄手機再收一級 */
+@media (max-width: 370px) {
+  .dc-runner,
+  .dc-sprite {
+    width: 54px !important;
+    height: 85px !important;
+  }
+
+  .kiss-scene,
+  .kiss-sprite {
+    width: 98px !important;
+    height: 78px !important;
+  }
+}
+
+/* 手機版貂蟬停靠位置二次校正：
+   只修腳底與水平貼近，不動動畫流程。 */
+@media (max-width: 370px) {
+  .dc-runner {
+    bottom: -11px !important;
+  }
+
+  .dc-runner.running-left .dc-sprite {
+    transform:
+      translateX(-12px)
+      scaleX(-1) !important;
+  }
+}
+

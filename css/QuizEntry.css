@@ -1089,3 +1089,250 @@
 
 }
 
+
+/* ==========================================================
+   群雄問答入口｜手機構圖 V3
+   只覆蓋手機版：保留桌機 / 平板原樣與所有功能。
+   目標：把桌機「左問答、右獎勵」的關係轉成手機「上下相連」，
+   而不是兩個彼此斷開的區塊。
+========================================================== */
+@media (max-width: 700px) {
+  .quiz-entry-page {
+    min-height: auto;
+    padding: 74px 0 24px;
+    background-position: 52% top;
+  }
+
+  .quiz-entry-page::before {
+    background:
+      radial-gradient(
+        ellipse 92% 50% at 50% 23%,
+        rgba(0, 0, 0, 0.70) 0%,
+        rgba(0, 0, 0, 0.48) 44%,
+        rgba(0, 0, 0, 0.18) 74%,
+        transparent 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(0,0,0,.20) 0%,
+        rgba(0,0,0,.05) 54%,
+        rgba(0,0,0,.30) 100%
+      );
+  }
+
+  .quiz-entry-container {
+    width: calc(100% - 30px);
+    max-width: 430px;
+    min-height: 0;
+    margin: 0 auto;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .quiz-entry-left {
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+    margin: 0 auto;
+    padding: 15px 2px 0;
+  }
+
+  .quiz-entry-label {
+    margin-bottom: 8px;
+    font-size: 9px;
+    letter-spacing: 5px;
+  }
+
+  .quiz-title-image {
+    width: min(82vw, 310px);
+    margin: 0 auto 11px;
+  }
+
+  .quiz-entry-subtitle {
+    margin-bottom: 13px;
+    font-size: 19px;
+    line-height: 1.45;
+    letter-spacing: 2px;
+  }
+
+  .quiz-entry-description {
+    max-width: 330px;
+    margin: 0 auto;
+    font-size: 13px;
+    line-height: 1.85;
+    letter-spacing: .35px;
+  }
+
+  .quiz-entry-description br {
+    display: none;
+  }
+
+  .quiz-entry-quote {
+    max-width: 325px;
+    margin: 19px auto 0;
+    padding-top: 15px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    letter-spacing: 1.7px;
+  }
+
+  .quiz-entry-right {
+    width: 100%;
+    margin-top: -22px;
+    transform: none;
+    z-index: 4;
+  }
+
+  .quiz-reward-card {
+    width: min(88vw, 342px);
+    min-height: 0;
+    aspect-ratio: 475 / 585;
+    margin: 0 auto;
+    padding: 42px 28px 26px;
+    justify-content: flex-start;
+    background-size: 100% 100%;
+    box-shadow: 0 20px 42px rgba(0,0,0,.38);
+  }
+
+  .reward-label {
+    margin-bottom: 13px;
+    font-size: 10px;
+    letter-spacing: 5px;
+  }
+
+  .reward-title {
+    margin-bottom: 8px;
+    font-size: 36px;
+    line-height: 1.15;
+    letter-spacing: 3px;
+  }
+
+  .reward-description {
+    max-width: 250px;
+    margin: 0 auto 16px;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .reward-token {
+    width: 62px;
+    height: 92px;
+    margin: 0 auto 16px;
+    font-size: 30px;
+  }
+
+  .quiz-start-btn {
+    width: 100%;
+    max-width: 258px;
+    min-height: 46px;
+    margin-top: auto;
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  .next-section {
+    min-height: 0;
+    padding: 72px 18px 78px;
+  }
+
+  .next-section > div {
+    width: 100%;
+    max-width: 390px;
+  }
+
+  .next-section > div > p:first-child {
+    font-size: 9px;
+    letter-spacing: 5px;
+  }
+
+  .next-section h2 {
+    margin: 14px 0 15px;
+    font-size: clamp(36px, 10vw, 42px);
+    line-height: 1.36;
+    letter-spacing: .8px;
+  }
+
+  .next-description {
+    max-width: 326px;
+    margin: 0 auto 24px;
+    padding: 0 4px;
+    font-size: 13.5px;
+    line-height: 1.8;
+  }
+
+  .next-section .btn {
+    min-width: 0;
+    width: min(100%, 215px);
+    min-height: 46px;
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 370px) {
+  .quiz-entry-container {
+    width: calc(100% - 24px);
+  }
+
+  .quiz-title-image {
+    width: min(84vw, 292px);
+  }
+
+  .quiz-reward-card {
+    width: min(90vw, 330px);
+    padding: 39px 24px 24px;
+  }
+
+  .reward-title {
+    font-size: 34px;
+  }
+
+  .next-section {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+/* ==========================================================
+   QuizEntry 手機 Footer｜與首頁完全一致
+   只覆蓋 footer，不影響群雄問答主畫面與任何功能。
+========================================================== */
+@media (max-width: 700px) {
+  footer {
+    padding: 32px 18px 38px;
+  }
+
+  .footer-container {
+    width: 100%;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-size: 22px;
+  }
+
+  footer p {
+    max-width: 310px;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+
+  footer span {
+    font-size: 12px;
+  }
+}
+
+/* ==========================================================
+   QuizEntry 手機版｜招賢令牌位置修正
+   只調整卷軸內令牌與按鈕的垂直關係，不影響桌機或功能。
+========================================================== */
+@media (max-width: 700px) {
+  .quiz-reward-card .reward-token {
+    margin: 4px auto 22px;
+  }
+
+  .quiz-reward-card .quiz-start-btn {
+    margin-top: 0;
+  }
+}
