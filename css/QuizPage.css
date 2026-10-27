@@ -3276,3 +3276,254 @@ body > main {
     transform: translateZ(0) scaleX(1.08) scaleY(0.84) !important;
   }
 }
+
+/* ==========================================================
+   手機安全修正｜群雄問答 呂布 × 貂蟬對齊
+   - 以目前 56 × 111 的呂布手機尺寸為基準
+   - 貂蟬跑入 / 跑出、親吻圖同步校正
+   - 不改事件 JS、答題流程、桌機樣式
+========================================================== */
+@media (max-width: 700px) {
+
+  /* 呂布所有狀態固定同一手機尺寸與縮放 */
+  .site-npc.npc-lubu .npc-sprite,
+  .site-npc.npc-lubu.talking .npc-sprite,
+  .site-npc.npc-lubu.eventing .npc-sprite {
+    width: 56px !important;
+    height: 111px !important;
+
+    transform-origin: center bottom !important;
+  }
+
+  .site-npc.npc-lubu.walk-left .npc-sprite,
+  .site-npc.npc-lubu.talking.walk-left .npc-sprite,
+  .site-npc.npc-lubu.eventing.walk-left .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(-1.08)
+      scaleY(0.84) !important;
+  }
+
+  .site-npc.npc-lubu.walk-right .npc-sprite,
+  .site-npc.npc-lubu.talking.walk-right .npc-sprite,
+  .site-npc.npc-lubu.eventing.walk-right .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(1.08)
+      scaleY(0.84) !important;
+  }
+
+  /*
+    貂蟬依照首頁已校正比例換算到 QuizPage：
+    讓視覺身高與呂布接近，腳底落在同一條地面線。
+  */
+  .dc-runner {
+    bottom: -11px !important;
+
+    width: 63px !important;
+    height: 99px !important;
+  }
+
+  .dc-sprite {
+    width: 63px !important;
+    height: 99px !important;
+
+    background-size: 400% 100% !important;
+
+    transform-origin: center bottom !important;
+  }
+
+  /* 跑入時往呂布內側貼，不再停在他旁邊一段距離 */
+  .dc-runner.running-left .dc-sprite {
+    transform:
+      translateX(-14px)
+      scaleX(-1) !important;
+  }
+
+  .dc-runner.running-right .dc-sprite {
+    transform:
+      translateX(0)
+      scaleX(1) !important;
+  }
+
+  /* 親吻合體圖同步配合 QuizPage 的 NPC 比例 */
+  .kiss-scene {
+    bottom: 2px !important;
+
+    width: 113px !important;
+    height: 90px !important;
+  }
+
+  .kiss-sprite {
+    width: 113px !important;
+    height: 90px !important;
+
+    background-size: contain !important;
+    background-position: center bottom !important;
+  }
+}
+
+@media (max-width: 370px) {
+
+  .dc-runner {
+    bottom: -11px !important;
+
+    width: 59px !important;
+    height: 93px !important;
+  }
+
+  .dc-sprite {
+    width: 59px !important;
+    height: 93px !important;
+  }
+
+  .dc-runner.running-left .dc-sprite {
+    transform:
+      translateX(-13px)
+      scaleX(-1) !important;
+  }
+
+  .kiss-scene,
+  .kiss-sprite {
+    width: 106px !important;
+    height: 85px !important;
+  }
+}
+
+/* ==========================================================
+   手機最終校正｜群雄問答 呂布 × 貂蟬 × 親吻畫面
+   基準：本檔目前手機呂布 56×111、scaleY(.84)。
+   只追加手機 override；不修改答題 / JS / 桌機。
+========================================================== */
+@media (max-width: 700px) {
+
+  /* 呂布三種狀態完全一致 */
+  .site-npc.npc-lubu .npc-sprite,
+  .site-npc.npc-lubu.talking .npc-sprite,
+  .site-npc.npc-lubu.eventing .npc-sprite {
+    width: 56px !important;
+    height: 111px !important;
+    transform-origin: center bottom !important;
+  }
+
+  .site-npc.npc-lubu.walk-left .npc-sprite,
+  .site-npc.npc-lubu.talking.walk-left .npc-sprite,
+  .site-npc.npc-lubu.eventing.walk-left .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(-1.08)
+      scaleY(.84) !important;
+  }
+
+  .site-npc.npc-lubu.walk-right .npc-sprite,
+  .site-npc.npc-lubu.talking.walk-right .npc-sprite,
+  .site-npc.npc-lubu.eventing.walk-right .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(1.08)
+      scaleY(.84) !important;
+  }
+
+  /*
+    呂布視覺高度約 93px。
+    貂蟬由原本 63×99 收到 57×90，
+    並把素材腳底往上提到與呂布肉眼同線。
+  */
+  .dc-runner {
+    bottom: 4px !important;
+    width: 57px !important;
+    height: 90px !important;
+  }
+
+  .dc-sprite {
+    width: 57px !important;
+    height: 90px !important;
+    background-size: 400% 100% !important;
+    transform-origin: center bottom !important;
+  }
+
+  .dc-runner.running-left .dc-sprite {
+    transform:
+      translateX(-13px)
+      scaleX(-1) !important;
+  }
+
+  .dc-runner.running-right .dc-sprite {
+    transform:
+      translateX(0)
+      scaleX(1) !important;
+  }
+
+  /* 親吻圖高度直接貼近呂布視覺高度 */
+  .kiss-scene {
+    bottom: 4px !important;
+    width: 116px !important;
+    height: 93px !important;
+  }
+
+  .kiss-sprite {
+    width: 116px !important;
+    height: 93px !important;
+    background-size: contain !important;
+    background-position: center bottom !important;
+  }
+}
+
+@media (max-width: 370px) {
+  .dc-runner,
+  .dc-sprite {
+    width: 54px !important;
+    height: 86px !important;
+  }
+
+  .dc-runner.running-left .dc-sprite {
+    transform:
+      translateX(-12px)
+      scaleX(-1) !important;
+  }
+
+  .kiss-scene,
+  .kiss-sprite {
+    width: 110px !important;
+    height: 88px !important;
+  }
+}
+
+/* ==========================================================
+   手機微調｜群雄問答 貂蟬停靠點再往左 10px
+   只修橫向對齊；尺寸 / 腳底 / 親吻畫面完全不動。
+========================================================== */
+@media (max-width: 700px) {
+  .dc-runner.running-left {
+    margin-left: -10px !important;
+  }
+}
+
+/* ==========================================================
+   手機收尾微調｜群雄問答 貂蟬縮小約 4% + 再往左 2px
+   只改貂蟬；呂布 / 腳底 / 親吻畫面完全不動。
+========================================================== */
+@media (max-width: 700px) {
+  .dc-runner {
+    width: 55px !important;
+    height: 86px !important;
+  }
+
+  .dc-sprite {
+    width: 55px !important;
+    height: 86px !important;
+  }
+
+  .dc-runner.running-left {
+    margin-left: -12px !important;
+  }
+}
+
+@media (max-width: 370px) {
+  .dc-runner,
+  .dc-sprite {
+    width: 52px !important;
+    height: 82px !important;
+  }
+}
+

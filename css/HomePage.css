@@ -3622,3 +3622,189 @@ footer {
   }
 }
 
+/* ==========================================================
+   手機安全修正｜首頁呂布點擊尺寸鎖定
+   - 只影響 <= 700px
+   - 正常走路 / talking / eventing 維持完全相同手機比例
+   - 不改事件 JS、貂蟬流程、桌機樣式
+========================================================== */
+@media (max-width: 700px) {
+
+  .home-page .site-npc.npc-lubu.talking .npc-sprite,
+  .home-page .site-npc.npc-lubu.eventing .npc-sprite {
+    position: static !important;
+
+    left: auto !important;
+    bottom: auto !important;
+
+    width: 52px !important;
+    height: 102px !important;
+
+    margin: 0 !important;
+
+    background-image:
+      url("../images/npc-lubu-walk.png") !important;
+
+    background-repeat: no-repeat !important;
+    background-size: 400% 100% !important;
+
+    transform-origin: center bottom !important;
+  }
+
+  /* 點擊前後使用同一個縮放，避免呂布突然放大 */
+  .home-page .site-npc.npc-lubu.walk-left .npc-sprite,
+  .home-page .site-npc.npc-lubu.talking.walk-left .npc-sprite,
+  .home-page .site-npc.npc-lubu.eventing.walk-left .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(-1.08)
+      scaleY(0.84) !important;
+  }
+
+  .home-page .site-npc.npc-lubu.walk-right .npc-sprite,
+  .home-page .site-npc.npc-lubu.talking.walk-right .npc-sprite,
+  .home-page .site-npc.npc-lubu.eventing.walk-right .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(1.08)
+      scaleY(0.84) !important;
+  }
+}
+
+/* ==========================================================
+   手機最終校正｜首頁 呂布 × 貂蟬 × 親吻畫面
+   基準：直接以本檔目前手機呂布 52×102、scaleY(.84) 為準。
+   只追加手機 override；不修改桌機 / JS / 事件流程。
+========================================================== */
+@media (max-width: 700px) {
+
+  /* 呂布維持原本尺寸，點擊前後不變 */
+  .home-page .site-npc.npc-lubu .npc-sprite,
+  .home-page .site-npc.npc-lubu.talking .npc-sprite,
+  .home-page .site-npc.npc-lubu.eventing .npc-sprite {
+    width: 52px !important;
+    height: 102px !important;
+    transform-origin: center bottom !important;
+  }
+
+  .home-page .site-npc.npc-lubu.walk-left .npc-sprite,
+  .home-page .site-npc.npc-lubu.talking.walk-left .npc-sprite,
+  .home-page .site-npc.npc-lubu.eventing.walk-left .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(-1.08)
+      scaleY(.84) !important;
+  }
+
+  .home-page .site-npc.npc-lubu.walk-right .npc-sprite,
+  .home-page .site-npc.npc-lubu.talking.walk-right .npc-sprite,
+  .home-page .site-npc.npc-lubu.eventing.walk-right .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(1.08)
+      scaleY(.84) !important;
+  }
+
+  /*
+    呂布視覺高度約 86px。
+    貂蟬素材本身看起來較大，因此略低於 86px；
+    同時依 sprite 留白把腳底往上提。
+  */
+  .home-page .dc-runner {
+    bottom: 0 !important;
+    width: 53px !important;
+    height: 83px !important;
+  }
+
+  .home-page .dc-sprite {
+    width: 53px !important;
+    height: 83px !important;
+    background-size: 400% 100% !important;
+    transform-origin: center bottom !important;
+  }
+
+  .home-page .dc-runner.running-left .dc-sprite {
+    transform:
+      translateX(-12px)
+      scaleX(-1) !important;
+  }
+
+  .home-page .dc-runner.running-right .dc-sprite {
+    transform:
+      translateX(0)
+      scaleX(1) !important;
+  }
+
+  /* 親吻畫面與呂布視覺高度接近，切換時不會忽大忽小 */
+  .home-page .kiss-scene {
+    bottom: 0 !important;
+    width: 108px !important;
+    height: 86px !important;
+  }
+
+  .home-page .kiss-sprite {
+    width: 108px !important;
+    height: 86px !important;
+    background-size: contain !important;
+    background-position: center bottom !important;
+  }
+}
+
+@media (max-width: 370px) {
+  .home-page .dc-runner,
+  .home-page .dc-sprite {
+    width: 50px !important;
+    height: 79px !important;
+  }
+
+  .home-page .dc-runner.running-left .dc-sprite {
+    transform:
+      translateX(-11px)
+      scaleX(-1) !important;
+  }
+
+  .home-page .kiss-scene,
+  .home-page .kiss-sprite {
+    width: 102px !important;
+    height: 82px !important;
+  }
+}
+
+/* ==========================================================
+   手機微調｜首頁 貂蟬停靠點再往左 10px
+   只修橫向對齊；尺寸 / 腳底 / 親吻畫面完全不動。
+========================================================== */
+@media (max-width: 700px) {
+  .home-page .dc-runner.running-left {
+    margin-left: -10px !important;
+  }
+}
+
+/* ==========================================================
+   手機收尾微調｜首頁 貂蟬縮小約 4% + 再往左 2px
+   只改貂蟬；呂布 / 腳底 / 親吻畫面完全不動。
+========================================================== */
+@media (max-width: 700px) {
+  .home-page .dc-runner {
+    width: 51px !important;
+    height: 80px !important;
+  }
+
+  .home-page .dc-sprite {
+    width: 51px !important;
+    height: 80px !important;
+  }
+
+  .home-page .dc-runner.running-left {
+    margin-left: -12px !important;
+  }
+}
+
+@media (max-width: 370px) {
+  .home-page .dc-runner,
+  .home-page .dc-sprite {
+    width: 48px !important;
+    height: 76px !important;
+  }
+}
+

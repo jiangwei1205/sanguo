@@ -3246,3 +3246,192 @@ body.gacha-result-open {
   }
 }
 
+
+/* ==========================================================
+   招賢台｜手機呂布 × 貂蟬腳底對齊 SAFE
+   - 僅追加手機 override
+   - 不改 NPC JS / 對話 / 彩蛋流程 / 桌機
+   - 呂布目前視覺高度約 98px，貂蟬同步到同一視覺高度與腳底線
+========================================================== */
+@media (max-width: 600px) {
+
+  /* 呂布的容器腳底基準 */
+  .site-npc.npc-lubu {
+    bottom: 5px !important;
+  }
+
+  /*
+    呂布 sprite 為 111px 並 scaleY(.88)，視覺高度約 98px。
+    貂蟬改成 62 × 98，並把 bottom 從 -12px 拉回 5px，
+    兩人腳底落在同一水平線。
+  */
+  .dc-runner {
+    bottom: 5px !important;
+
+    width: 62px !important;
+    height: 98px !important;
+  }
+
+  .dc-sprite {
+    width: 62px !important;
+    height: 98px !important;
+
+    background-size: 400% 100% !important;
+
+    transform-origin: center bottom !important;
+  }
+
+  /* 親吻合成圖也使用同一條腳底基準 */
+  .kiss-scene {
+    bottom: 5px !important;
+
+    width: 116px !important;
+    height: 93px !important;
+  }
+
+  .kiss-sprite {
+    width: 116px !important;
+    height: 93px !important;
+
+    background-position: center bottom !important;
+  }
+}
+
+/* ==========================================================
+   手機最終校正｜招賢台 呂布 × 貂蟬 × 親吻畫面
+   基準：本檔目前手機呂布 56×111、scaleY(.88)。
+   修正先前把貂蟬與呂布容器 bottom 寫成相同值造成的肉眼錯位。
+   只追加手機 override；不修改抽卡 / JS / 桌機。
+========================================================== */
+@media (max-width: 600px) {
+
+  /* 呂布維持本頁既有 56×111 + .88 */
+  .site-npc.npc-lubu .npc-character,
+  .site-npc.npc-lubu .npc-sprite,
+  .site-npc.npc-lubu.talking .npc-sprite,
+  .site-npc.npc-lubu.eventing .npc-sprite {
+    width: 56px !important;
+    height: 111px !important;
+  }
+
+  .site-npc.npc-lubu.walk-left .npc-sprite,
+  .site-npc.npc-lubu.talking.walk-left .npc-sprite,
+  .site-npc.npc-lubu.eventing.walk-left .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(-1.04)
+      scaleY(.88) !important;
+  }
+
+  .site-npc.npc-lubu.walk-right .npc-sprite,
+  .site-npc.npc-lubu.talking.walk-right .npc-sprite,
+  .site-npc.npc-lubu.eventing.walk-right .npc-sprite {
+    transform:
+      translateZ(0)
+      scaleX(1.04)
+      scaleY(.88) !important;
+  }
+
+  /*
+    呂布視覺高度約 98px。
+    貂蟬稍微收小，且因素材底部留白不同，
+    runner 比 site-npc 的 bottom:5px 再往上提約 8px。
+  */
+  .dc-runner {
+    bottom: 13px !important;
+    width: 59px !important;
+    height: 94px !important;
+  }
+
+  .dc-sprite {
+    width: 59px !important;
+    height: 94px !important;
+    background-size: 400% 100% !important;
+    transform-origin: center bottom !important;
+  }
+
+  .dc-runner.running-left .dc-sprite {
+    transform:
+      translateX(-13px)
+      scaleX(-1) !important;
+  }
+
+  .dc-runner.running-right .dc-sprite {
+    transform:
+      translateX(0)
+      scaleX(1) !important;
+  }
+
+  /* 親吻畫面高度貼近本頁呂布視覺高度 */
+  .kiss-scene {
+    bottom: 13px !important;
+    width: 122px !important;
+    height: 98px !important;
+  }
+
+  .kiss-sprite {
+    width: 122px !important;
+    height: 98px !important;
+    background-size: contain !important;
+    background-position: center bottom !important;
+  }
+}
+
+@media (max-width: 370px) {
+  .dc-runner,
+  .dc-sprite {
+    width: 56px !important;
+    height: 90px !important;
+  }
+
+  .dc-runner.running-left .dc-sprite {
+    transform:
+      translateX(-12px)
+      scaleX(-1) !important;
+  }
+
+  .kiss-scene,
+  .kiss-sprite {
+    width: 116px !important;
+    height: 93px !important;
+  }
+}
+
+/* ==========================================================
+   手機微調｜招賢台 貂蟬停靠點再往左 10px
+   只修橫向對齊；尺寸 / 腳底 / 親吻畫面完全不動。
+========================================================== */
+@media (max-width: 600px) {
+  .dc-runner.running-left {
+    margin-left: -10px !important;
+  }
+}
+
+/* ==========================================================
+   手機收尾微調｜招賢台 貂蟬縮小約 4% + 再往左 2px
+   只改貂蟬；呂布 / 腳底 / 親吻畫面完全不動。
+========================================================== */
+@media (max-width: 600px) {
+  .dc-runner {
+    width: 57px !important;
+    height: 90px !important;
+  }
+
+  .dc-sprite {
+    width: 57px !important;
+    height: 90px !important;
+  }
+
+  .dc-runner.running-left {
+    margin-left: -12px !important;
+  }
+}
+
+@media (max-width: 370px) {
+  .dc-runner,
+  .dc-sprite {
+    width: 54px !important;
+    height: 86px !important;
+  }
+}
+
