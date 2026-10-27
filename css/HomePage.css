@@ -938,6 +938,67 @@ footer {
 }
 
 
+/* ==========================================================
+   Footer Logo｜只新增現有 images/logo1.png 的顯示樣式
+   不改 Footer 原本三欄 / 手機排列 / 文字 / NPC / 其他功能。
+========================================================== */
+
+.footer-logo {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    5px;
+
+  line-height:
+    1.2;
+}
+
+
+.footer-mark {
+  display:
+    block;
+
+  width:
+    clamp(
+      52px,
+      4vw,
+      64px
+    );
+
+  height:
+    auto;
+
+  object-fit:
+    contain;
+
+  flex-shrink:
+    0;
+
+  pointer-events:
+    none;
+
+  user-select:
+    none;
+
+  filter:
+    drop-shadow(
+      0 3px 8px
+      rgba(0, 0, 0, .42)
+    );
+}
+
+
+
 
 /* ======================================
    Responsive

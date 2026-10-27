@@ -1,4 +1,341 @@
 /* ======================================
+   全站音訊政策｜2026-10-27
+   左下角「音樂」關閉時，不是全站完全靜音，而是進入安靜模式。
+
+   安靜模式仍保留：
+   1. 全站一般按鍵聲：ui-click.mp3
+   2. 單抽 / 十連抽音效：
+      - card-flip.mp3
+      - ssr-reveal.mp3
+      - 所有 gacha-*.mp3
+      - gacha-ten-bgm.mp3（十連抽專屬背景音樂也保留）
+   3. 翻書聲：
+      - book-flip.mp3
+      - gacha-intro-page.mp3
+   4. 釣魚版曹操海水 / 解鎖聲：
+      - fishing-cao-unlock.mp3
+   5. 群雄問答答對 / 答錯：
+      - quiz-correct.mp3
+      - quiz-wrong.mp3
+   6. 招賢令獎勵掉落聲：
+      - quiz-token-reward.mp3
+   7. 人物圖鑑 Q 版角色點擊音效：
+      - q-hero-*.mp3
+
+   其餘 Audio 全部跟著左下角音樂開關：
+   - 全站 BGM
+   - Quiz BGM
+   - Codex SSR / SR / R BGM
+   - Codex 開啟音
+   - NPC 對話 / 跑步 / 羈絆 / 劇情配樂
+   - 呂布解鎖、答題獎勵等其他聲音
+   ※ 例外：釣魚版曹操的 fishing-cao-unlock.mp3 仍保留
+
+   這層只攔截 <audio> / new Audio() 的 play()，
+   不更動任何動畫、按鈕、抽卡、答題、圖鑑或 NPC 邏輯。
+====================================== */
+(() => {
+  const AUDIO_ENABLED_KEY =
+    "sanguoBgmEnabled";
+
+  /*
+    防止 main.js 被重複載入時重複包裝 play()。
+  */
+  if (
+    window.SanguoAudioPolicy &&
+    window.SanguoAudioPolicy.installed
+  ) {
+    return;
+  }
+
+  const nativePlay =
+    HTMLMediaElement.prototype.play;
+
+  const trackedAudio =
+    new Set();
+
+  function isAudioElement(media) {
+    return (
+      typeof HTMLAudioElement !== "undefined" &&
+      media instanceof HTMLAudioElement
+    ) || (
+      media &&
+      media.tagName === "AUDIO"
+    );
+  }
+
+  function getAudioSrc(media) {
+    if (!media) {
+      return "";
+    }
+
+    const sourceElement =
+      media.querySelector &&
+      media.querySelector("source[src]");
+
+    return (
+      media.currentSrc ||
+      media.src ||
+      (
+        sourceElement
+          ? sourceElement.src
+          : ""
+      )
+    );
+  }
+
+  function getAudioFileName(media) {
+    const src =
+      getAudioSrc(media);
+
+    if (!src) {
+      return "";
+    }
+
+    try {
+      const url =
+        new URL(
+          src,
+          document.baseURI
+        );
+
+      const pathname =
+        decodeURIComponent(
+          url.pathname
+        );
+
+      return (
+        pathname
+          .split("/")
+          .pop()
+          ||
+          ""
+      ).toLowerCase();
+    }
+    catch (_) {
+      return (
+        src
+          .split("?")[0]
+          .split("#")[0]
+          .split("/")
+          .pop()
+          ||
+          ""
+      ).toLowerCase();
+    }
+  }
+
+  function audioEnabled() {
+    try {
+      return (
+        localStorage.getItem(
+          AUDIO_ENABLED_KEY
+        )
+        !==
+        "false"
+      );
+    }
+    catch (_) {
+      return true;
+    }
+  }
+
+  function allowedWhenMuted(media) {
+    const fileName =
+      getAudioFileName(media);
+
+    if (!fileName) {
+      return false;
+    }
+
+    /*
+      一般按鍵聲。
+    */
+    if (
+      fileName ===
+      "ui-click.mp3"
+    ) {
+      return true;
+    }
+
+    /*
+      單抽 / 十連抽相關聲音全部保留。
+      包含十連抽專屬背景音樂 gacha-ten-bgm.mp3。
+    */
+    if (
+      fileName ===
+        "card-flip.mp3"
+      ||
+      fileName ===
+        "ssr-reveal.mp3"
+      ||
+      fileName.startsWith(
+        "gacha-"
+      )
+    ) {
+      return true;
+    }
+
+    /*
+      首頁翻書聲。
+    */
+    if (
+      fileName ===
+      "book-flip.mp3"
+    ) {
+      return true;
+    }
+
+    /*
+      釣魚版曹操海水 / 解鎖專屬聲。
+      目前圖鑑使用的檔名就是 fishing-cao-unlock.mp3。
+    */
+    if (
+      fileName ===
+      "fishing-cao-unlock.mp3"
+    ) {
+      return true;
+    }
+
+    /*
+      群雄問答保留答對 / 答錯，
+      以及取得招賢令時的獎勵掉落聲。
+      quiz-bgm 仍然關閉。
+    */
+    if (
+      fileName ===
+        "quiz-correct.mp3"
+      ||
+      fileName ===
+        "quiz-wrong.mp3"
+      ||
+      fileName ===
+        "quiz-token-reward.mp3"
+    ) {
+      return true;
+    }
+
+    /*
+      人物圖鑑 Q 版角色點擊音效。
+    */
+    if (
+      fileName.startsWith(
+        "q-hero-"
+      )
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function pauseRestrictedAudio() {
+    if (audioEnabled()) {
+      return;
+    }
+
+    /*
+      先把頁面裡真正的 <audio> 一起納入，
+      再處理所有曾經呼叫過 play() 的 new Audio()。
+    */
+    document
+      .querySelectorAll("audio")
+      .forEach(audio => {
+        trackedAudio.add(audio);
+      });
+
+    trackedAudio.forEach(
+      audio => {
+        if (
+          !audio ||
+          allowedWhenMuted(audio)
+        ) {
+          return;
+        }
+
+        try {
+          audio.pause();
+        }
+        catch (_) {}
+      }
+    );
+  }
+
+  HTMLMediaElement.prototype.play =
+    function (...args) {
+      if (isAudioElement(this)) {
+        trackedAudio.add(this);
+
+        if (
+          !audioEnabled()
+          &&
+          !allowedWhenMuted(this)
+        ) {
+          try {
+            this.pause();
+          }
+          catch (_) {}
+
+          /*
+            回傳已完成 Promise，
+            避免原本程式的 .play().catch(...) 被當成播放錯誤。
+          */
+          return Promise.resolve();
+        }
+      }
+
+      return nativePlay.apply(
+        this,
+        args
+      );
+    };
+
+  window.SanguoAudioPolicy = {
+    installed: true,
+
+    isEnabled() {
+      return audioEnabled();
+    },
+
+    isAllowedWhenMuted(media) {
+      return allowedWhenMuted(media);
+    },
+
+    apply() {
+      pauseRestrictedAudio();
+    }
+  };
+
+  /*
+    同一帳號其他分頁若切換設定，也同步立即停止不該播放的聲音。
+  */
+  window.addEventListener(
+    "storage",
+    event => {
+      if (
+        event.key ===
+        AUDIO_ENABLED_KEY
+      ) {
+        pauseRestrictedAudio();
+      }
+    }
+  );
+
+  /*
+    若進頁前已經是 🔇 狀態，
+    DOM 完成後再補一次保險檢查。
+  */
+  document.addEventListener(
+    "DOMContentLoaded",
+    pauseRestrictedAudio,
+    {
+      once: true
+    }
+  );
+})();
+
+
+/* ======================================
    全站按鈕點擊音效
    - 以目前 js/main.js 的位置自動找到 ../audio/ui-click.mp3
    - 真正按下（pointerdown）才播放，不是 hover
@@ -997,6 +1334,31 @@
       );
 
 
+      /*
+        套用全站音訊政策：
+        關閉時立即停止所有非白名單聲音；
+        開啟時恢復允許播放，原本全站 BGM 再由 tryPlayBgm() 接手。
+      */
+      if (
+        window.SanguoAudioPolicy
+      ) {
+        window.SanguoAudioPolicy.apply();
+      }
+
+
+      window.dispatchEvent(
+        new CustomEvent(
+          "sanguo:audio-policy-change",
+          {
+            detail: {
+              enabled:
+                bgmEnabled
+            }
+          }
+        )
+      );
+
+
       if (bgmEnabled) {
 
         tryPlayBgm();
@@ -1770,7 +2132,7 @@ document.addEventListener(
        呂布 × 貂蟬短劇情配樂
        - audio/npc-lubu-diaochan-scene-bgm.mp3
        - 不循環，只服務 4.5 秒左右的彩蛋演出
-       - 不受全站 BGM 開關影響
+       - 受全站音訊政策控制：🔇 時不播放
     ====================================================== */
 
     const lubuDiaochanSceneBgmUrl =
