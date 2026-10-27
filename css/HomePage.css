@@ -3869,3 +3869,23 @@ footer {
   }
 }
 
+/* ==========================================================
+   首頁錨點切齊修正｜只影響「開始探索 / 查看故事」
+   固定 Navbar：
+   - 桌機 / 平板：74px
+   - 手機 <= 700px：62px
+
+   不修改 section 高度、padding、背景、按鈕、動畫或 JS。
+========================================================== */
+.home-page #history,
+.home-page #stories {
+  scroll-margin-top: 74px;
+}
+
+@media (max-width: 700px) {
+  .home-page #history,
+  .home-page #stories {
+    scroll-margin-top: 62px;
+  }
+}
+
